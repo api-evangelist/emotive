@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: searched
+source: https://status.emotive.io/
+status_page: https://status.emotive.io/
+status_page_provider: Atlassian Statuspage
+monitored_components:
+- API Services
+- Website
+- Popup service
+- Broadcast services
+- Integrations
+notes: >-
+  Emotive publishes a public Atlassian Statuspage at https://status.emotive.io/ tracking
+  operational status of its API Services, website, popup, broadcast, and integrations
+  components, with email/SMS/Slack/RSS subscription. No public developer changelog,
+  versioning policy, deprecation policy, or SLA page was found on the marketing site
+  (emotive.io/developers and emotive.io/api both return 404); Emotive operates no
+  publicly documented API program.

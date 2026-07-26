@@ -1,8 +1,16 @@
 aid: emotive
 name: Emotive
-description: 'Emotive is a company surfaced as a portfolio company of crv and added to the API Evangelist
-  network as a stub for enrichment. Sector: marketing. This profile is a lead awaiting the enrichment
-  pipeline.'
+description: >-
+  Emotive is an SMS marketing platform for eCommerce brands, combining two-way
+  conversational text messaging, behavioral triggers, and automation with a
+  dedicated managed service (TextPros) of ex-agency SMS strategists and copywriters.
+  Its products include SMS Marketing campaigns and flows, CartAI cart-recovery pixel
+  technology, multi-touch Attribution analytics, and integrations with eCommerce
+  platforms, email service providers, and business tools. Emotive markets a "5X ROI
+  guarantee" to Shopify and other direct-to-consumer merchants. The company was
+  surfaced as a portfolio company of CRV and later acquired by Privy. Emotive
+  operates a public marketing site and app but publishes no public developer/API
+  program or specification.
 url: https://raw.githubusercontent.com/api-evangelist/emotive/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,12 +18,30 @@ x-backed-by:
 - crv
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://www.emotive.io/assets/brand/emotive-symbol-blue-on-transparent.png
 tags:
 - Company
 - Marketing
+- SMS
+- Messaging
+- eCommerce
+- Marketing Automation
+- Text Message Marketing
+- Conversational Commerce
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -24,4 +50,27 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://emotive.io/
+  url: https://www.emotive.io/
+- type: Pricing
+  url: https://www.emotive.io/pricing/sms
+- type: Blog
+  url: https://www.emotive.io/blog
+- type: TermsOfService
+  url: https://www.emotive.io/terms
+- type: PrivacyPolicy
+  url: https://www.emotive.io/privacy
+- type: Login
+  url: https://www.emotiveapp.co/
+- type: Support
+  url: https://www.emotive.io/customer-success
+- type: StatusPage
+  url: https://status.emotive.io/
+- type: Lifecycle
+  url: lifecycle/emotive-lifecycle.yml
+- type: DomainSecurity
+  url: security/emotive-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
