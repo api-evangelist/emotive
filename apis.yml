@@ -5,33 +5,45 @@ description: >-
   conversational text messaging, behavioral triggers, and automation with a
   dedicated managed service (TextPros) of ex-agency SMS strategists and copywriters.
   Its products include SMS Marketing campaigns and flows, CartAI cart-recovery pixel
-  technology, multi-touch Attribution analytics, and integrations with eCommerce
-  platforms, email service providers, and business tools. Emotive markets a "5X ROI
-  guarantee" to Shopify and other direct-to-consumer merchants. The company was
-  surfaced as a portfolio company of CRV and later acquired by Privy. Emotive
-  operates a public marketing site and app but publishes no public developer/API
-  program or specification.
+  technology, multi-touch Attribution analytics, RealLink branded short links, and
+  integrations with eCommerce platforms, email service providers, and business tools.
+  Emotive markets a "5X ROI guarantee" to Shopify and other direct-to-consumer
+  merchants. The company was surfaced as a portfolio company of CRV and was acquired
+  by Privy. Emotive runs a real, publicly documented developer surface: an Open API
+  for order tracking, manual opt-outs and custom events on api.emotiveapp.co; a Lists
+  / Subscriber API documented in GitBook; and an API gateway at api-gw.emotiveapp.co
+  that serves five OpenAPI 3.0.2 documents (Helpdesk, Sensus Webhooks, Auth Server,
+  Segments, Experiences). Its Mintlify knowledge base publishes an llms.txt, an A2A
+  agent card, a packaged Agent Skill and an anonymous remote MCP server.
 url: https://raw.githubusercontent.com/api-evangelist/emotive/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - crv
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: published-openapi-and-agent-surface
 accessModel:
-  pricing: unknown
-  onboarding: unknown
-  trial: false
+  pricing: contact-sales
+  onboarding: sales-gate
+  trial: true
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Contact Sales
+  confidence: medium
+  source:
+  - https://www.emotive.io/pricing/sms
+  - https://help.emotive.io/docs/integrations/open-api-integration-orders
+  generated: '2026-08-13'
+  method: searched
+  note: >-
+    Emotive publishes no priced tiers; the pricing page is a "talk to an SMS expert"
+    lead form advertising a 14-day free trial and a meet-or-beat price promise. API
+    tokens are not self-service in the general case — the Open API docs say to contact
+    support@emotive.io for a key — though a List Growth API signup flow inside the app
+    issues a key to an existing customer.
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-13'
 image: https://www.emotive.io/assets/brand/emotive-symbol-blue-on-transparent.png
 tags:
 - Company
@@ -42,12 +54,176 @@ tags:
 - Marketing Automation
 - Text Message Marketing
 - Conversational Commerce
-apis: []
+- Webhooks
+- Customer Data
+- Segmentation
+- Attribution
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Emotive Open API
+  description: >-
+    The public Emotive Open API for eCommerce integrations — track orders for
+    attribution, opt a phone number out of SMS, and push custom events that can
+    trigger an Emotive Flow. Authenticated with an Emotive-issued token in the
+    Authorization header.
+  humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
+  baseURL: https://api.emotiveapp.co
+  image: https://www.emotive.io/assets/brand/emotive-symbol-blue-on-transparent.png
+  tags:
+  - Orders
+  - Opt-Outs
+  - Custom Events
+  - eCommerce
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-open-api-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-open-api-overlay.yaml
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/open-api-integration-orders
+  - type: APIReference
+    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference
+  - type: Authentication
+    url: authentication/emotive-authentication.yml
+  - type: ErrorCatalog
+    url: errors/emotive-problem-types.yml
+  - type: Conventions
+    url: conventions/emotive-conventions.yml
+  - type: DataModel
+    url: data-model/emotive-data-model.yml
+- name: Emotive Lists API (Subscriber Engine)
+  description: >-
+    List Growth API for opting customers in to SMS and email from an external system.
+    Returns the active signup flows (subscriber lists) a subscriber can be added to.
+  humanURL: https://emotive.gitbook.io/emotive-lists/reference/api-reference/subscriber-lists
+  baseURL: https://www.emotiveapp.co
+  tags:
+  - Subscribers
+  - Lists
+  - List Growth
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-subscriber-engine-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-subscriber-engine-overlay.yaml
+  - type: Documentation
+    url: https://emotive.gitbook.io/emotive-lists
+  - type: GettingStarted
+    url: https://emotive.gitbook.io/emotive-lists/integration-setup-instructions
+  - type: Authentication
+    url: https://emotive.gitbook.io/emotive-lists/reference/authentication
+- name: Emotive Sensus Webhooks API
+  description: >-
+    Inbound webhook receiver on the Emotive API gateway — create subscribers singly
+    and in bulk, set profile properties, and receive Shopify, Twilio and Alloy
+    callbacks. This is the API behind the documented Profile Properties integration.
+  humanURL: https://api-gw.emotiveapp.co/sensus-webhook/ui/
+  baseURL: https://api-gw.emotiveapp.co/sensus-webhook
+  tags:
+  - Webhooks
+  - Subscribers
+  - Profile Properties
+  - Shopify
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-sensus-webhook-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-sensus-webhook-overlay.yaml
+  - type: Webhooks
+    url: asyncapi/emotive-webhooks.yml
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/profile-properties-api
+  - type: APIReference
+    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference/profile-properties
+- name: Emotive Helpdesk API
+  description: >-
+    Connect a custom helpdesk to Emotive — register a ticket-system connection, mint a
+    brand token, configure webhooks for ticket creation and updates, and post ticket
+    events back to Emotive. Emotive's knowledge base links directly to this service's
+    Swagger UI as its developer documentation.
+  humanURL: https://api-gw.emotiveapp.co/helpdesk/ui/
+  baseURL: https://api-gw.emotiveapp.co/helpdesk
+  tags:
+  - Helpdesk
+  - Tickets
+  - Webhooks
+  - Support
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-helpdesk-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-helpdesk-overlay.yaml
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/custom-helpdesk
+  - type: Webhooks
+    url: asyncapi/emotive-webhooks.yml
+- name: Emotive Auth Server API
+  description: >-
+    Emotive's authentication and tenancy service — OAuth token issuance, Auth0, Google
+    and Shopify login legs, JWT claims, brand and user management, roles, invitations,
+    products and the Zapier app key check.
+  humanURL: https://api-gw.emotiveapp.co/auth/openapi.json
+  baseURL: https://api-gw.emotiveapp.co/auth
+  tags:
+  - Authentication
+  - OAuth
+  - Users
+  - Brands
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-auth-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-auth-overlay.yaml
+  - type: Authentication
+    url: authentication/emotive-authentication.yml
+- name: Emotive Segments API
+  description: >-
+    Create, retrieve, update and archive audience segments used to target SMS
+    broadcasts and flows.
+  humanURL: https://api-gw.emotiveapp.co/segments/openapi.json
+  baseURL: https://api-gw.emotiveapp.co/segments
+  tags:
+  - Segments
+  - Audiences
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-segments-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-segments-overlay.yaml
+- name: Emotive Experiences API
+  description: >-
+    Read campaign and campaign-step analytics for an Emotive Experience (Flow).
+  humanURL: https://api-gw.emotiveapp.co/experiences/openapi.json
+  baseURL: https://api-gw.emotiveapp.co/experiences
+  tags:
+  - Analytics
+  - Experiences
+  - Flows
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-experiences-openapi.yml
+  - type: Overlay
+    url: overlays/emotive-experiences-overlay.yaml
+- name: Emotive Knowledge Base MCP Server
+  description: >-
+    Anonymous remote MCP server published by Emotive's Mintlify knowledge base. Three
+    tools — documentation search, a read-only virtual filesystem over the docs, and
+    documentation feedback. Verified live with an unauthenticated tools/list call.
+  humanURL: https://help.emotive.io/
+  baseURL: https://help.emotive.io/mcp
+  tags:
+  - MCP
+  - Documentation
+  - Agents
+  properties:
+  - type: MCPServer
+    url: mcp/emotive-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/emotive-tool-crosswalk.yml
 common:
 - type: Website
   url: https://www.emotive.io/
@@ -63,14 +239,42 @@ common:
   url: https://www.emotiveapp.co/
 - type: Support
   url: https://www.emotive.io/customer-success
+- type: HelpCenter
+  url: https://help.emotive.io/
+- type: Documentation
+  url: https://help.emotive.io/
+- type: DeveloperPortal
+  url: https://emotive.gitbook.io/emotive-lists
+- type: APIReference
+  url: https://emotive.gitbook.io/emotive-lists/reference/api-reference
+- type: GettingStarted
+  url: https://emotive.gitbook.io/emotive-lists/integration-setup-instructions
 - type: StatusPage
   url: https://status.emotive.io/
 - type: Lifecycle
   url: lifecycle/emotive-lifecycle.yml
 - type: DomainSecurity
   url: security/emotive-domain-security.yml
+- type: LLMsTxt
+  url: llms/emotive-llms.txt
+- type: WellKnown
+  url: well-known/emotive-well-known.yml
+- type: AgentCard
+  url: a2a/emotive-a2a.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conformance
+  url: conformance/emotive-conformance.yml
+- type: Compliance
+  url: conformance/emotive-conformance.yml
+- type: Plans
+  url: plans/emotive-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/emotive-rate-limits.yml
+- type: Components
+  url: components/emotive-components.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 47
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
