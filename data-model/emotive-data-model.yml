@@ -1,0 +1,225 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/*.yml ($ref graph + id-reference fields across all seven documents)
+docs:
+- https://emotive.gitbook.io/emotive-lists/reference/api-reference
+- https://help.emotive.io/docs/integrations/open-api-integration-orders
+summary: >-
+  Emotive's data model has one root tenant — the Brand — and three loosely joined
+  sub-graphs hanging off it: identity (brand, user, role, product), messaging
+  (subscriber, profile property, segment, experience) and commerce (order, line item,
+  product, collection, variant). The graph is not knitted together in the specs: the
+  Subscriber is identified by phone_number or email rather than by an Emotive
+  subscriber id, and the Order references its customer only by phone. There is no
+  published id-prefix scheme and no single subscriber resource that spans the services.
+identity_join_keys:
+- key: phone_number
+  format: E.164
+  note: The primary join key across the whole platform. Subscribers, orders, opt-outs, custom events and profile properties are all keyed on it.
+- key: email
+  note: Accepted as an alternative identifier wherever phone_number is.
+- key: brand_id
+  note: Tenant discriminator on the gateway services (Helpdesk, Auth Server).
+- key: subscribe_identifier
+  note: Identifies the List Growth signup flow a subscriber is added to. Returned by the Subscriber Lists endpoint and required on subscriber creation.
+- key: external_ticket_id / external_user_id
+  note: The integrator's own identifiers, mapped to Emotive ticket and user ids by the Helpdesk service.
+entities:
+- name: Brand
+  schema: BrandSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  relationships:
+  - { type: has_many, target: User, via: brand_id }
+  - { type: has_many, target: Invitation, via: brand_id }
+  - { type: has_many, target: Product, via: BrandProducts }
+  - { type: has_one, target: HelpdeskConnection, via: brand_id }
+  - { type: has_many, target: Webhook, via: brand_id }
+- name: User
+  schema: UserSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Brand, via: brand_id }
+  - { type: has_many, target: Role, via: UserAccessRoles }
+  - { type: has_many, target: AuthenticationSource, via: user_id }
+- name: Role
+  schema: RoleSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Product, via: ProductSchema.roles }
+- name: Product
+  schema: ProductSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  note: An Emotive product entitlement (SMS Marketing, Attribution, CartAI), not a merchandise product.
+  relationships:
+  - { type: has_many, target: Role, via: roles }
+- name: AuthenticationSource
+  schema: AuthenticationSourceSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: User, via: user_id }
+- name: Invitation
+  schema: InvitationSchema
+  spec: openapi/emotive-auth-openapi.yml
+  domain: identity
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Brand, via: brand_id }
+  - { type: has_one, target: Role, via: RoleSchema }
+- name: Subscriber
+  schema: Subscriber
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  domain: messaging
+  id_field: null
+  id_note: Identified by phone_number or email; no Emotive-issued subscriber id is exposed.
+  relationships:
+  - { type: has_one, target: ExternalIdentifier, via: external_identifiers }
+  - { type: has_many, target: Property, via: properties }
+  - { type: belongs_to, target: SubscriberSource, via: subscribe_identifier }
+- name: BulkSubscriber
+  schema: BulkSubscriber
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  domain: messaging
+  relationships:
+  - { type: has_many, target: Subscriber, via: subscribers }
+- name: ExternalIdentifier
+  schema: ExternalIdentifier
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  domain: messaging
+  note: Cross-system identity map carrying shopify and klaviyo ids plus arbitrary custom name/value pairs.
+- name: ProfileProperty
+  schema: ProfileProperty
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  domain: messaging
+  relationships:
+  - { type: has_many, target: Property, via: properties }
+- name: Property
+  schema: Property
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  domain: messaging
+  fields: [key, value, type]
+  types: [string, number, boolean, datetime]
+- name: SubscriberSource
+  schema: SubscriberSource
+  spec: openapi/emotive-subscriber-engine-openapi.yml
+  domain: messaging
+  id_field: subscribe_identifier
+  note: A List Growth signup flow. Emotive's UI calls this a "list".
+- name: Segment
+  schema: SegmentObject
+  spec: openapi/emotive-segments-openapi.yml
+  domain: messaging
+  id_field: id
+  relationships:
+  - { type: has_many, target: SegmentRule, via: rules }
+- name: SegmentRule
+  schema: SegmentRule
+  spec: openapi/emotive-segments-openapi.yml
+  domain: messaging
+- name: Experience
+  schema: null
+  spec: openapi/emotive-experiences-openapi.yml
+  domain: messaging
+  id_field: unique_id
+  note: >-
+    Emotive's term for a Flow. The Experiences API exposes analytics for an Experience and
+    its steps but publishes no Experience resource schema — only the analytics read path.
+  relationships:
+  - { type: has_many, target: ExperienceStep, via: step_id }
+- name: HelpdeskConnection
+  schema: ConnectionSchema
+  spec: openapi/emotive-helpdesk-openapi.yml
+  domain: support
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Brand, via: brand_id }
+  - { type: has_one, target: TicketSystemType, via: ticket_system_type_id }
+- name: TicketSystemType
+  schema: TicketSystemTypeSchema
+  spec: openapi/emotive-helpdesk-openapi.yml
+  domain: support
+  id_field: id
+  relationships:
+  - { type: has_many, target: TicketSystemFlow, via: ticket_system_id }
+- name: Ticket
+  schema: ticket
+  spec: openapi/emotive-helpdesk-openapi.yml
+  domain: support
+  id_field: id
+  external_ids: [external_ticket_id, external_user_id]
+  constraint: An SMS subscriber may have only one active ticket at a time.
+  relationships:
+  - { type: has_many, target: TicketEvent, via: ticket_id }
+  - { type: has_one, target: UserExternalMapping, via: userExternalMapping }
+- name: TicketEvent
+  schema: ticketEvent
+  spec: openapi/emotive-helpdesk-openapi.yml
+  domain: support
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Ticket, via: ticket_id }
+- name: Webhook
+  schema: WebhookSchema
+  spec: openapi/emotive-helpdesk-openapi.yml
+  domain: support
+  id_field: id
+  relationships:
+  - { type: belongs_to, target: Brand, via: brand_id }
+- name: Order
+  schema: Order
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  id_field: order_id
+  relationships:
+  - { type: has_one, target: Customer, via: customer }
+  - { type: has_one, target: ShippingAddress, via: shipping_address }
+  - { type: has_many, target: LineItem, via: line_items }
+- name: Customer
+  schema: Customer
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  id_field: id
+  note: The merchant's own customer id. Emotive joins to the Subscriber by phone, not by this id.
+- name: LineItem
+  schema: LineItem
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  relationships:
+  - { type: has_one, target: CommerceProduct, via: product }
+  - { type: has_one, target: Collection, via: collection }
+  - { type: has_one, target: Variant, via: variant }
+- name: CommerceProduct
+  schema: Product
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  id_field: sku
+  note: Distinct from the identity-domain Product (an entitlement). Same word, two unrelated entities across two specs.
+- name: Collection
+  schema: Collection
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  id_field: id
+- name: Variant
+  schema: Variant
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: commerce
+  id_field: id
+- name: CustomEvent
+  schema: CustomEvent
+  spec: openapi/emotive-open-api-openapi.yml
+  domain: messaging
+  note: Joins to a Subscriber by phone_number or email; triggers an Experience filtered on event_name.
+observations:
+- The word "Product" names two unrelated entities in two different specs — an entitlement in the Auth Server and a merchandise SKU in the Open API. Nothing in either document disambiguates them.
+- No entity exposes an Emotive-issued subscriber identifier. Every subscriber-facing write is keyed on a phone number or email, which is also why there is no way to make those writes idempotent.
+- The Experiences API returns analytics for an Experience but never defines one; the Experience resource itself has no published schema or CRUD surface.
+- Free-form extra_data escape hatches appear on Order, Customer, ShippingAddress and LineItem, so the commerce payload is only partially typed.

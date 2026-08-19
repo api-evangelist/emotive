@@ -1,0 +1,42 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.emotive.io/pricing/sms
+docs:
+- https://www.emotive.io/pricing/sms
+plan_count: 0
+pricing_model: contact-sales
+currency: USD
+plans: []
+note: >-
+  Emotive publishes no priced tiers, no rate card and no numeric quota anywhere. The
+  pricing page is a lead-capture form — "Talk to an SMS expert", with fields for annual
+  online sales bracket and eCommerce platform — wrapped around three claims: "Cut your
+  SMS costs by up to 50%", "we offer contract buyouts for every one of our competitors",
+  and "We'll meet or beat any price, anytime". That last line is the actual pricing
+  policy: price is negotiated per account against whatever the prospect is paying today,
+  which is why no tier can be published. Nothing on the page, the products pages, or the
+  knowledge base attaches a price, an included message volume, or an overage rate to a
+  named plan.
+non_price_terms_published:
+- term: Free trial
+  value: 14 days
+  source: https://www.emotive.io/pricing/sms
+- term: ROI guarantee
+  value: 5X SMS ROI guarantee
+  source: https://www.emotive.io/pricing/sms
+- term: Setup
+  value: 1-click setup
+  source: https://www.emotive.io/pricing/sms
+- term: Managed service
+  value: TextPros — turnkey SMS strategist and copywriter team, marketed as included at no extra cost
+  source: https://www.emotive.io/pricing/sms
+- term: Competitive contract buyout
+  value: Offered for competitor contracts; meet-or-beat price promise
+  source: https://www.emotive.io/pricing/sms
+api_pricing:
+  metered: false
+  note: >-
+    The API is not separately priced or metered in any published material. API access
+    appears to be a feature of the platform subscription: an Open API key is issued by
+    support@emotive.io, and a List Growth API key is issued inside the app to an existing
+    customer. There is no developer plan and no self-service signup.

@@ -1,0 +1,105 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/*.yml + https://help.emotive.io/docs/integrations/custom-site-api + https://emotive.gitbook.io/emotive-lists/reference/authentication
+docs:
+- https://help.emotive.io/docs/integrations/custom-site-api
+- https://emotive.gitbook.io/emotive-lists/reference/authentication
+cross_links:
+  errors: errors/emotive-problem-types.yml
+  authentication: authentication/emotive-authentication.yml
+  lifecycle: lifecycle/emotive-lifecycle.yml
+  rate_limits: rate-limits/emotive-rate-limits.yml
+  data_model: data-model/emotive-data-model.yml
+authentication:
+  style: api-key-in-authorization-header
+  header: Authorization
+  format: 'Token <api_token>'
+  alternates:
+  - 'X-API-Key: <brand_token>  (Helpdesk, gateway services)'
+  - 'Authorization: bearer <emotive JWT>  (Auth Server, Helpdesk bootstrap)'
+  note: Required on every request. See authentication/emotive-authentication.yml.
+content_types:
+  request: application/json; charset=UTF-8
+  response: application/json
+  accept: application/json
+  documented: true
+  source: https://help.emotive.io/docs/integrations/custom-site-api
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Emotive publishes no idempotency key, no retry-safe POST semantics and no dedup
+    guidance anywhere in its documentation or in any of the seven OpenAPI documents.
+    This matters here more than usual: every public Open API operation is a POST that
+    creates state (an order, an opt-out, a custom event, a subscriber), the documented
+    success path can return 292 "accepted and queued for execution", and a client that
+    times out and retries has no way to avoid double-counting an order or firing a Flow
+    twice. Emotive's own docs tell integrators to build "custom code/webhooks to send
+    order data" — exactly the workload that needs an idempotency key.
+pagination:
+  supported: partial
+  styles:
+  - style: limit-and-cursor
+    params: [limit, last]
+    used_by: Auth Server API (brands, users, roles, invitations, search)
+    note: '`last` is a cursor carrying the id of the final record on the previous page.'
+  - style: limit-and-offset
+    params: [limit, offset]
+    used_by: Segments API (components.parameters Limit / Offset)
+  - style: cursor
+    params: [after_ticket_id]
+    used_by: Helpdesk API ticket search
+  note: >-
+    Three different pagination conventions across three services, and none on the public
+    Open API — which has no read operations at all.
+  response_envelope: null
+sorting_and_filtering:
+  params: [order_by, q, fields, status, type, is_favorite]
+  note: Present only on gateway services; not documented in prose.
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: partial
+  param: fields
+  used_by: Auth Server API
+metadata:
+  supported: true
+  mechanism: >-
+    Free-form `extra_data` objects on the order, customer, shipping address and each line
+    item, plus `customer_tags[]`, plus typed `properties[]` key/value/type triples on
+    subscribers and profiles (types: string, number, boolean, datetime).
+  source: https://help.emotive.io/docs/integrations/open-api-integration-orders
+request_id_tracing:
+  supported: false
+  note: No request-id, correlation-id or trace header is documented or declared in any spec.
+versioning:
+  style: path
+  patterns: ['/v1/', '/api/v1/', '/api/v1.0/', '/api/v2/', '/v2/']
+  note: >-
+    Version lives in the path but the segment differs per service, and the Auth Server
+    ships v1 and v2 of the same resources side by side with no stated migration or
+    deprecation date. No Accept-header or query-parameter versioning. No API-Version
+    response header.
+  see: lifecycle/emotive-lifecycle.yml
+error_envelope:
+  shapes: ['{"detail": "..."}', '{"<field>": ["..."]}', '{"message": "..."}', '{"error": "..."}']
+  rfc9457: false
+  see: errors/emotive-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  note: >-
+    No rate-limit headers are declared in any of the seven specs and no limit is
+    documented anywhere on the knowledge base or the GitBook reference. 429 does not
+    appear in a single response object. See rate-limits/emotive-rate-limits.yml.
+webhooks:
+  direction: bidirectional
+  note: >-
+    Emotive both receives webhooks (Sensus Webhooks service: Shopify, Twilio, Alloy,
+    subscriber and profile payloads) and requires the integrator to serve webhooks
+    (Helpdesk ticket-create and ticket-update callbacks). See asyncapi/emotive-webhooks.yml.
+  signature_verification: undocumented
+  signature_note: >-
+    Emotive documents no signing secret, no signature header and no replay-window for the
+    webhooks a brand must expose to the Helpdesk service. Authentication of the callback
+    is left entirely to the integrator.

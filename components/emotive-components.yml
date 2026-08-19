@@ -1,0 +1,73 @@
+generated: '2026-08-13'
+method: searched
+source: https://emotive.gitbook.io/emotive-pixel/custom-site-pixel-setup
+docs:
+- https://emotive.gitbook.io/emotive-pixel/custom-site-pixel-setup
+- https://help.emotive.io/docs/list-growth/embedded-form
+- https://help.emotive.io/docs/integrations/collect-sms-during-shopify-checkout
+summary: >-
+  Emotive's client-side surface is larger than its server-side one and is where most
+  merchants actually integrate. Four families: the CartAI tracking pixel (EdgeTag), the
+  popup, the embedded signup form (iframe), and checkout opt-in components on the major
+  commerce platforms.
+families:
+- family: CartAI Pixel (EdgeTag)
+  type: javascript-tag
+  description: >-
+    Asynchronous first-party tracking tag that captures browsing and purchase behavior for
+    cart recovery and multi-touch attribution. Documented as ~4KB and non-render-blocking.
+  loader:
+    global: edgetag
+    stub: 'window.edgetag=window.edgetag||function(){(edgetag.stubs=edgetag.stubs||[]).push(arguments)}'
+    script_src: 'https://d.<merchant-domain>/load'
+    init: "edgetag('init', { edgeURL: 'https://d.<merchant-domain>', disableConsentCheck: true })"
+    note: >-
+      Served from a per-merchant first-party edge subdomain that Emotive provisions, not
+      from a shared CDN. The src is unpinned — there is no version in the URL and no
+      integrity attribute — so a merchant cannot tell which build they are loading.
+  api:
+    methods: [init, tag, data, user]
+    events: [PageView, Subscribe, Signup, ViewContent, AddToCart, Purchase]
+    user_keys: [email, phone, firstName, lastName, gender, dateOfBirth, city, state, zip, country, ip]
+  guidance: Emotive recommends inserting the snippet directly into the site rather than via a tag manager, to avoid data loss and discrepancies.
+  platform_variants:
+  - Shopify (CartAI theme snippet, toggled on in Theme Builder)
+  - Shopify Headless
+  - BigCommerce
+  - WooCommerce (plugin)
+  - Custom site
+- family: Emotive Popup
+  type: hosted-overlay
+  description: >-
+    Dual-capture popup collecting both email and SMS subscribers. Delivered as a copyable
+    code snippet installed in the site header/footer, or automatically via the Shopify and
+    WooCommerce apps.
+  install: Copy the Emotive Popup code snippet from the app and paste it into the site header.
+  source: https://help.emotive.io/llms.txt
+- family: Embedded Signup Form
+  type: iframe
+  description: >-
+    Inline signup form built in the Emotive form editor and embedded in the merchant's page
+    as an iframe. Used for footers, homepages and dedicated signup landing pages.
+  install: Activate the form, then "Copy code to clipboard" to obtain the iframe embed code.
+  source: https://help.emotive.io/docs/list-growth/embedded-form
+- family: Checkout Opt-In
+  type: platform-native
+  description: >-
+    SMS consent checkbox injected into the platform's native checkout, plus an optional
+    discount offer at opt-in.
+  platforms: [Shopify, BigCommerce, WooCommerce]
+  source: https://help.emotive.io/docs/integrations/collect-sms-during-shopify-checkout
+- family: RealLink
+  type: branded-link
+  description: >-
+    Branded short-link domain — the merchant's own domain rather than a shared shortener —
+    marketed as a click-through-rate improvement. Configured, not embedded.
+  source: https://www.emotive.io/
+distribution:
+  npm: false
+  cdn_versioned: false
+  note: >-
+    None of these components is distributed through a package registry or a versioned CDN
+    path. Every one is a copy-paste snippet or a platform app, so there is no published
+    version a merchant can pin, audit, or roll back.

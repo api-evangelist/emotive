@@ -1,0 +1,115 @@
+generated: '2026-08-13'
+method: searched
+source: https://help.emotive.io/docs/integrations/custom-helpdesk
+docs:
+- https://help.emotive.io/docs/integrations/custom-helpdesk
+- https://help.emotive.io/docs/integrations/create-a-webhook-in-woocommerce
+- https://emotive.gitbook.io/emotive-pixel/custom-site-pixel-setup
+derived_from:
+- openapi/emotive-sensus-webhook-openapi.yml
+- openapi/emotive-helpdesk-openapi.yml
+asyncapi_published: false
+asyncapi_note: >-
+  Emotive publishes no AsyncAPI document. It does run a real, two-directional event
+  surface, documented in prose and partly described by the Sensus Webhooks OpenAPI, so
+  this file is a webhook catalog rather than an event-broker spec. Nothing here is
+  invented — every entry traces to a published Emotive page or a published Emotive spec.
+event_surface:
+  inbound: true
+  outbound: true
+  streaming: false
+  broker: null
+outbound:
+  description: >-
+    Webhooks Emotive CALLS. A brand integrating a custom helpdesk must stand up two
+    endpoints and register them with the Helpdesk service via POST /webhooks/config.
+  registration:
+    operation: POST https://api-gw.emotiveapp.co/helpdesk/webhooks/config
+    auth: 'X-API-Key: {brand_token}'
+    body_fields: [status, platform, webhook_url, trigger]
+    example_platform: custom
+    delete: DELETE https://api-gw.emotiveapp.co/helpdesk/webhooks/config/{webhook_id}
+    list: GET https://api-gw.emotiveapp.co/helpdesk/webhooks/config
+  events:
+  - name: ticket.create
+    trigger: create
+    description: >-
+      Fired when a ticket is created in the Emotive helpdesk. The brand acknowledges by
+      POSTing /tickets/{helpdesk_ticket_id} with external_ticket_id and external_user_id.
+    source: https://help.emotive.io/docs/integrations/custom-helpdesk
+  - name: ticket.note
+    trigger: update
+    description: >-
+      Fired on a message from the SMS subscriber against an existing ticket. Once a ticket
+      exists for a brand user, all subsequent ticket events arrive as ticket notes.
+    source: https://help.emotive.io/docs/integrations/custom-helpdesk
+  constraints:
+  - An SMS subscriber can have only one active ticket at a time.
+  - A brand may hold only one active brand token.
+  fallback:
+    operation: GET https://api-gw.emotiveapp.co/helpdesk/tickets/polling/fallback
+    operationId: controllers.tickets.webhook_trigger_data
+    description: Polling fallback for brands that cannot receive webhook deliveries.
+  security:
+    signature_header: null
+    signing_secret: null
+    replay_protection: null
+    note: >-
+      Emotive documents no signature, no shared secret and no replay window for the
+      callbacks it makes to a brand's endpoint. The only credential in the flow travels
+      the other way (the brand's X-API-Key to Emotive). An integrator has no published
+      means of verifying that a delivery came from Emotive.
+  retries: undocumented
+  delivery_guarantee: undocumented
+inbound:
+  description: >-
+    Webhooks Emotive RECEIVES. These are declared operations in the published Sensus
+    Webhooks OpenAPI document.
+  spec: openapi/emotive-sensus-webhook-openapi.yml
+  base_url: https://api-gw.emotiveapp.co/sensus-webhook
+  events:
+  - name: subscriber.create
+    operation: POST /v1/subscriber
+    operationId: controllers.webhooks.subscriber_handler
+    payload_schema: Subscriber
+    accepted_status: 202
+    platforms: [alloy, emotive, privy]
+    source_types: [EMOTIVE_POPUP, EMOTIVE_EMBEDDED, BACK_IN_STOCK_POPUP, LIST_GROWTH]
+  - name: subscriber.create.bulk
+    operation: POST /v1/subscriber/bulk
+    operationId: controllers.webhooks.bulk_subscriber_handler
+    payload_schema: BulkSubscriber
+    accepted_status: 202
+  - name: profile.properties.set
+    operation: POST /v1/profiles/properties
+    operationId: controllers.webhooks.profile_handler
+    payload_schema: ProfileProperty
+    accepted_status: 202
+    platforms: [alloy, paragon, custom, zapier]
+  - name: shopify.webhook
+    operation: POST /v1/shopify
+    operationId: controllers.webhooks.shopify_webhook_handler
+  - name: twilio.message.callback
+    operation: POST /v1/messages/twilio/callback
+    operationId: controllers.webhooks.twilio_callback_handler
+    payload_schema: TwilioCallbackBody
+  - name: qa.message.callback
+    operation: POST /v1/messages/qa/callback
+    operationId: controllers.webhooks.qa_callback_handler
+    payload_schema: QAMessageCallbackBody
+  - name: alloy.error
+    operation: POST /v1/errors/alloy
+    operationId: controllers.webhooks.alloy_error_handler
+    payload_schema: AlloyError
+client_side_events:
+  description: >-
+    Browser-side events the Emotive Pixel (CartAI / EdgeTag) sends from a merchant's site.
+    Not a server webhook, recorded here because it is the third leg of Emotive's event surface.
+  loader: edgetag
+  source: https://emotive.gitbook.io/emotive-pixel/custom-site-pixel-setup
+  events: [PageView, Signup, Subscribe, ViewContent, AddToCart, Purchase]
+gaps:
+- No AsyncAPI document.
+- No signature verification on outbound webhook deliveries.
+- No documented retry policy, backoff, or delivery guarantee.
+- No event catalog page enumerating the outbound events; they are described only inside the custom-helpdesk setup guide.

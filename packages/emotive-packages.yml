@@ -1,0 +1,49 @@
+generated: '2026-08-13'
+method: searched
+source: registry searches of npm, PyPI, RubyGems, Packagist, NuGet, Maven Central, crates.io and pkg.go.dev on 2026-08-13
+package_count: 0
+official_package_count: 0
+packages: []
+note: >-
+  Emotive publishes no first-party client library on any package registry. Searched npm
+  (registry.npmjs.org search for "emotive" — 20 results, none from Emotive: the matches are
+  a CSS-in-JS library by zanomate, a ServiceNow design system, a 2013 project by an
+  unrelated company called Emote, and assorted sentiment-analysis packages), PyPI
+  (emotive, emotive-api, emotive-sdk all 404), and found no RubyGems, Packagist, NuGet,
+  Maven Central, crates.io or Go module either. github.com/emotive exists but belongs to
+  "emotive, llc" at emotivellc.com — a different company — so it is not wired as this
+  provider's GitHub organization. Emotive's own documentation offers integrators raw cURL
+  and raw Python http.client snippets rather than an SDK, which is consistent with there
+  being none.
+non_registry_distribution:
+- name: EdgeTag pixel loader
+  registry: cdn
+  url: https://d.<merchant-domain>/load
+  official: true
+  version: null
+  published: null
+  version_note: >-
+    Distributed from a per-merchant first-party edge subdomain that Emotive provisions.
+    The script URL is unpinned — no version segment, no integrity hash — and there is no
+    jsDelivr or unpkg entry to query, because it is not an npm package. A merchant cannot
+    determine which build they are loading, and neither can we. Recorded as null after
+    checking, not as unchecked.
+  source: https://emotive.gitbook.io/emotive-pixel/custom-site-pixel-setup
+platform_apps:
+- name: Emotive for Shopify
+  channel: Shopify App Store
+  official: true
+  source: https://help.emotive.io/docs/integrations/overview
+- name: Emotive for WooCommerce
+  channel: WordPress plugin
+  official: true
+  source: https://help.emotive.io/docs/integrations/create-an-api-key-in-woocommerce
+- name: Emotive for BigCommerce
+  channel: BigCommerce
+  official: true
+  source: https://help.emotive.io/docs/integrations/collect-sms-during-bigcommerce-checkout
+- name: Emotive Zapier app
+  channel: Zapier
+  official: true
+  note: Confirmed by a dedicated auth-check operation in the published spec — POST /v1/zapier/me (controllers.auth.zapier_me).
+  source: https://help.emotive.io/docs/integrations/zapier

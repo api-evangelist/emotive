@@ -1,0 +1,96 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/*.yml (4xx/5xx responses across all seven documents) + the published status-code tables at https://help.emotive.io/docs/integrations/custom-site-api
+docs:
+- https://help.emotive.io/docs/integrations/custom-site-api
+- https://help.emotive.io/docs/integrations/open-api-integration-orders
+format: ad-hoc-json
+rfc9457: false
+rfc9457_note: >-
+  Emotive publishes no RFC 9457 problem+json. Every error body in every one of the seven
+  OpenAPI documents is declared as application/json with an ad-hoc envelope, and no
+  operation declares application/problem+json. There is no machine-readable error code
+  vocabulary anywhere in the surface: errors are distinguished only by HTTP status plus a
+  free-text human string, so a client cannot branch on an error type.
+envelopes:
+- name: detail
+  shape: '{"detail": "<human readable message>"}'
+  used_by: Open API (orders, opt-outs), Lists API, custom events
+  evidence: 'Observed live 2026-08-13: POST https://api.emotiveapp.co/ecommerce/v1/orders/ with no credentials returned 401 {"detail":"Authentication credentials were not provided."}'
+- name: field-errors
+  shape: '{"<field_name>": ["<validation message>", ...]}'
+  used_by: custom events (campaign_engine)
+  evidence: 'Observed live 2026-08-13: POST https://api.emotiveapp.co/campaign_engine/api/v1/custom_events/ with an empty body returned 400 {"event_name":["This field is required."],"event_datetime":["This field is required."]}'
+- name: message
+  shape: '{"message": "<human readable message>"}'
+  used_by: Sensus Webhooks, Helpdesk (JsonResponse schema), opt-outs
+  evidence: openapi/emotive-sensus-webhook-openapi.yml components.schemas.JsonResponse
+- name: error
+  shape: '{"error": "<explanation and how to correct>"}'
+  used_by: documented convention for 4xx on the Open API
+  evidence: https://help.emotive.io/docs/integrations/custom-site-api
+problem_types:
+- status: 400
+  title: Bad Request
+  meaning: Missing or invalid data provided.
+  remediation: >-
+    The response body carries an "error" attribute (Open API) or a field-keyed array of
+    validation messages (custom events) explaining what to correct. For orders, all of
+    customer.phone, line_items[].product.title, line_items[].product.sku,
+    line_items[].price, total_price, order_id and order_date must be present and valid.
+  occurrences: 35
+  media_type: application/json
+- status: 401
+  title: Unauthorized / Authentication Failure
+  meaning: Credentials absent, malformed, or invalid.
+  remediation: >-
+    Supply `Authorization: Token <api_token>` on the Open API and Lists API, `X-API-Key`
+    on the Helpdesk API, or `Authorization: bearer <emotive JWT>` on the Auth Server.
+    Note the scheme prefix — the literal word "Token" and a space — is required.
+  occurrences: 60
+  media_type: application/json
+- status: 403
+  title: Forbidden
+  meaning: Authenticated but not permitted. On the gateway this also surfaces as "Brand is not active".
+  remediation: Confirm the brand is active and the token belongs to the brand you are addressing.
+  occurrences: 7
+  media_type: application/json
+- status: 404
+  title: Resource not found
+  meaning: 'Unknown resource. Gateway variants observed: "user_id is not valid", "brand_id is not valid", "Token does not exist".'
+  remediation: Verify the path identifiers. Note that api.emotiveapp.co soft-404s unknown paths with an HTML 200 app shell rather than a 404, so a 404 here comes from the application, not the edge.
+  occurrences: 30
+  media_type: application/json
+- status: 405
+  title: Method not allowed
+  meaning: Wrong HTTP verb for the path.
+  remediation: All three Open API endpoints are POST-only.
+  occurrences: 1
+- status: 409
+  title: Conflict
+  meaning: 'State conflict. Gateway variant: "Role already assigned to a user in a brand."'
+  occurrences: 2
+- status: 412
+  title: Precondition failed
+  occurrences: 1
+- status: 413
+  title: Request entity too large
+  occurrences: 1
+- status: 500
+  title: Internal server error
+  occurrences: 1
+- status: 501
+  title: Not implemented
+  occurrences: 1
+- status: 503
+  title: Service unavailable
+  remediation: Check https://status.emotive.io/ — API Services is a monitored component.
+  occurrences: 1
+success_codes_of_note:
+- status: 292
+  title: Accepted (request accepted, and queued for execution)
+  note: >-
+    Non-standard. Emotive documents 292 in its own success-code table for the Open API.
+    292 is not an IANA-registered status code; clients that switch on the status class
+    will treat it as 2xx, but strict clients validating against the registry may reject it.
+  source: https://help.emotive.io/docs/integrations/open-api-integration-orders

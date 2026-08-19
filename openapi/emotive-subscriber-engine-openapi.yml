@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  title: Subscriber Engine API
+  version: 1.0.0
+  x-origin:
+  - url: https://emotive.gitbook.io/emotive-lists/reference/api-reference/subscriber-lists
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'OpenAPI document published verbatim by Emotive inside its Lists API developer reference (GitBook).
+      servers[] added from the base URL the same page states: https://www.emotiveapp.co/'
+security:
+- TokenHeader: []
+components:
+  securitySchemes:
+    TokenHeader:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    SubscriberSource:
+      type: object
+      properties:
+        subscribe_identifier:
+          type: string
+        name:
+          type: string
+paths:
+  /subscriber_engine/api/v1/sources/subscriber_lists/:
+    get:
+      summary: Subscriber sources endpoint
+      description: Returns current active signups
+      tags:
+      - subscriber_engine Subscriber
+      responses:
+        '200':
+          description: Available signup flows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubscriberSource'
+servers:
+- url: https://www.emotiveapp.co
+  description: Emotive application host (subscriber engine)

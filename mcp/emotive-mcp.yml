@@ -1,0 +1,90 @@
+generated: '2026-08-13'
+method: probed
+source: https://help.emotive.io/mcp
+name: Emotive Knowledge Base MCP Server
+status: published
+deployment:
+  mode: remote
+  endpoint: https://help.emotive.io/mcp
+  auth: none
+  verified: probed
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://help.emotive.io/mcp
+  method: POST
+  request: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: text/event-stream
+  note: >-
+    Anonymous, unauthenticated tools/list returned three real tools with full
+    inputSchema. No OAuth challenge, no API key. Discovered by probing the Mintlify
+    docs host; Emotive does not advertise the endpoint in its documentation.
+transport: streamable-http
+platform: Mintlify documentation MCP
+scope: >-
+  Documentation-only. The server exposes Emotive's knowledge base to an agent — it
+  cannot send a broadcast, create a subscriber, or touch any Emotive product API. The
+  callable Emotive product surface is REST (see the OpenAPI documents in openapi/).
+tools:
+- name: search_emotive_knowledge_base
+  title: Search documentation
+  description: >-
+    Search across the Emotive Knowledge Base to find relevant information, code
+    examples, API references, and guides.
+  input_schema:
+    type: object
+    required: [query]
+    properties:
+      query:
+        type: string
+        description: Search query
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: false
+- name: query_docs_filesystem_emotive_knowledge_base
+  title: Query documentation filesystem
+  description: >-
+    Read-only shell-like query against a virtualized in-memory filesystem containing
+    only the Emotive Knowledge Base documentation pages and OpenAPI specs. Supports
+    rg, grep, find, tree, ls, cat, head, tail, stat, wc, sort, uniq, cut, sed, awk and
+    jq. Stateless per call; output truncated to 30KB.
+  input_schema:
+    type: object
+    required: [command]
+    properties:
+      command:
+        type: string
+        description: A shell command to run against the virtualized documentation filesystem.
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: false
+- name: submit_feedback
+  title: Submit documentation feedback
+  description: >-
+    Report a problem with the documentation site so the docs team can fix it.
+  input_schema:
+    type: object
+    required: [path, feedback]
+    properties:
+      path:
+        type: string
+        description: The documentation page path the feedback is about.
+      feedback:
+        type: string
+        description: A clear description of the documentation issue or suggestion.
+  annotations:
+    readOnlyHint: false
+    destructiveHint: false
+    idempotentHint: false
+    openWorldHint: true
+tool_count: 3
+oauth:
+  authorization_server: null
+  protected_resource: null
+  note: >-
+    /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource
+    both 404 on help.emotive.io. The endpoint is anonymous, so neither is required.

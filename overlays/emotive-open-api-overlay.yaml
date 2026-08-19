@@ -1,0 +1,39 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Emotive Open API
+  version: 1.0.0
+extends: openapi/emotive-open-api-openapi.yml
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: openapi/emotive-open-api-openapi.yml
+  note: Captures API Evangelist enhancements only. The underlying OpenAPI document is never mutated; the
+    verbatim provider copy is retained in openapi/_original/ where Emotive published one.
+actions:
+- target: $.info
+  description: Record API Evangelist provenance and the human documentation entry point.
+  update:
+    x-apievangelist:
+      profile: https://apis.io/provider/emotive
+      repository: https://github.com/api-evangelist/emotive
+      documentation: https://help.emotive.io/docs/integrations/open-api-integration-orders
+      enriched: '2026-08-13'
+- target: $
+  description: Attach the cross-cutting runtime-semantics artifacts derived for this provider.
+  update:
+    x-conventions: conventions/emotive-conventions.yml
+    x-error-catalog: errors/emotive-problem-types.yml
+    x-authentication: authentication/emotive-authentication.yml
+    x-rate-limits: rate-limits/emotive-rate-limits.yml
+    x-lifecycle: lifecycle/emotive-lifecycle.yml
+    x-data-model: data-model/emotive-data-model.yml
+- target: $
+  description: Record the gaps this API Evangelist pass measured, so a consumer sees them next to the
+    contract.
+  update:
+    x-gaps:
+      idempotency: Not supported. No idempotency key is published on any state-creating operation.
+      rate_limits: Not published. No RateLimit-* or Retry-After header is declared; 429 appears in no
+        response.
+      error_format: Ad-hoc JSON. RFC 9457 problem+json is not used anywhere in the surface.
+      deprecation: No Sunset or Deprecation header and no deprecation policy is published.

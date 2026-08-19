@@ -1,0 +1,121 @@
+# Emotive Knowledge Base
+
+## Docs
+
+- [Welcome to Emotive!](https://help.emotive.io/docs/learn/home.md): Your complete SMS marketing platform.
+- [Get Started with Emotive](https://help.emotive.io/docs/get-started/overview.md): Your guide to setting up your Emotive account for success.
+- [Log into Emotive](https://help.emotive.io/docs/get-started/log-in-to-emotive.md): Learn the different ways you can sign into your Emotive account.
+- [Upload a New Subscriber List](https://help.emotive.io/docs/get-started/upload-new-subscriber-list.md): Learn how to import a list of new subscribers into your account.
+- [Add and Manage Users](https://help.emotive.io/docs/get-started/users.md): Learn how to manage user profiles and roles in your Emotive account.
+- [Set up Keywords](https://help.emotive.io/docs/get-started/keywords.md): Learn how to set up keywords and streamline your opt-in process.
+- [Create and Send Contact Cards](https://help.emotive.io/docs/get-started/contact-cards.md): Make it easier for new subscribers to save your contact information.
+- [Set up Smart Reply](https://help.emotive.io/docs/get-started/smart-reply.md): Cut down on the amount of time and effort needed to answer customer questions.
+- [Submit a Support Ticket](https://help.emotive.io/docs/get-started/support-requests.md): Reach out to our Support Team when you need assistance.
+- [List Growth: Overview](https://help.emotive.io/docs/list-growth/overview.md): Learn how Emotive can help you quickly grow your SMS list.
+- [Sync Signups to Klaviyo](https://help.emotive.io/docs/list-growth/klaviyo.md): Connect your Emotive popups to Klaviyo and start syncing new email signups.
+- [Sync Signups to Mailchimp](https://help.emotive.io/docs/list-growth/mailchimp.md): Connect your Emotive popups to Mailchimp and start syncing new email signups.
+- [Connect Omnisend <> Emotive](https://help.emotive.io/docs/list-growth/omnisend.md): Collect email signups with Emotive and sync them to Omnisend.
+- [Connect ActiveCampaign <> Emotive](https://help.emotive.io/docs/list-growth/activecampaign.md): Sync email signups from Emotive to your ActiveCampaign account.
+- [Connect Hubspot <> Emotive](https://help.emotive.io/docs/list-growth/hubspot.md): Collect email signups with Emotive and sync them to your Hubspot account.
+- [Connect Wisepop <> Emotive](https://help.emotive.io/docs/list-growth/wisepop.md): Learn how to connect your Wisepop Popups to sync subscriber data to Emotive.
+- [Connect Drip <> Emotive](https://help.emotive.io/docs/list-growth/drip.md): Collect email signups with Emotive and sync them to Drip.
+- [Connect Customer.io <> Emotive](https://help.emotive.io/docs/list-growth/customerio.md): Collect email signups with Emotive and sync them to your Customer.io account.
+- [Connect GetResponse <> Emotive](https://help.emotive.io/docs/list-growth/getresponse.md): Sync data between your GetResponse and Emotive accounts.
+- [Connect BayEngage <> Emotive](https://help.emotive.io/docs/list-growth/bayengage.md): Sync data between your BayEngage and Emotive accounts.
+- [Using Emotive Popups on Non-Shopify Sites](https://help.emotive.io/docs/list-growth/emotive-popups-for-non-shopify-sites.md): Launch Emotive Popups on WooCommerce / Wordpress, BigCommerce, or custom sites.
+- [Launch a Welcome Signup Flow](https://help.emotive.io/docs/list-growth/welcome-popup-and-flow.md): Grow your list and welcome new subscribers with Emotive.
+- [Create an Embedded Form](https://help.emotive.io/docs/list-growth/embedded-form.md): Collect signups on your website using an embedded signup form.
+- [Use a Bubble Tab with your Popups](https://help.emotive.io/docs/list-growth/bubble-tab.md): Capture as much traffic as possible with your popups by enabling a Bubble Tab.
+- [Collect Proper SMS Consent at Checkout](https://help.emotive.io/docs/list-growth/sms-consent-at-checkout.md): Learn how to gather SMS signups during checkout in a compliant manner.
+- [Use Advanced Styling on your Popups](https://help.emotive.io/docs/list-growth/advanced-styling.md): Learn how you can use custom CSS to customize your Emotive Popups
+- [Broadcasts: Overview](https://help.emotive.io/docs/broadcasting/overview.md): Explore resources to help you create and send engaging campaigns with your audience.
+- [Create and Send a Broadcast](https://help.emotive.io/docs/broadcasting/create.md): Engage with your mobile audience by sending a Broadcast message.
+- [Segment your Broadcast](https://help.emotive.io/docs/broadcasting/segments.md): Learn how to target your messages to specific groups of your audience.
+- [Personalize your Broadcasts](https://help.emotive.io/docs/broadcasting/personalize.md): Learn how to add variables to your text messages.
+- [Broadcast by Timezone](https://help.emotive.io/docs/broadcasting/timezones.md): Find answers to your questions around Broadcasting by Timezone.
+- [A/B Test your Campaign](https://help.emotive.io/docs/broadcasting/ab-test.md): Optimize your performance by testing out different message copy or images.
+- [Broadcast FAQs](https://help.emotive.io/docs/broadcasting/faqs.md): Discover answers to some of our most frequently asked questions about Broadcast messages.
+- [Flows: Overview](https://help.emotive.io/docs/flows/overview.md): Automate your SMS strategy by launching automated Flows.
+- [Understand Flow Triggers](https://help.emotive.io/docs/flows/triggers.md): Explore the different ways that subscribers can enter your Flows.
+- [Understand Flow Exit Rules](https://help.emotive.io/docs/flows/exit-rules.md): Learn how contacts automatically exit your automated message flows.
+- [Understand Flow Schedules](https://help.emotive.io/docs/flows/schedules.md): Learn how to set parameters around when your Flows trigger for subscribers.
+- [Use a Discount Code in your Flow](https://help.emotive.io/docs/flows/discount-codes.md): Deliver incentives to your customers through your automated Flows.
+- [Get Started with Flow Templates](https://help.emotive.io/docs/flows/templates.md): Launch Flows fast with pre-built templates designed with best practices in mind.
+- [Trigger Flows by Segment](https://help.emotive.io/docs/flows/trigger-by-segment.md): Send subscribers a Flow as soon as they enter one of your segments.
+- [Conditional Split by Segment](https://help.emotive.io/docs/flows/conditional-split-by-segment.md): Target personalized message based on customer attributes.
+- [Conditional Split by Trigger Event](https://help.emotive.io/docs/flows/conditional-split-by-trigger-event.md): Target personalized message based on customer actions.
+- [A/B Test your Flows](https://help.emotive.io/docs/flows/ab-test.md): Test different variations to see what resonates best with your audience.
+- [Launch an Abandoned Cart Flow](https://help.emotive.io/docs/flows/abandoned-cart-recovery.md): Send personalized flows that recover more revenue for your business.
+- [Use Variables in your Flows](https://help.emotive.io/docs/flows/variable-glossary.md): Personalize your automated messages with variables.
+- [Conversations: Overview](https://help.emotive.io/docs/conversations/overview.md): Learn how Conversations can help streamline your customer interactions.
+- [Get Started with Conversations](https://help.emotive.io/docs/conversations/get-started.md): Navigate and manage your Conversations with ease.
+- [Manage your Customer Messages](https://help.emotive.io/docs/conversations/manage-customer-messages.md): Use Conversation Tabs to manage your conversations and resolve customer issues.
+- [Save the Emotive Mobile App](https://help.emotive.io/docs/conversations/save-emotive-app.md): Use the Emotive Mobile App to respond to customer messages in your Conversations tab.
+- [Set Up Emotive CartAI](https://help.emotive.io/docs/cart-ai/set-up-emotive-cart-ai.md): Recover more revenue with Emotive's CartAI feature.
+- [Connect Klaviyo <> Emotive CartAI](https://help.emotive.io/docs/cart-ai/emotive-cart-ai-klaviyo.md): Integrate Emotive CartAI to work seamlessly with Klaviyo.
+- [Segments: Overview](https://help.emotive.io/docs/segments/overview.md): Learn how to build and send to segments in Emotive.
+- [Create and Manage Segments](https://help.emotive.io/docs/segments/build-a-segment.md): Learn how to build and manage subsections of your contact list.
+- [Build a Conversational Segment](https://help.emotive.io/docs/segments/conversations.md): Target contacts based on how they respond to conversations.
+- [Build a Smile.io Segment](https://help.emotive.io/docs/segments/smile.md): Use your Smile.io properties to create a subset of customers to send personalized campaigns to.
+- [Build a Yotpo Segment](https://help.emotive.io/docs/segments/yotpo.md): Use your Yotpo properties to create a subset of customers to send personalized campaigns to.
+- [Compliance: Overview](https://help.emotive.io/docs/compliance/overview.md): Everything you need to feel confident in staying compliant while sending SMS Marketing.
+- [SMS Marketing Compliance Guide](https://help.emotive.io/docs/compliance/sms-marketing-compliance-guide.md): Everything you need to know about staying compliant with your SMS strategy.
+- [Updating your Privacy Policy](https://help.emotive.io/docs/compliance/updating-privacy-policy.md): Ensure you have an up to date Privacy Policy for your business.
+- [Updating your Terms of Service](https://help.emotive.io/docs/compliance/updating-terms-of-service.md): Ensure that you've got an up to date binding Terms of Service for your business.
+- [TCPA Compliance Overview](https://help.emotive.io/docs/compliance/tcpa-compliance.md): Understand what the TCPA is, and how to adhere to its policies.
+- [CCPA Privacy Policy Overview](https://help.emotive.io/docs/compliance/ccpa-privacy-policy.md): Learn more about California consumer laws and how they impact your marketing.
+- [Set Up Call Forwarding](https://help.emotive.io/docs/compliance/call-forwarding.md): Allow customers to call your toll free number and connect with your business.
+- [Including Opt-Out Language in Messages](https://help.emotive.io/docs/compliance/including-opt-out-language.md): Learn about the opt-out process and how to best communicate it with your customers.
+- [Blocked and Restricted Words in SMS Marketing](https://help.emotive.io/docs/compliance/blocked-and-restricted-words.md): Discover restricted language that could lead to SMS delivery issues.
+- [Analytics: Overview](https://help.emotive.io/docs/analytics/overview.md): Discover ways to monitor your performance in the Emotive dashboard.
+- [Use Emotive's Analytics Dashboard](https://help.emotive.io/docs/analytics/analytics-dashboard.md): Get an overview of your account's performance.
+- [Create a Custom Report in Emotive](https://help.emotive.io/docs/analytics/custom-report-builder.md): View your data any way you want: choose your metrics and your timeframe.
+- [Understand Emotive's Attribution Model](https://help.emotive.io/docs/analytics/emotive-attribution-model.md): Learn how Emotive attributes revenue and orders to your messages.
+- [Add UTM Tracking to Your Campaigns](https://help.emotive.io/docs/analytics/add-utm-tracking-to-campaigns.md): Automatically add UTMs to your messages in just one click.
+- [How does Emotive calculate ROI?](https://help.emotive.io/docs/analytics/how-does-emotive-calculate-roi.md): Understand how Emotive determines your return on investment.
+- [Integrations: Overview](https://help.emotive.io/docs/integrations/overview.md): Discover how to connect your site and other apps to your Emotive account.
+- [Collect SMS during Shopify Checkout](https://help.emotive.io/docs/integrations/collect-sms-during-shopify-checkout.md): Learn how to collect SMS Opt-Ins during your Shopify store's checkout.
+- [Add a Discount at Shopify Checkout](https://help.emotive.io/docs/integrations/add-discount-at-shopify-checkout.md): Offer your customers a discount on their next order when optin into SMS at checkout.
+- [Create an API Key Manually in WooCommerce](https://help.emotive.io/docs/integrations/create-an-api-key-in-woocommerce.md): Learn how to create an API Key in WooCommerce to use when integrating with Emotive.
+- [Create a Webhook Manually in WooCommerce](https://help.emotive.io/docs/integrations/create-a-webhook-in-woocommerce.md): Learn how to create webhooks in Wordpress to use when integrating with Emotive.
+- [Collect SMS Signups at WooCommerce Checkout](https://help.emotive.io/docs/integrations/collect-sms-during-woocommerce-checkout.md): Learn how to collect SMS Consent during checkout on your WooCommerce site.
+- [Update your Google Tag Manager WooCommerce Plugin Permissions](https://help.emotive.io/docs/integrations/update-gtm-for-woocommerce-plugin-permissions.md): Optimize your WooCommerce permissions for abandoned cart recovery with Emotive.
+- [Connect Privy <> Emotive](https://help.emotive.io/docs/integrations/privy.md): Learn how to sync signups from Privy into Emotive.
+- [Connect Klaviyo and Emotive](https://help.emotive.io/docs/integrations/klaviyo.md): Sync contacts, lists, and data between Emotive and Klaviyo.
+- [Connect Hubspot <> Emotive](https://help.emotive.io/docs/integrations/hubspot.md): Learn how to sync data between Hubspot and Emotive
+- [Connect Hubspot Forms <> Emotive](https://help.emotive.io/docs/integrations/hubspot-forms.md): Sync SMS signups from your Hubspot Forms into Emotive.
+- [Connect Emotive <> Recharge](https://help.emotive.io/docs/integrations/recharge.md): Learn how to grow and retain your list by integrating Emotive and Recharge.
+- [Connect Magento <> Emotive](https://help.emotive.io/docs/integrations/magento.md): Sync order information from Magento to Emotive.
+- [Connect Jotform <> Emotive](https://help.emotive.io/docs/integrations/jotform.md): Learn how to sync Jotform signups to Emotive.
+- [Connect Smile.io <> Emotive](https://help.emotive.io/docs/integrations/smile.md): Learn how to sync your loyalty data from Smile to Emotive.
+- [Connect Yotpo <> Emotive](https://help.emotive.io/docs/integrations/yotpo.md): Learn how to sync Yotpo data into Emotive.
+- [Connect Loyalty Lion <> Emotive](https://help.emotive.io/docs/integrations/loyalty-lion.md): Learn how to sync data from Loyalty Lion into Emotive.
+- [Connect Zendesk <> Emotive](https://help.emotive.io/docs/integrations/zendesk.md): Sync conversations and data from Emotive to Zendesk.
+- [Connect Gorgias <> Emotive](https://help.emotive.io/docs/integrations/gorgias.md): Learn how to sync data between Gorgias and Emotive.
+- [Connect Kustomer <> Emotive](https://help.emotive.io/docs/integrations/kustomer.md): Sync data and information from Kustomer to Emotive.
+- [Connect Zoho-desk <> Emotive](https://help.emotive.io/docs/integrations/zoho-desk.md): Sync data and information from Zoho-desk to Emotive.
+- [Connect Freshdesk <> Emotive](https://help.emotive.io/docs/integrations/freshdesk.md): Learn how to sync data between Freshdesk and Emotive
+- [Set up a Custom Helpdesk Integration](https://help.emotive.io/docs/integrations/custom-helpdesk.md): Developer instructions to configure a custom helpdesk integration with Emotive.
+- [Connect Zapier <> Emotive](https://help.emotive.io/docs/integrations/zapier.md): Learn how to connect Zapier <> Emotive to streamline your business.
+- [Set up an API for your Custom Site](https://help.emotive.io/docs/integrations/custom-site-api.md): Development instructions for integrating Emotive and custom sites.
+- [Sync Orders from your Custom Site](https://help.emotive.io/docs/integrations/custom-order-integration.md): Connect your custom site to Emotive via Zapier or Open API.
+- [Emotive's Open API Integration](https://help.emotive.io/docs/integrations/open-api-integration-orders.md): Track orders using Emotive's Open API Integration.
+- [Set up a Profile Properties API](https://help.emotive.io/docs/integrations/profile-properties-api.md): Developer instructions for establishing your Profile Properties API.
+- [Billing: Overview](https://help.emotive.io/docs/billing/overview.md): Everything you need to understand your message cost and invoices.
+- [How does Emotive bill?](https://help.emotive.io/docs/billing/how-does-emotive-bill.md): Understand Emotive's billing structure and manage your payment method.
+- [How Does Emotive Calculate Cost?](https://help.emotive.io/docs/billing/calculating-cost.md): Learn what costs, fees, and criteria Emotive bases its messaging costs on.
+- [Understanding Carrier Fees](https://help.emotive.io/docs/billing/carrier-fees.md): Learn more about how carrier fees are calculated and applied to your billing.
+- [Manage Your Spend](https://help.emotive.io/docs/billing/manage-your-spend.md): Learn how you can monitor and manage your monthly spend in Emotive.
+- [View Your Itemized Billing Reports](https://help.emotive.io/docs/billing/itemized-billing-reports.md): Locate and view your account's billing reports in Emotive.
+- [List Growth Best Practices](https://help.emotive.io/docs/best-practices/growing-your-list.md): Pro tips for growing a high quality SMS list.
+- [Text Message Etiquette](https://help.emotive.io/docs/best-practices/text-message-etiquette.md): Pro tips for a successful and impactful SMS marketing strategy.
+- [Broadcast Best Practices](https://help.emotive.io/docs/best-practices/broadcasts.md): Pro tips for sending engaging, actionable Broadcast messages in Emotive.
+- [Evergreen Broadcast Ideas](https://help.emotive.io/docs/best-practices/evergreen-ideas.md): Templates and ideas that your brand can use year-round.
+- [MMS Best Practices](https://help.emotive.io/docs/best-practices/mms.md): Explore the benefits of MMS + industry best practices when using it for your business.
+- [Automated Flow Best Practices](https://help.emotive.io/docs/best-practices/flows.md): Pro tips for building smart, efficient, and personalized Flows in Emotive.
+- [Conversational Message Best Practices](https://help.emotive.io/docs/best-practices/conversations.md): Pro tips for creating engaging and helpful Conversations in Emotive.
+- [Your Guide to Short Codes, Long Codes, and 10DLC](https://help.emotive.io/docs/best-practices/short-codes-long-codes-10dlc.md): Learn the difference between SMS methods, and which one is best for your business.
+- [Resize your Image for Broadcasts](https://help.emotive.io/docs/broadcasting/resize-your-image.md): Make the best impact possible when sending image files via Broadcast.
+- [Check your Phone's Spam Folder](https://help.emotive.io/docs/compliance/check-your-phones-spam-folder.md): Learn how to locate your phone's text message spam folder.
+- [Changes Coming to the Texas Business and Commerce Code](https://help.emotive.io/docs/compliance/texas-commerce-code-update.md): Learn how changes to Texas laws may impact your business' SMS marketing.
+- [Collect SMS Opt-Ins at BigCommerce Checkout](https://help.emotive.io/docs/integrations/collect-sms-during-bigcommerce-checkout.md): Grow your list by adding an SMS Opt-In checkbox in your BigCommerce Checkout.

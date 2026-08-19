@@ -1,0 +1,60 @@
+generated: '2026-08-13'
+method: probed
+source: https://help.emotive.io/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: help.emotive.io
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://help.emotive.io/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 973
+card_file: a2a/emotive-agent-card.json
+name: Emotive Knowledge Base
+url: https://help.emotive.io/
+version: 1.0.0
+protocol_version: '0.3'
+preferred_transport: HTTP+JSON
+provider:
+  organization: Emotive Knowledge Base
+  url: https://help.emotive.io/
+documentation_url: https://help.emotive.io/
+capabilities:
+  streaming: false
+  pushNotifications: false
+skills:
+- id: emotive
+  name: Emotive
+  url: https://help.emotive.io/.well-known/agent-skills/emotive/skill.md
+  saved_to: skills/emotive-provider-published-skill.md
+  description: >-
+    Use when building SMS marketing campaigns, setting up automated flows, managing
+    customer conversations, creating audience segments, or integrating SMS with
+    ecommerce platforms.
+grade: conformant
+grade_basis: >-
+  Graded against A2A 1.0.0. All three hard checks pass — capabilities is an OBJECT,
+  protocolVersion is present, and skills is an ARRAY — and the optional
+  preferredTransport, defaultInputModes and defaultOutputModes fields are all present.
+deviations:
+- field: protocolVersion
+  observed: '0.3'
+  note: >-
+    Declares A2A 0.3, which predates 1.0.0. The card's shape is nonetheless 1.0.0-clean.
+- field: provider.organization
+  observed: Emotive Knowledge Base
+  note: >-
+    Names the documentation site rather than the legal entity (Emotive / Privy). Cosmetic.
+- field: supportedInterfaces[0].url
+  observed: https://help.emotive.io/
+  note: >-
+    Points at the documentation site root rather than a distinct A2A JSON-RPC endpoint.
+    The addressable agent surface Emotive actually serves at this host is the MCP
+    endpoint https://help.emotive.io/mcp (see mcp/emotive-mcp.yml), not an A2A endpoint.
+scope_note: >-
+  This card describes Emotive's Mintlify-generated documentation agent, not the Emotive
+  product APIs. It is a genuine provider-served agent card on an Emotive-controlled host
+  and is recorded as such; it does not assert that the Orders, Lists, Helpdesk, Segments
+  or Experiences APIs are reachable over A2A.

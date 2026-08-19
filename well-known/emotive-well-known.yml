@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: probed
+source: live HTTPS probes of every Emotive host on 2026-08-13
+note: >-
+  Probed the five conventional /.well-known/ paths plus both A2A agent-card paths on
+  every Emotive host. Exactly one real document is served: the A2A agent card on the
+  Mintlify knowledge base at help.emotive.io. Everything else is either a hard 404 or
+  an SPA/marketing catch-all that answers HTTP 200 with the site's own HTML 404 page —
+  www.emotive.io and emotive.io return an identical 64,944-byte HTML body (titled
+  "404 Page Not Found | Emotive") for every /.well-known/ path, and emotiveapp.co
+  returns an identical 3,526-byte app shell. Neither is a document, so neither counts
+  as a hit. The API gateway api-gw.emotiveapp.co refuses all /.well-known/ paths with
+  403 at the edge.
+hosts:
+- host: help.emotive.io
+  paths:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    document: true
+    file: ../a2a/emotive-agent-card.json
+    note: Real A2A AgentCard JSON object. Graded in a2a/emotive-a2a.yml.
+  - path: /.well-known/agent-skills/emotive/skill.md
+    status: 200
+    content_type: text/markdown
+    document: true
+    file: ../skills/emotive-provider-published-skill.md
+    note: >-
+      Packaged Agent Skill referenced by the agent card's skills[0].url. Not a
+      conventional /.well-known/ path, recorded here because it is served from the
+      same well-known tree.
+  - path: /.well-known/security.txt
+    status: 404
+    document: false
+  - path: /.well-known/openid-configuration
+    status: 404
+    document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    document: false
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    document: false
+  - path: /.well-known/api-catalog
+    status: 404
+    document: false
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    document: false
+  - path: /.well-known/agent.json
+    status: 404
+    document: false
+- host: www.emotive.io
+  soft_404: true
+  soft_404_note: Every /.well-known/ path returns HTTP 200 with the site's HTML 404 page (64,944 bytes). Treated as a miss.
+  paths:
+  - { path: /.well-known/security.txt, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/openid-configuration, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/oauth-protected-resource, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/api-catalog, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/ai-plugin.json, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent-card.json, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent.json, status: 200, content_type: text/html, document: false }
+- host: emotive.io
+  soft_404: true
+  soft_404_note: Identical behaviour to www.emotive.io.
+  paths:
+  - { path: /.well-known/security.txt, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent-card.json, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent.json, status: 200, content_type: text/html, document: false }
+- host: www.emotiveapp.co
+  soft_404: true
+  soft_404_note: Every path returns the 3,526-byte application shell with HTTP 200.
+  paths:
+  - { path: /.well-known/security.txt, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/openid-configuration, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent-card.json, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent.json, status: 200, content_type: text/html, document: false }
+- host: api.emotiveapp.co
+  soft_404: true
+  soft_404_note: Same 3,526-byte application shell for every path, including nonsense control paths.
+  paths:
+  - { path: /.well-known/security.txt, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, document: false }
+  - { path: /.well-known/agent-card.json, status: 200, content_type: text/html, document: false }
+- host: api-gw.emotiveapp.co
+  paths:
+  - { path: /.well-known/security.txt, status: 403, document: false }
+  - { path: /.well-known/openid-configuration, status: 403, document: false }
+  - { path: /.well-known/oauth-authorization-server, status: 403, document: false }
+  - { path: /.well-known/oauth-protected-resource, status: 403, document: false }
+  - { path: /.well-known/api-catalog, status: 403, document: false }
+  - { path: /.well-known/ai-plugin.json, status: 403, document: false }
+  - { path: /.well-known/agent-card.json, status: 403, document: false }
+  - { path: /.well-known/agent.json, status: 403, document: false }
+summary:
+  hosts_probed: 6
+  documents_found: 2
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: true

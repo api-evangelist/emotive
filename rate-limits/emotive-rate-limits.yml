@@ -1,0 +1,35 @@
+generated: '2026-08-13'
+method: searched
+source: https://help.emotive.io/llms-full.txt
+docs:
+- https://help.emotive.io/docs/integrations/custom-site-api
+- https://help.emotive.io/docs/integrations/open-api-integration-orders
+- https://emotive.gitbook.io/emotive-lists/reference/api-reference
+limit_count: 0
+limits: []
+headers: []
+status_on_exhaustion: null
+retry_after: false
+note: >-
+  Emotive documents no rate limit. Searched the full 292KB knowledge-base corpus
+  (help.emotive.io/llms-full.txt, 6,438 lines) and the complete GitBook developer
+  reference for "rate limit", "ratelimit", "throttle", "429", "requests per", "per
+  second" and "per minute": the only hit is a marketing line about 10DLC throughput
+  ("you can send more texts per second than you can with standard long code"), which
+  describes carrier message throughput, not API request limits. No RateLimit-*,
+  X-RateLimit-* or Retry-After header is declared in any of the seven published OpenAPI
+  documents, and 429 does not appear in a single response object across all 102
+  operations. The published status-code tables for the Open API enumerate 400, 401, 403,
+  404, 405, 409, 412, 413, 500, 501 and 503 — and omit 429 entirely.
+consequence: >-
+  An integrator writing the "custom code/webhooks to send order data" that Emotive's own
+  docs require has no published budget to size against and no runtime signal to back off
+  on. Combined with the absence of idempotency, a client that hits an undocumented limit
+  has neither a way to slow down nor a safe way to retry.
+evidence:
+- url: https://help.emotive.io/llms-full.txt
+  status: 200
+  finding: No API rate limit documented in the full knowledge-base corpus.
+- url: https://help.emotive.io/docs/integrations/open-api-integration-orders
+  status: 200
+  finding: HTTP status-code tables published; 429 absent.

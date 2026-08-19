@@ -1,6 +1,14 @@
-generated: '2026-07-19'
+generated: '2026-08-13'
 method: searched
 source: https://status.emotive.io/
+docs:
+- https://status.emotive.io/
+- https://help.emotive.io/
+- https://emotive.gitbook.io/emotive-lists
+derived_from:
+- openapi/emotive-auth-openapi.yml
+- openapi/emotive-segments-openapi.yml
+- openapi/emotive-experiences-openapi.yml
 status_page: https://status.emotive.io/
 status_page_provider: Atlassian Statuspage
 monitored_components:
@@ -9,10 +17,59 @@ monitored_components:
 - Popup service
 - Broadcast services
 - Integrations
+subscriptions: [email, SMS, Slack, RSS]
+versioning:
+  policy_published: false
+  style: path
+  observed_segments: ['/v1/', '/api/v1/', '/api/v1.0/', '/api/v2/', '/v2/']
+  note: >-
+    Version lives in the path, but the segment shape differs per service and Emotive
+    publishes no versioning policy. The Auth Server ships v1 and v2 of the same resources
+    concurrently — /v1/brands and /v2/brands, /oauth/token and /v2/oauth/token,
+    /google/token and /v2/google/token — with nothing stating which is current, which is
+    superseded, or when v1 goes away. The Segments API is on /api/v2 with no v1 in sight;
+    the Experiences API is on /api/v1.0.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: >-
+    No deprecation or sunset policy exists on any Emotive surface. Not one of the 102
+    published operations carries `deprecated: true`, and no RFC 8594 Sunset or Deprecation
+    header is declared or documented — despite two live generations of the Auth Server API.
+changelog:
+  published: false
+  note: >-
+    No dated developer changelog or release-notes page was found. Searched the full
+    knowledge-base corpus (help.emotive.io/llms-full.txt) and the GitBook developer
+    reference; neither carries a changelog, and neither the Mintlify sitemap nor the
+    GitBook sitemap lists one. Product announcements appear only as marketing posts on
+    https://www.emotive.io/blog.
+sla:
+  published: false
+  note: No uptime commitment, support-response target or credit schedule is published. The status page reports state but promises nothing.
+support:
+  general: https://www.emotive.io/customer-success
+  api: support@emotive.io
+  installs: installs@emotive.io
+  tech_partners: techpartners@emotive.io
+  note: API support runs through the general support inbox; there is no developer forum, community or issue tracker.
+corporate:
+  event: Acquisition
+  acquirer: Privy
+  evidence: 'Site-wide banner on emotive.io: "Privy acquires Emotive to supercharge conversational SMS marketing."'
+  url: https://www.emotive.io/
+  note: >-
+    Emotive continues to operate its own brand, app, docs and API surface post-acquisition.
+    The `platform` enum in the published Sensus Webhooks schema already carries `privy`
+    alongside `emotive` and `alloy`, so the platforms are joined at the data layer.
 notes: >-
-  Emotive publishes a public Atlassian Statuspage at https://status.emotive.io/ tracking
-  operational status of its API Services, website, popup, broadcast, and integrations
-  components, with email/SMS/Slack/RSS subscription. No public developer changelog,
-  versioning policy, deprecation policy, or SLA page was found on the marketing site
-  (emotive.io/developers and emotive.io/api both return 404); Emotive operates no
-  publicly documented API program.
+  Emotive publishes a public Atlassian Statuspage covering API Services, website, popup,
+  broadcast and integrations. Beyond that, the operational-transparency surface is empty:
+  no changelog, no versioning policy, no deprecation policy, no SLA. The 2026-07 profile of
+  this company recorded "Emotive operates no publicly documented API program" — that was
+  wrong, and this pass corrects it. Emotive publishes six OpenAPI documents of its own,
+  a GitBook developer reference, an llms.txt, an A2A agent card, a packaged Agent Skill and
+  an anonymous remote MCP server. What it does not publish is any lifecycle commitment
+  around them.

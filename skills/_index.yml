@@ -1,0 +1,56 @@
+generated: '2026-08-13'
+method: searched
+source: https://help.emotive.io/.well-known/agent-skills/emotive/skill.md
+skill_count: 5
+provider_published: 1
+generated_count: 4
+skills:
+- name: emotive
+  file: emotive-provider-published-skill.md
+  method: searched
+  source: https://help.emotive.io/.well-known/agent-skills/emotive/skill.md
+  http_status: 200
+  description: >-
+    Emotive's own packaged Agent Skill, referenced by skills[0].url in its A2A agent card
+    and saved verbatim. A product/UI operations guide — broadcasts, flows, segments,
+    conversations, list growth, compliance — written for an agent driving the Emotive
+    dashboard. It teaches the app, not the API: it names no endpoint and no operationId.
+  scope: product-operations
+- name: emotive-track-an-order
+  file: emotive-track-an-order.md
+  method: generated
+  api: Emotive Open API
+  operations: [createOrder]
+  description: Report a completed order from a custom storefront for attribution.
+- name: emotive-opt-in-a-subscriber
+  file: emotive-opt-in-a-subscriber.md
+  method: generated
+  api: Emotive Lists API + Emotive Sensus Webhooks API
+  operations:
+  - 'get:/subscriber_engine/api/v1/sources/subscriber_lists/'
+  - controllers.webhooks.subscriber_handler
+  - controllers.webhooks.bulk_subscriber_handler
+  - controllers.webhooks.profile_handler
+  description: Discover the target list, create the subscriber, and set profile properties.
+- name: emotive-unsubscribe-and-events
+  file: emotive-unsubscribe-and-events.md
+  method: generated
+  api: Emotive Open API
+  operations: [manualOptOut, createCustomEvent]
+  description: Opt a number out of SMS, and push a custom event that triggers a Flow.
+- name: emotive-connect-a-custom-helpdesk
+  file: emotive-connect-a-custom-helpdesk.md
+  method: generated
+  api: Emotive Helpdesk API
+  operations:
+  - controllers.ticket_systems.get
+  - controllers.connections.post
+  - controllers.webhooks.post
+  - controllers.tickets.update
+  - controllers.ticket_events.post_external
+  - controllers.tickets.webhook_trigger_data
+  description: Mint a brand token, register webhooks, and exchange ticket events.
+note: >-
+  Every operationId in the generated skills was read out of the published specs in
+  openapi/, not invented. The four generated skills deliberately cover the API surface that
+  Emotive's own published skill does not touch at all.

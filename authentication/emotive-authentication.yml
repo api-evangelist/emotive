@@ -1,0 +1,110 @@
+generated: '2026-08-13'
+method: searched
+source: https://emotive.gitbook.io/emotive-lists/reference/authentication
+docs:
+- https://emotive.gitbook.io/emotive-lists/reference/authentication
+- https://help.emotive.io/docs/integrations/custom-site-api
+- https://help.emotive.io/docs/integrations/open-api-integration-orders
+- https://help.emotive.io/docs/integrations/custom-helpdesk
+derived_from:
+- openapi/emotive-auth-openapi.yml
+- openapi/emotive-helpdesk-openapi.yml
+- openapi/emotive-open-api-openapi.yml
+- openapi/emotive-subscriber-engine-openapi.yml
+- openapi/emotive-sensus-webhook-openapi.yml
+summary:
+  types: [apiKey, http]
+  api_key_in: [header, cookie]
+  oauth2_declared: false
+  openid_connect_declared: false
+  mutual_tls: false
+  note: >-
+    Emotive uses three different credentials on three different surfaces and does not
+    reconcile them anywhere in its documentation. The public Open API and Lists API use
+    a personal access token in an `Authorization: Token <token>` header. The API gateway
+    services use an `X-API-Key` header or a bearer JWT. The Auth Server exposes OAuth
+    token endpoints (`POST /oauth/token`, `POST /v2/oauth/token`) plus Auth0, Google and
+    Shopify login legs, but declares no `oauth2` securityScheme and publishes no scope
+    list — the tokens it issues are Emotive session JWTs, not scoped API credentials.
+schemes:
+- name: TokenAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  format: 'Token <access_token>'
+  description: >-
+    Personal access token, scheme-prefixed with the literal word "Token" and a space.
+    Tokens are tied to the brand user account for which they were created. Obtained
+    either by creating a List Growth API signup flow in the app (List Growth ->
+    Integrations -> Add New -> List Growth API), which surfaces a key at the end of the
+    wizard, or by emailing support@emotive.io for an Open API key. There is no
+    self-service developer signup and no key-rotation endpoint.
+  applies_to:
+  - Emotive Open API (orders, opt-outs, custom events)
+  - Emotive Lists API (subscriber engine)
+  - Emotive Sensus Webhooks API (subscriber, profile properties)
+  sources:
+  - openapi/emotive-open-api-openapi.yml
+  - openapi/emotive-subscriber-engine-openapi.yml
+  docs: https://emotive.gitbook.io/emotive-lists/reference/authentication
+  failure_response:
+    status: 401
+    body: '{"detail": "Authentication credentials were not provided."}'
+    observed: '2026-08-13 against https://api.emotiveapp.co/ecommerce/v1/orders/'
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: >-
+    Brand token for the Helpdesk API. Minted by POSTing to /connections/config with an
+    Emotive JWT; each brand may hold only one active token. Used for every subsequent
+    Helpdesk request and for the brand's own webhook configuration.
+  applies_to:
+  - Emotive Helpdesk API
+  - Emotive Auth Server API
+  sources:
+  - openapi/emotive-helpdesk-openapi.yml
+  - openapi/emotive-auth-openapi.yml
+  docs: https://help.emotive.io/docs/integrations/custom-helpdesk
+- name: AlloyKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: Partner key variant used for the Alloy integration path on the Helpdesk service.
+  sources: [openapi/emotive-helpdesk-openapi.yml]
+- name: InternalApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: Internal service-to-service key variant declared on the Helpdesk service.
+  sources: [openapi/emotive-helpdesk-openapi.yml]
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: >-
+    Emotive JWT, presented as `Authorization: bearer {emotive JWT}`. Required to bootstrap
+    a Helpdesk brand token and to call the Auth Server's brand/user management operations.
+  sources: [openapi/emotive-helpdesk-openapi.yml]
+  docs: https://help.emotive.io/docs/integrations/custom-helpdesk
+- name: cookieAuth
+  type: apiKey
+  in: cookie
+  parameter: access_token_cookie
+  description: Browser session cookie carrying the same Emotive JWT; used by the dashboard.
+  sources: [openapi/emotive-helpdesk-openapi.yml]
+token_endpoints:
+- POST https://api-gw.emotiveapp.co/auth/oauth/token
+- POST https://api-gw.emotiveapp.co/auth/v2/oauth/token
+- POST https://api-gw.emotiveapp.co/auth/auth0/token
+- GET  https://api-gw.emotiveapp.co/auth/google/token
+- GET  https://api-gw.emotiveapp.co/auth/shopify/token
+identity_providers:
+- Auth0
+- Google
+- Shopify
+gaps:
+- No published OAuth scope list and no oauth2 securityScheme, despite live token endpoints.
+- No self-service API key issuance for the Open API; the docs route developers to support@emotive.io.
+- No documented token rotation, expiry or revocation policy.
+- No /.well-known/openid-configuration or /.well-known/oauth-authorization-server on any host.

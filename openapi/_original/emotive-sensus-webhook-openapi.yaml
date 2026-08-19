@@ -1,0 +1,432 @@
+components:
+  schemas:
+    AlloyError:
+      properties:
+        blockId:
+          type: string
+        blockType:
+          type: string
+        error:
+          type: string
+        executionId:
+          type: string
+        workflowId:
+          type: string
+      required:
+      - workflowId
+      - executionId
+      - blockId
+      - blockType
+      - error
+      type: object
+    BulkSubscriber:
+      items:
+        $ref: '#/components/schemas/Subscriber'
+      type: array
+    ExternalIdentifier:
+      properties:
+        custom:
+          items:
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            type: object
+          type: array
+        klaviyo:
+          type: string
+        shopify:
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ProfileProperty:
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        platform:
+          enum:
+          - alloy
+          - paragon
+          - custom
+          - zapier
+          type: string
+        properties:
+          $ref: '#/components/schemas/PropertyList'
+        source:
+          type: string
+      required:
+      - source
+      - platform
+      - properties
+      type: object
+    Property:
+      properties:
+        key:
+          type: string
+        type:
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+          type: string
+        value:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      required:
+      - key
+      - value
+      type: object
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
+    QAMessageCallbackBody:
+      properties:
+        body:
+          description: text content of the message
+          type: string
+        error_code:
+          description: message error code
+          type: integer
+        from:
+          description: The phone number that sent this message
+          type: string
+        id:
+          description: unique identifier for the message
+          type: string
+        status:
+          description: status of the message
+          example: received
+          type: string
+        to:
+          description: The phone number of the recipient
+          type: string
+      type: object
+    Subscriber:
+      anyOf:
+      - required:
+        - phone_number
+        - subscribe_identifier
+      - required:
+        - email
+        - subscribe_identifier
+      properties:
+        birthdate:
+          type: string
+        context:
+          additionalProperties:
+            oneOf:
+            - type: string
+            - type: number
+            - type: integer
+            - type: boolean
+          type: object
+        email:
+          type: string
+        external_identifiers:
+          $ref: '#/components/schemas/ExternalIdentifier'
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        platform:
+          enum:
+          - alloy
+          - emotive
+          - privy
+          type: string
+        popup_identifier:
+          type: string
+        properties:
+          $ref: '#/components/schemas/PropertyList'
+        source_type:
+          enum:
+          - EMOTIVE_POPUP
+          - EMOTIVE_EMBEDDED
+          - BACK_IN_STOCK_POPUP
+          - LIST_GROWTH
+          type: string
+        subscribe_identifier:
+          type: string
+        subsource_identifier:
+          type: string
+      type: object
+    TwilioCallbackBody:
+      properties:
+        Body:
+          description: text content of the message
+          type: string
+        ErrorCode:
+          description: message error code
+          type: integer
+        From:
+          description: The phone number that sent this message
+          type: string
+        MessageSid:
+          description: A 34 character unique identifier for the message
+          type: string
+        MessagingServiceSid:
+          description: The 34 character id of the Messaging Service associated with
+            the message
+          type: string
+        NumSegments:
+          description: number of SMS messages it took to deliver the body of the message
+          type: integer
+        SmsSid:
+          description: A 34 character unique identifier for the message
+          type: string
+        SmsStatus:
+          description: status of the message
+          example: received
+          type: string
+        To:
+          description: The phone number of the recipient
+          type: string
+      type: object
+info:
+  license:
+    name: Private
+  title: Sensus Webhooks
+  version: 0.1.0
+openapi: 3.0.2
+paths:
+  /:
+    get:
+      description: Says 'Hello, Emotive!'
+      operationId: controllers.base.home
+      responses:
+        '200':
+          content:
+            text/html:
+              schema:
+                type: string
+          description: The string 'Hello, Emotive!'
+      summary: Hello, Emotive!
+  /v1/errors/alloy:
+    post:
+      description: Alloy error log.
+      operationId: controllers.webhooks.alloy_error_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlloyError'
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Alloy Error Log Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Profile Properties
+  /v1/messages/qa/callback:
+    post:
+      description: QA message callback.
+      operationId: controllers.webhooks.qa_callback_handler
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QAMessageCallbackBody'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - QA
+  /v1/messages/twilio/callback:
+    post:
+      description: Twilio message callback.
+      operationId: controllers.webhooks.twilio_callback_handler
+      parameters:
+      - description: message id (set by Emotive on a per-message basis)
+        in: query
+        name: id
+        schema:
+          format: uuid
+          type: string
+      - description: Emotive reference id (set by Emotive on a per-message basis)
+        in: query
+        name: reference_id
+        schema:
+          type: integer
+      - description: associate brand user (set by Emotive on a per-message basis)
+        in: query
+        name: associate_brand_user
+        schema:
+          example: true
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TwilioCallbackBody'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Messaging
+  /v1/profiles/properties:
+    post:
+      description: Create a profile property.
+      operationId: controllers.webhooks.profile_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileProperty'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Profile Properties
+  /v1/shopify:
+    post:
+      description: Handle Shopify webhooks
+      operationId: controllers.webhooks.shopify_webhook_handler
+      parameters:
+      - description: The Shopify shop domain making the request
+        in: header
+        name: HTTP_X_SHOPIFY_SHOP_DOMAIN
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                webhook_type:
+                  enum:
+                  - shipment_update
+                  - shipment_status_update
+                  type: string
+              required:
+              - webhook_type
+              type: object
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+      tags:
+      - Shopify
+  /v1/subscriber:
+    post:
+      description: Create a subscriber.
+      operationId: controllers.webhooks.subscriber_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscriber'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Subscriber
+  /v1/subscriber/bulk:
+    post:
+      description: Create subscribers in bulk.
+      operationId: controllers.webhooks.bulk_subscriber_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkSubscriber'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Bulk Subscriber
+servers:
+- url: /sensus-webhook

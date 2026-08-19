@@ -1,0 +1,38 @@
+{
+  "name": "Emotive Knowledge Base",
+  "url": "https://help.emotive.io/",
+  "version": "1.0.0",
+  "protocolVersion": "0.3",
+  "preferredTransport": "HTTP+JSON",
+  "supportedInterfaces": [
+    {
+      "url": "https://help.emotive.io/",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "0.3"
+    }
+  ],
+  "provider": {
+    "url": "https://help.emotive.io/",
+    "organization": "Emotive Knowledge Base"
+  },
+  "documentationUrl": "https://help.emotive.io/",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "emotive",
+      "name": "Emotive",
+      "description": "Use when building SMS marketing campaigns, setting up automated flows, managing customer conversations, creating audience segments, or integrating SMS with ecommerce platforms. Reach for this skill when users need to send broadcasts, set up list growth, manage compliance, or analyze SMS campaign performance.",
+      "tags": [],
+      "url": "https://help.emotive.io/.well-known/agent-skills/emotive/skill.md"
+    }
+  ]
+}

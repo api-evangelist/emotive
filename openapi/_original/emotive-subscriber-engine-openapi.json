@@ -1,0 +1,60 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Subscriber Engine API",
+    "version": "1.0.0"
+  },
+  "security": [
+    {
+      "TokenHeader": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "TokenHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "SubscriberSource": {
+        "type": "object",
+        "properties": {
+          "subscribe_identifier": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/subscriber_engine/api/v1/sources/subscriber_lists/": {
+      "get": {
+        "summary": "Subscriber sources endpoint",
+        "description": "Returns current active signups",
+        "tags": [
+          "subscriber_engine Subscriber"
+        ],
+        "responses": {
+          "200": {
+            "description": "Available signup flows",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriberSource"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
