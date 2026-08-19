@@ -41,7 +41,7 @@ accessModel:
     tokens are not self-service in the general case — the Open API docs say to contact
     support@emotive.io for a key — though a List Growth API signup flow inside the app
     issues a key to an existing customer.
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-13'
 image: https://www.emotive.io/assets/brand/emotive-symbol-blue-on-transparent.png
