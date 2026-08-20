@@ -50,6 +50,19 @@ tags:
 - Marketing
 - SMS
 - Messaging
+- E-Commerce
+- Marketing Automation
+- Text Message Marketing
+- Conversational Commerce
+- Webhook
+- Customer Data
+- Segmentation
+- Attribution
+tags_raw:
+- Company
+- Marketing
+- SMS
+- Messaging
 - eCommerce
 - Marketing Automation
 - Text Message Marketing
@@ -74,6 +87,11 @@ apis:
   baseURL: https://api.emotiveapp.co
   image: https://www.emotive.io/assets/brand/emotive-symbol-blue-on-transparent.png
   tags:
+  - Order
+  - Opt-Outs
+  - Custom Events
+  - E-Commerce
+  tags_raw:
   - Orders
   - Opt-Outs
   - Custom Events
@@ -103,6 +121,10 @@ apis:
   baseURL: https://www.emotiveapp.co
   tags:
   - Subscribers
+  - List
+  - List Growth
+  tags_raw:
+  - Subscribers
   - Lists
   - List Growth
   properties:
@@ -124,6 +146,11 @@ apis:
   humanURL: https://api-gw.emotiveapp.co/sensus-webhook/ui/
   baseURL: https://api-gw.emotiveapp.co/sensus-webhook
   tags:
+  - Webhook
+  - Subscribers
+  - Profile Properties
+  - Shopify
+  tags_raw:
   - Webhooks
   - Subscribers
   - Profile Properties
@@ -148,6 +175,11 @@ apis:
   humanURL: https://api-gw.emotiveapp.co/helpdesk/ui/
   baseURL: https://api-gw.emotiveapp.co/helpdesk
   tags:
+  - Help Desk
+  - Tickets
+  - Webhook
+  - Support
+  tags_raw:
   - Helpdesk
   - Tickets
   - Webhooks
@@ -169,6 +201,10 @@ apis:
   humanURL: https://api-gw.emotiveapp.co/auth/openapi.json
   baseURL: https://api-gw.emotiveapp.co/auth
   tags:
+  - Authentication
+  - User
+  - Brands
+  tags_raw:
   - Authentication
   - OAuth
   - Users
@@ -200,6 +236,10 @@ apis:
   humanURL: https://api-gw.emotiveapp.co/experiences/openapi.json
   baseURL: https://api-gw.emotiveapp.co/experiences
   tags:
+  - Analytics
+  - Experience
+  - Flows
+  tags_raw:
   - Analytics
   - Experiences
   - Flows
