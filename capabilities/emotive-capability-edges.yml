@@ -1,0 +1,45 @@
+slug: emotive
+provider: Emotive
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Tickets
+  spec_file: emotive-tickets-api-openapi.yml
+  capability_id: BC-430.10
+  capability_id_l1: BC-430
+  capability_name: Customer Inquiry Management
+  confidence: 0.8
+  evidence: GET /tickets controllers.tickets.search; POST /tickets/internal; POST /tickets/{ticket_id}
+    controllers.tickets.update; schemas ticket, ticketEvent, status
+  reason: Creation, search, update and event posting on helpdesk tickets — inbound customer contact capture,
+    routing and resolution.
+- tag: Segment Filter
+  spec_file: emotive-segment-filter-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.75
+  evidence: GET /api/v2/segments 'Retrieve a list of matching segments'; schemas SegmentObjectWithBroadcastCount,
+    SegmentRule
+  reason: Rule-based audience segments (with broadcast counts) in an SMS marketing platform are customer
+    segmentation constructs used to target messaging; the read/list operation supports segment management
+    rather than any technical plumbing.
+- tag: Single Segment
+  spec_file: emotive-single-segment-api-openapi.yml
+  capability_id: BC-420.20
+  capability_id_l1: BC-420
+  capability_name: Customer Segmentation Management
+  confidence: 0.75
+  evidence: POST /api/v2/segments 'Add a new Segment'; PATCH 'Update fields of a segment'; schema SegmentRule
+  reason: Full CRUD over rule-based marketing segments; in an SMS marketing platform these are audience
+    segments, i.e. customer segmentation management.

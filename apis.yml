@@ -1368,6 +1368,9 @@ apis:
   - type: Documentation
     url: https://help.emotive.io/docs/integrations/custom-helpdesk
 common:
+- type: CapabilityMap
+  url: capabilities/emotive-capability-edges.yml
+  name: Emotive Business Capability Map
 - type: Overlay
   url: overlays/emotive-open-api-overlay.yaml
 - type: Overlay
