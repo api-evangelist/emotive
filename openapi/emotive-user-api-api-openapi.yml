@@ -1,0 +1,365 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server User API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: User API
+paths:
+  /v1/users:
+    get:
+      operationId: controllers.resource.list_users
+      parameters:
+      - description: last user id or user name. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: string
+      - description: Ordering for the results
+        in: query
+        name: order_by
+        required: false
+        schema:
+          default: user_id
+          enum:
+          - user_id
+          - -user_id
+          - user_name
+          - -user_name
+          type: string
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListSchema'
+          description: Paginated list of users
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns paginated list of User names and ids.
+      tags:
+      - User API
+    post:
+      operationId: controllers.resource.create_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                access_roles:
+                  items:
+                    type: integer
+                  type: array
+                email:
+                  minLength: 1
+                  type: string
+                groups:
+                  $ref: '#/components/schemas/GroupAccessRoles'
+              type: object
+        description: User details.
+        required: true
+        x-body-name: body
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSchema'
+          description: User created successfully.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Create a new User.
+      tags:
+      - User API
+  /v1/users/me:
+    get:
+      operationId: controllers.users.users_me
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersMeResponse'
+          description: User details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Get User information for an id.
+      tags:
+      - User API
+  /v1/users/{user_id}:
+    delete:
+      operationId: controllers.resource.delete_user
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: User deleted.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: user_id is not valid
+      summary: Delete a User.
+      tags:
+      - User API
+    get:
+      operationId: controllers.resource.get_user
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSchema'
+          description: User details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: user_id is not valid
+      summary: Get User information for an id.
+      tags:
+      - User API
+    patch:
+      operationId: controllers.resource.update_user
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutateUserSchema'
+        description: User details.
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSchema'
+          description: User updated.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: user_id is not valid
+      summary: Update User.
+      tags:
+      - User API
+components:
+  schemas:
+    UsersMeResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        user:
+          properties:
+            access_roles:
+              $ref: '#/components/schemas/UserAccessRoles'
+            created:
+              format: date-time
+              type: string
+            email:
+              type:
+              - string
+              - 'null'
+            email_hash:
+              description: HMAC-SHA256 of the user's email (or username when no email is set), signed with the Pylon identification secret. Used to verify the user's identity to the Pylon support chat. Null when no secret is configured.
+              type:
+              - string
+              - 'null'
+            first_name:
+              type: string
+            id:
+              type: integer
+            last_name:
+              type: string
+            status:
+              enum:
+              - active
+              - suspended
+              - disabled
+              type: string
+            updated:
+              format: date-time
+              type:
+              - string
+              - 'null'
+          type: object
+      type: object
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    UserSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        email:
+          type: string
+        first_name:
+          type: string
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+        id:
+          type: integer
+        last_login:
+          format: date-time
+          type: string
+        last_name:
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          type: string
+      type: object
+    MutateUserSchema:
+      properties:
+        access_roles:
+          description: role_ids of the user.
+          items:
+            example: 1
+            minimum: 1
+            type: integer
+          type: array
+        email:
+          minLength: 1
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        password:
+          minLength: 6
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          minLength: 1
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

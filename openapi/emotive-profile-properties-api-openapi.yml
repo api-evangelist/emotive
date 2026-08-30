@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Sensus Webhooks Profile Properties API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/sensus-webhook
+  description: Emotive API gateway — sensus-webhook service
+tags:
+- name: Profile Properties
+paths:
+  /v1/errors/alloy:
+    post:
+      description: Alloy error log.
+      operationId: controllers.webhooks.alloy_error_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlloyError'
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Alloy Error Log Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Profile Properties
+  /v1/profiles/properties:
+    post:
+      description: Create a profile property.
+      operationId: controllers.webhooks.profile_handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileProperty'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Profile Properties
+components:
+  schemas:
+    AlloyError:
+      properties:
+        blockId:
+          type: string
+        blockType:
+          type: string
+        error:
+          type: string
+        executionId:
+          type: string
+        workflowId:
+          type: string
+      required:
+      - workflowId
+      - executionId
+      - blockId
+      - blockType
+      - error
+      type: object
+    ProfileProperty:
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        platform:
+          enum:
+          - alloy
+          - paragon
+          - custom
+          - zapier
+          type: string
+        properties:
+          $ref: '#/components/schemas/PropertyList'
+        source:
+          type: string
+      required:
+      - source
+      - platform
+      - properties
+      type: object
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    Property:
+      properties:
+        key:
+          type: string
+        type:
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+          type: string
+        value:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      required:
+      - key
+      - value
+      type: object

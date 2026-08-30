@@ -1,0 +1,254 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Auth0 API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Auth0
+paths:
+  /auth0/google_token:
+    post:
+      operationId: controllers.auth0.issue_token_for_google_login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Auth0JWTPayload'
+      responses:
+        '302':
+          description: Emotive admin brand selection page.
+          headers:
+            Location:
+              description: Emotive admin brand selection page.
+              schema:
+                format: uri
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Accept Auth0 JWT for Google login, create Emotive admin JWT, redirect to Emotive admin brand selection page.
+      tags:
+      - Auth0
+  /auth0/login:
+    post:
+      operationId: controllers.auth0.login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth0LoginPayload'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Succeeded
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Brand is not active
+      security:
+      - ApiKeyAuth: []
+      summary: Authenticate username/password for auth0
+      tags:
+      - Auth0
+  /auth0/password-reset:
+    post:
+      operationId: controllers.auth0.password_reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth0PasswordResetPayload'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Password reset Succeeded
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request (includes existing password chosen as new password)
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Password reset Failed
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: User does not exist
+      security:
+      - ApiKeyAuth: []
+      summary: Password reset from auth0
+      tags:
+      - Auth0
+  /auth0/token:
+    post:
+      operationId: controllers.auth0.issue_token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Auth0JWTPayload'
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Accept Auth0 JWT, create Emotive JWT, redirect to Emotive home page.
+      tags:
+      - Auth0
+  /auth0/user/{email}:
+    get:
+      operationId: controllers.auth0.get_user
+      parameters:
+      - description: email of the user for Emotive
+        in: path
+        name: email
+        required: true
+        schema:
+          format: email
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: User found
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: User does not exist
+      security:
+      - ApiKeyAuth: []
+      summary: Get user profile info for password reset using Auth0
+      tags:
+      - Auth0
+components:
+  schemas:
+    Auth0LoginPayload:
+      properties:
+        password:
+          description: password of the user for Emotive
+          maxLength: 100
+          minLength: 3
+          type: string
+        username:
+          description: username of the user for Emotive
+          maxLength: 50
+          minLength: 3
+          type: string
+      required:
+      - username
+      - password
+      type: object
+    Auth0PasswordResetPayload:
+      properties:
+        email:
+          description: email of the user for Emotive
+          format: email
+          type: string
+        password:
+          description: new password of the user for Emotive
+          maxLength: 100
+          minLength: 3
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    Auth0JWTPayload:
+      properties:
+        access_token:
+          type: string
+        id_token:
+          type: string
+      required:
+      - access_token
+      - id_token
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

@@ -1,0 +1,193 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Search API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Search
+paths:
+  /v1/search/brands:
+    get:
+      operationId: controllers.resource.search_brands
+      parameters:
+      - description: Fragment of brand name to search.
+        in: query
+        name: q
+        required: true
+        schema:
+          example: motivetesting
+          maxLength: 250
+          minLength: 1
+          type: string
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      - description: last brand_id or brand_name. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandAPIResponse'
+          description: List of brand ids, names.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns paginated list of Brand names and ids based on query string `q`.
+      tags:
+      - Search
+  /v1/search/users:
+    get:
+      operationId: controllers.resource.search_users
+      parameters:
+      - description: Fragment of user to search.
+        in: query
+        name: q
+        required: true
+        schema:
+          example: motive
+          maxLength: 250
+          minLength: 1
+          type: string
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      - description: last user id. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListSchema'
+          description: List of users.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns paginated list of Users based on query string `q`.
+      tags:
+      - Search
+components:
+  schemas:
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    BrandAPIResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
+          type: string
+      type: object
+    UserSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        email:
+          type: string
+        first_name:
+          type: string
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+        id:
+          type: integer
+        last_login:
+          format: date-time
+          type: string
+        last_name:
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

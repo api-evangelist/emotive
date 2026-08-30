@@ -1,0 +1,199 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server OAUTH API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Oauth
+paths:
+  /oauth/token:
+    post:
+      operationId: controllers.auth.issue_token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/AuthPostPasswordGrantPayload'
+              - $ref: '#/components/schemas/AuthPostRefreshGrantPayload'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+          description: Access Token info
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Get Auth Token
+      tags:
+      - Oauth
+  /v2/oauth/token:
+    post:
+      operationId: controllers.auth_v2.issue_token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/AuthPostPasswordGrantPayload'
+              - $ref: '#/components/schemas/AuthPostRefreshGrantPayload'
+              - $ref: '#/components/schemas/AuthPostClientCredentialsGrantPayload'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtResponse'
+          description: Access Token info
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Get Auth Token
+      tags:
+      - Oauth
+components:
+  schemas:
+    AuthPostClientCredentialsGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - client_credentials
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
+    AuthPostRefreshGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - refresh_token
+          type: string
+        refresh_token:
+          description: refesh token for refreshing expired access token
+          minLength: 10
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
+    AuthPostPasswordGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - password
+          type: string
+        password:
+          description: password of the user for Emotive
+          maxLength: 100
+          minLength: 3
+          type: string
+        refresh_token:
+          description: refesh token for refreshing expired access token
+          minLength: 10
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+        username:
+          description: username of the user for Emotive
+          maxLength: 50
+          minLength: 3
+          type: string
+      required:
+      - username
+      - password
+      - grant_type
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    JwtResponse:
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        scope:
+          type: string
+        token_type:
+          type: string
+        user_info:
+          $ref: '#/components/schemas/UserInfo'
+      required:
+      - access_token
+      - expires_in
+      - token_type
+      - user_info
+      type: object
+    UserInfo:
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        roles:
+          items:
+            type: string
+          type: array
+        status:
+          type: string
+        username:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

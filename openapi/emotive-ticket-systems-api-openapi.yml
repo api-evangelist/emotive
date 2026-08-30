@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Helpdesk Ticket Systems API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/helpdesk
+  description: Emotive API gateway — helpdesk service
+tags:
+- name: Ticket Systems
+paths:
+  /ticket_systems:
+    get:
+      description: Get ticketing system types.
+      operationId: controllers.ticket_systems.get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSystemTypeListSchema'
+          description: Ticket Systems supported list.
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Ticket Systems
+  /ticket_systems/{ticket_system_id}/flows:
+    get:
+      description: Get ticketing system flows.
+      operationId: controllers.ticket_system_flows.list_objects
+      parameters:
+      - in: path
+        name: ticket_system_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketSystemFlowListSchema'
+          description: Ticket Systems supported list.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Unauthorized.
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Ticket Systems
+components:
+  schemas:
+    TicketSystemTypeListSchema:
+      properties:
+        ticket_systems:
+          items:
+            $ref: '#/components/schemas/TicketSystemTypeSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    TicketSystemTypeSchema:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    TicketSystemFlowListSchema:
+      properties:
+        flows:
+          items:
+            $ref: '#/components/schemas/TicketSystemFlowSchema'
+          type: array
+        id:
+          type: integer
+        title:
+          type: string
+    TicketSystemFlowSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        title:
+          type: string
+        url:
+          type: string
+      type: object
+  securitySchemes:
+    AlloyKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.alloy_user_key
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.api_key
+    InternalApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.internal_api_key
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: core.auth.jwt_auth
+    cookieAuth:
+      in: cookie
+      name: access_token_cookie
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.jwt_auth

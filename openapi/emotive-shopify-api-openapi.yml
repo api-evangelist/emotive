@@ -1,0 +1,273 @@
+openapi: 3.2.0
+info:
+  title: Emotive Shopify API
+  version: 0.1.0
+  license:
+    name: Private
+  x-refined-note:
+  - x-origin differs across the merged source definitions and was not carried
+  description: 'Operations tagged Shopify across 2 of this provider''s published API definitions: emotive-auth-openapi.yml, emotive-sensus-webhook-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+- url: https://api-gw.emotiveapp.co/sensus-webhook
+  description: Emotive API gateway — sensus-webhook service
+tags:
+- name: Shopify
+paths:
+  /shopify/auth:
+    get:
+      operationId: controllers.auth.shopify_auth
+      parameters:
+      - description: Shopfiy domain to login to.
+        in: query
+        name: shop
+        required: true
+        schema:
+          example: motivetesting
+          maxLength: 50
+          minLength: 3
+          type: string
+      responses:
+        '302':
+          description: Redirect to Shopify login page or Emotive login page.
+          headers:
+            Location:
+              description: Shopify login page. Falls back to Emotive login page if shop domain invalid.
+              schema:
+                format: uri
+                type: string
+      summary: Login with Shopify
+      tags:
+      - Shopify
+    servers:
+    - url: https://api-gw.emotiveapp.co/auth
+      description: Emotive API gateway — auth service
+  /shopify/token:
+    get:
+      operationId: controllers.auth.shopify_token
+      parameters:
+      - description: Authorization code.
+        in: query
+        name: code
+        required: true
+        schema:
+          example: 027ac534b997b94ceafd4884537169be
+          maxLength: 50
+          minLength: 20
+          type: string
+      - description: hmac value of verifying request.
+        in: query
+        name: hmac
+        required: true
+        schema:
+          example: 70f46b9ecaa51deda7e9d87f34b3a1d5acc2ca58e637f74e267ba533caf89540
+          maxLength: 100
+          minLength: 20
+          type: string
+      - description: base64 encoded hostname.
+        in: query
+        name: host
+        required: true
+        schema:
+          example: bW90aXZldGVzdGluZy5teXNob3BpZnkuY29tL2FkbWlu
+          maxLength: 100
+          minLength: 10
+          type: string
+      - description: valid shop hostname.
+        in: query
+        name: shop
+        required: true
+        schema:
+          example: motivetesting.myshopify.com
+          maxLength: 64
+          minLength: 15
+          type: string
+      - description: Random string set in auth request.
+        in: query
+        name: state
+        required: true
+        schema:
+          example: d1579da7f261da46c3a52005599620
+          maxLength: 30
+          minLength: 30
+          type: string
+      - description: Unix timestamp.
+        in: query
+        name: timestamp
+        required: true
+        schema:
+          example: 1647991815
+          maxLength: 10
+          minLength: 10
+          type: integer
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+      summary: Store Shopify Access Token and return Emotive JWT Token.
+      tags:
+      - Shopify
+    servers:
+    - url: https://api-gw.emotiveapp.co/auth
+      description: Emotive API gateway — auth service
+  /v2/shopify/auth:
+    get:
+      operationId: controllers.auth_v2.shopify_auth
+      parameters:
+      - description: Shopfiy domain to login to.
+        in: query
+        name: shop
+        required: true
+        schema:
+          example: motivetesting
+          maxLength: 50
+          minLength: 3
+          type: string
+      responses:
+        '302':
+          description: Redirect to Shopify login page or Emotive login page.
+          headers:
+            Location:
+              description: Shopify login page. Falls back to Emotive login page if shop domain invalid.
+              schema:
+                format: uri
+                type: string
+      summary: Login with Shopify
+      tags:
+      - Shopify
+    servers:
+    - url: https://api-gw.emotiveapp.co/auth
+      description: Emotive API gateway — auth service
+  /v2/shopify/token:
+    get:
+      operationId: controllers.auth_v2.shopify_token
+      parameters:
+      - description: Authorization code.
+        in: query
+        name: code
+        required: true
+        schema:
+          example: 027ac534b997b94ceafd4884537169be
+          maxLength: 50
+          minLength: 20
+          type: string
+      - description: hmac value of verifying request.
+        in: query
+        name: hmac
+        required: true
+        schema:
+          example: 70f46b9ecaa51deda7e9d87f34b3a1d5acc2ca58e637f74e267ba533caf89540
+          maxLength: 100
+          minLength: 20
+          type: string
+      - description: base64 encoded hostname.
+        in: query
+        name: host
+        required: true
+        schema:
+          example: bW90aXZldGVzdGluZy5teXNob3BpZnkuY29tL2FkbWlu
+          maxLength: 100
+          minLength: 10
+          type: string
+      - description: valid shop hostname.
+        in: query
+        name: shop
+        required: true
+        schema:
+          example: motivetesting.myshopify.com
+          maxLength: 64
+          minLength: 15
+          type: string
+      - description: Random string set in auth request.
+        in: query
+        name: state
+        required: true
+        schema:
+          example: d1579da7f261da46c3a52005599620
+          maxLength: 30
+          minLength: 30
+          type: string
+      - description: Unix timestamp.
+        in: query
+        name: timestamp
+        required: true
+        schema:
+          example: 1647991815
+          maxLength: 10
+          minLength: 10
+          type: integer
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+      summary: Store Shopify Access Token and return Emotive JWT Token.
+      tags:
+      - Shopify
+    servers:
+    - url: https://api-gw.emotiveapp.co/auth
+      description: Emotive API gateway — auth service
+  /v1/shopify:
+    post:
+      description: Handle Shopify webhooks
+      operationId: controllers.webhooks.shopify_webhook_handler
+      parameters:
+      - description: The Shopify shop domain making the request
+        in: header
+        name: HTTP_X_SHOPIFY_SHOP_DOMAIN
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                webhook_type:
+                  enum:
+                  - shipment_update
+                  - shipment_status_update
+                  type: string
+              required:
+              - webhook_type
+              type: object
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+      tags:
+      - Shopify
+    servers:
+    - url: https://api-gw.emotiveapp.co/sensus-webhook
+      description: Emotive API gateway — sensus-webhook service
+components:
+  schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key
+x-refined-from:
+- emotive-auth-openapi.yml
+- emotive-sensus-webhook-openapi.yml

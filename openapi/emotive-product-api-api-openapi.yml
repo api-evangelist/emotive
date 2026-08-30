@@ -1,0 +1,219 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Product API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Product API
+paths:
+  /v1/products:
+    get:
+      operationId: controllers.products.list_products
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListSchema'
+          description: List of products
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns a list of Product names and ids.
+      tags:
+      - Product API
+    post:
+      operationId: controllers.products.create_product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutateProductSchema'
+        description: Product details.
+        required: true
+        x-body-name: body
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSchema'
+          description: Product created successfully.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Create a new Product.
+      tags:
+      - Product API
+  /v1/products/{product_id}:
+    delete:
+      operationId: controllers.products.delete_product
+      parameters:
+      - description: id of Product.
+        in: path
+        name: product_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: Product deleted.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Delete a Product.
+      tags:
+      - Product API
+    get:
+      operationId: controllers.products.get_product
+      parameters:
+      - description: id of Product.
+        in: path
+        name: product_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSchema'
+          description: Product details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: product_id is not valid
+      summary: Get Product information for an id.
+      tags:
+      - Product API
+    patch:
+      operationId: controllers.products.update_product
+      parameters:
+      - description: id of Product.
+        in: path
+        name: product_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutateProductSchema'
+        description: Product details.
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSchema'
+          description: Product updated.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: product_id is not valid
+      summary: Update Product.
+      tags:
+      - Product API
+components:
+  schemas:
+    ProductListSchema:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/ProductSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ProductSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+    RoleSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    MutateProductSchema:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

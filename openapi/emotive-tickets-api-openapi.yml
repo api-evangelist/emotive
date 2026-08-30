@@ -1,0 +1,425 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Helpdesk Tickets API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/helpdesk
+  description: Emotive API gateway — helpdesk service
+tags:
+- name: Tickets
+paths:
+  /tickets:
+    get:
+      description: List all tickets.
+      operationId: controllers.tickets.search
+      parameters:
+      - description: Paginate tickets after this ticket id.
+        in: query
+        name: after_ticket_id
+        required: false
+        schema:
+          default: 0
+          example: 1
+          minimum: 0
+          type: integer
+      - description: Number of tickets to return.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          example: 10
+          maximum: 50
+          minimum: 5
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ticketListResponse'
+          description: A list of tickets.
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Tickets
+  /tickets/external/{external_ticket_id}/events:
+    post:
+      description: Create an event associated with an external ticket. The ticket will reflect any new status set by the latest event.
+      operationId: controllers.ticket_events.post_external
+      parameters:
+      - in: path
+        name: external_ticket_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ticketEventCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ticketEvent'
+          description: Adds an event to the event list for the ticket
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Tickets
+  /tickets/internal:
+    post:
+      description: Create a ticket from internal system.
+      operationId: controllers.tickets.post_internal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                brand_id:
+                  description: Brand id
+                  example: 1
+                  type: integer
+                brand_user_id:
+                  description: Sensus Brand user id
+                  example: 1
+                  type: integer
+                email:
+                  example: ''
+                  type: string
+                interaction_id:
+                  description: Sensus interaction ID attached to the ticket
+                  example: 1
+                  type: integer
+                message:
+                  example: message from the user
+                  type: string
+                phone_number:
+                  example: '+1234567890'
+                  type: string
+                subject:
+                  example: subject of the ticket
+                  type: string
+              required:
+              - brand_id
+              - brand_user_id
+              - message
+        required: true
+        x-body-name: body
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                properties:
+                  events:
+                    items:
+                      $ref: '#/components/schemas/ticketEvent'
+                    type: array
+                  ticket:
+                    $ref: '#/components/schemas/ticket'
+          description: Ticket created.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Not Found.
+      security:
+      - InternalApiKeyAuth: []
+      tags:
+      - Tickets
+  /tickets/polling/fallback:
+    get:
+      description: Get dummy ticket, ticket event used for testing zaps.
+      operationId: controllers.tickets.webhook_trigger_data
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  results:
+                    items:
+                      properties:
+                        event:
+                          $ref: '#/components/schemas/ticketEvent'
+                        ticket:
+                          $ref: '#/components/schemas/ticket'
+                      type: object
+                    type: array
+          description: Ticket and event details.
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Tickets
+  /tickets/{ticket_id}:
+    get:
+      description: Get a ticket by id.
+      operationId: controllers.tickets.get
+      parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  events:
+                    items:
+                      $ref: '#/components/schemas/ticketEvent'
+                    type: array
+                  ticket:
+                    $ref: '#/components/schemas/ticket'
+          description: Ticket details.
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Tickets
+    post:
+      description: Update a ticket by id.
+      operationId: controllers.tickets.update
+      parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                external_ticket_id:
+                  description: The unique identifier of external ticket
+                  type:
+                  - string
+                  - 'null'
+                external_user_id:
+                  description: The unique identifier of external user to be referenced
+                  type:
+                  - string
+                  - 'null'
+                status:
+                  $ref: '#/components/schemas/status'
+                  description: The status of the ticket.
+                system_type:
+                  $ref: '#/components/schemas/systemType'
+                  description: External help desk system type name
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                properties:
+                  ticket:
+                    $ref: '#/components/schemas/ticket'
+          description: Ticket updated.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Unauthorized.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Not Found.
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Tickets
+  /tickets/{ticket_id}/external-events:
+    post:
+      description: In systems that donot have an external ticket id (eg - Gladly), create an event by passing internal helpdesk ticket id. The ticket will reflect any new status set by the latest event.
+      operationId: controllers.ticket_events.post_process_external_event_with_ticket_id
+      parameters:
+      - in: path
+        name: ticket_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ticketEventCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ticketEvent'
+          description: Adds an event to the event list for the ticket
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Tickets
+components:
+  schemas:
+    systemType:
+      enum:
+      - freshdesk
+      - gorgias
+      - reamaze
+      - zendesk
+      - hubspot
+      - kustomer
+      - zoho-desk
+      - alloy
+      - custom
+      type: string
+    ticketListResponse:
+      properties:
+        items:
+          $ref: '#/components/schemas/ticketList'
+        next:
+          type: string
+      required:
+      - items
+      type: object
+    ticketEventBase:
+      properties:
+        agent_id:
+          type:
+          - string
+          - 'null'
+        event_time:
+          type: string
+        message:
+          type: string
+        status:
+          $ref: '#/components/schemas/status'
+      type: object
+    ticketEventCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
+      properties:
+        system_type:
+          $ref: '#/components/schemas/systemType'
+          description: External help desk system type name
+      required:
+      - message
+      - status
+      - event_time
+      - system_type
+      type: object
+    ticket:
+      description: THe full ticket information once created with Emotive
+      properties:
+        created_at:
+          description: The date and time the ticket was created.
+          type: string
+        external_ticket_id:
+          description: The unique identifier of external ticket
+          type:
+          - string
+          - 'null'
+        external_user_id:
+          description: The unique identifier of external user to be referenced
+          type:
+          - string
+          - 'null'
+        opted_in_user:
+          description: Mapped Emotive Id for the user
+          type: string
+        status:
+          $ref: '#/components/schemas/status'
+          description: The status of the ticket.
+        system_type:
+          $ref: '#/components/schemas/systemType'
+          description: External help desk system type name
+      required:
+      - external_ticket_id
+      - external_user_id
+      - status
+    status:
+      enum:
+      - new
+      - open
+      - pending
+      - on_hold
+      - solved
+      - closed
+      type: string
+    ticketList:
+      items:
+        $ref: '#/components/schemas/ticket'
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ticketEvent:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
+      properties:
+        created:
+          type: string
+        id:
+          type: integer
+        ticket_id:
+          type: integer
+      type: object
+  securitySchemes:
+    AlloyKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.alloy_user_key
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.api_key
+    InternalApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.internal_api_key
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: core.auth.jwt_auth
+    cookieAuth:
+      in: cookie
+      name: access_token_cookie
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.jwt_auth

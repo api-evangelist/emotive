@@ -1,0 +1,128 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Google API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Google
+paths:
+  /google/auth:
+    get:
+      operationId: controllers.auth.google_auth
+      responses:
+        '302':
+          description: Redirect to Google login page.
+          headers:
+            Location:
+              description: Google login page.
+              schema:
+                format: uri
+                type: string
+      summary: Login with Google
+      tags:
+      - Google
+  /google/token:
+    get:
+      operationId: controllers.auth.google_token
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+      summary: Store Google Access Token and return Emotive JWT Token.
+      tags:
+      - Google
+  /v2/google/admin/auth:
+    get:
+      operationId: controllers.auth_v2.google_admin_auth
+      responses:
+        '302':
+          description: Redirect to Google login page.
+          headers:
+            Location:
+              description: Google login page.
+              schema:
+                format: uri
+                type: string
+      summary: Login with Google
+      tags:
+      - Google
+  /v2/google/admin/token:
+    get:
+      operationId: controllers.auth_v2.google_admin_token
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to appropriate landing page
+      tags:
+      - Google
+  /v2/google/auth:
+    get:
+      operationId: controllers.auth_v2.google_auth
+      responses:
+        '302':
+          description: Redirect to Google login page.
+          headers:
+            Location:
+              description: Google login page.
+              schema:
+                format: uri
+                type: string
+      summary: Login with Google
+      tags:
+      - Google
+  /v2/google/token:
+    get:
+      operationId: controllers.auth_v2.google_token
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to appropriate landing page
+      tags:
+      - Google
+components:
+  schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

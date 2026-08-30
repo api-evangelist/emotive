@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Helpdesk Webhooks API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/helpdesk
+  description: Emotive API gateway — helpdesk service
+tags:
+- name: Webhooks
+paths:
+  /webhooks/config:
+    get:
+      description: Get all webhook subscriptions for a brand.
+      operationId: controllers.webhooks.get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListSchema'
+          description: All webhook subscription details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Webhooks
+    post:
+      description: Create webhook subscription for a brand.
+      operationId: controllers.webhooks.post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookRequestSchema'
+        required: true
+        x-body-name: body
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookSchema'
+          description: Created webhook subscription.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook subscription creation failed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Webhooks
+  /webhooks/config/{webhook_id}:
+    delete:
+      description: Remove webhook subscription for a brand.
+      operationId: controllers.webhooks.delete
+      parameters:
+      - description: webhook id to be unsubscribed.
+        in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook unsubscribed.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook unsubscription failed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - ApiKeyAuth: []
+      - AlloyKeyAuth: []
+      tags:
+      - Webhooks
+components:
+  schemas:
+    WebhookListSchema:
+      items:
+        $ref: '#/components/schemas/WebhookSchema'
+      type: array
+    WebhookRequestSchema:
+      properties:
+        platform:
+          enum:
+          - zapier
+          - alloy
+          - custom
+          type: string
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        trigger:
+          enum:
+          - create
+          - update
+          type: string
+        webhook_url:
+          type: string
+      required:
+      - status
+      - platform
+      - webhook_url
+      - trigger
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    WebhookSchema:
+      properties:
+        brand_id:
+          type: integer
+        id:
+          type: integer
+        platform:
+          enum:
+          - zapier
+          - alloy
+          - custom
+          type: string
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        trigger:
+          enum:
+          - create
+          - update
+          type: string
+        webhook_url:
+          type: string
+      type: object
+  securitySchemes:
+    AlloyKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.alloy_user_key
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.api_key
+    InternalApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.internal_api_key
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: core.auth.jwt_auth
+    cookieAuth:
+      in: cookie
+      name: access_token_cookie
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.jwt_auth

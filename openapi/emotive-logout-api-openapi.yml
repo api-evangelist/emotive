@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Logout API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Logout
+paths:
+  /logout:
+    get:
+      operationId: controllers.auth0.logout
+      responses:
+        '302':
+          description: Auth0 logout endpoint.
+          headers:
+            Location:
+              description: Auth0 logout endpoint.
+              schema:
+                format: uri
+                type: string
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Logout user on Emotive and redirect to Auth0 logout endpoint
+      tags:
+      - Logout
+  /v2/logout:
+    get:
+      operationId: controllers.auth_v2.logout
+      responses:
+        '302':
+          description: Emotive Login endpoint.
+          headers:
+            Location:
+              description: Emotive Login endpoint.
+              schema:
+                format: uri
+                type: string
+      summary: Logout user on Emotive and redirect to appropriate login endpoint
+      tags:
+      - Logout
+components:
+  schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Brand API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Brand
+paths:
+  /v1/brand/{brand_id}:
+    get:
+      operationId: controllers.resource.get_brand_info
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: fields to retrieve.
+        in: query
+        name: fields
+        schema:
+          default:
+          - id
+          - status
+          items:
+            enum:
+            - id
+            - status
+            - name
+            - username
+            - company_name
+            type: string
+          type: array
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandInfoAPIResponse'
+          description: brand information.
+        '404':
+          description: brand_id is not valid
+      summary: Get Brand information for an id.
+      tags:
+      - Brand
+components:
+  schemas:
+    BrandInfoAPIResponse:
+      properties:
+        company_name:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        status:
+          type: string
+        username:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

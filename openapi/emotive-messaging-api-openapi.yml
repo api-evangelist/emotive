@@ -1,0 +1,101 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Sensus Webhooks Messaging API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/sensus-webhook
+  description: Emotive API gateway — sensus-webhook service
+tags:
+- name: Messaging
+paths:
+  /v1/messages/twilio/callback:
+    post:
+      description: Twilio message callback.
+      operationId: controllers.webhooks.twilio_callback_handler
+      parameters:
+      - description: message id (set by Emotive on a per-message basis)
+        in: query
+        name: id
+        schema:
+          format: uuid
+          type: string
+      - description: Emotive reference id (set by Emotive on a per-message basis)
+        in: query
+        name: reference_id
+        schema:
+          type: integer
+      - description: associate brand user (set by Emotive on a per-message basis)
+        in: query
+        name: associate_brand_user
+        schema:
+          example: true
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TwilioCallbackBody'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - Messaging
+components:
+  schemas:
+    TwilioCallbackBody:
+      properties:
+        Body:
+          description: text content of the message
+          type: string
+        ErrorCode:
+          description: message error code
+          type: integer
+        From:
+          description: The phone number that sent this message
+          type: string
+        MessageSid:
+          description: A 34 character unique identifier for the message
+          type: string
+        MessagingServiceSid:
+          description: The 34 character id of the Messaging Service associated with the message
+          type: string
+        NumSegments:
+          description: number of SMS messages it took to deliver the body of the message
+          type: integer
+        SmsSid:
+          description: A 34 character unique identifier for the message
+          type: string
+        SmsStatus:
+          description: status of the message
+          example: received
+          type: string
+        To:
+          description: The phone number of the recipient
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object

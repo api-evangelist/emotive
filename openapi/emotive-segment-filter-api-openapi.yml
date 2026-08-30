@@ -1,0 +1,186 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Segments Segment Filter API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/segments/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/segments"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-segments-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/segments
+  description: Emotive API gateway — segments service
+tags:
+- name: Segment Filter
+paths:
+  /api/v2/segments:
+    get:
+      description: Return array of matching segments
+      operationId: controllers.segments.get_segments
+      parameters:
+      - $ref: '#/components/parameters/SegmentType'
+      - $ref: '#/components/parameters/SegmentTitle'
+      - $ref: '#/components/parameters/SegmentIsFavorite'
+      - $ref: '#/components/parameters/SegmentOrder'
+      - $ref: '#/components/parameters/SegmentSortBy'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSegments'
+          description: Successful operation
+      summary: Retrieve a list of matching segments
+      tags:
+      - Segment Filter
+components:
+  schemas:
+    SegmentObjectWithBroadcastCount:
+      allOf:
+      - $ref: '#/components/schemas/SegmentObject'
+      properties:
+        broadcast_count:
+          description: Count of broadcasts
+          type: integer
+    SegmentBase:
+      description: Basic segment response object
+      properties:
+        is_template:
+          type: boolean
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
+      type: object
+    PaginatedSegments:
+      description: Basic segment list response object
+      properties:
+        limit:
+          description: The currently returned limit number
+          type: integer
+        offset:
+          description: The currently returned offset number
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/SegmentObjectWithBroadcastCount'
+          type: array
+        total_count:
+          description: total number of matching segments
+          type: integer
+      title: PaginatedSegments
+      type: object
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
+      description: Basic segment response object
+      properties:
+        created:
+          description: Creation date of segment
+          type: string
+        id:
+          description: Unique identifier for the given Segment
+          type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
+      type: object
+    SegmentRule:
+      description: Segment rule array
+      properties:
+        conditional_variable:
+          type:
+          - string
+          - 'null'
+        entity:
+          type: string
+        value:
+          anyOf:
+          - type:
+            - string
+            - 'null'
+          - type:
+            - number
+            - 'null'
+      required:
+      - entity
+      - conditional_variable
+      title: SegmentRules
+      type: object
+  parameters:
+    SegmentIsFavorite:
+      description: The is_favorite filter to apply to segments
+      in: query
+      name: is_favorite
+      schema:
+        type: boolean
+    SegmentType:
+      description: The category / segment type filter to apply to segments
+      in: query
+      name: segment_type
+      schema:
+        enum:
+        - conversational
+        - behavioral
+        - third_party
+        - custom
+        type: string
+    SegmentTitle:
+      description: The title filter to apply to segments
+      in: query
+      name: title
+      schema:
+        type: string
+    SegmentSortBy:
+      description: The sorting for segments which are returned
+      in: query
+      name: sort_by
+      schema:
+        enum:
+        - title
+        - user_count
+        - created
+        - is_favorite
+        type: string
+    Offset:
+      description: The offset to return
+      in: query
+      name: offset
+      schema:
+        default: 0
+        type: integer
+    Limit:
+      description: The limit of objects to return
+      in: query
+      name: limit
+      schema:
+        default: 10
+        type: integer
+    SegmentOrder:
+      description: Whether order is ascending or descending
+      in: query
+      name: order
+      schema:
+        default: asc
+        enum:
+        - asc
+        - desc
+        type: string

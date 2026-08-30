@@ -1,0 +1,104 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Impersonate API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Impersonate
+paths:
+  /v1/impersonate/brand:
+    post:
+      operationId: controllers.resource.impersonate_brand
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                brand_id:
+                  description: Brand to impersonate.
+                  example: 1
+                  minimum: 1
+                  type: integer
+              required:
+              - brand_id
+              type: object
+      responses:
+        '302':
+          description: Emotive home page.
+          headers:
+            Location:
+              description: Emotive home page.
+              schema:
+                format: uri
+                type: string
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Brand is not active
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Brand does not exist
+      summary: Returns JWT that impersonates given brand.
+      tags:
+      - Impersonate
+  /v1/impersonate/brands/{brand_id}/users/{user_id}:
+    post:
+      operationId: controllers.resource.impersonate_brand_user
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '302':
+          description: Emotive home page or admin login page with error information.
+          headers:
+            Location:
+              description: Emotive home page or admin login page with error information.
+              schema:
+                format: uri
+                type: string
+      summary: Returns JWT that impersonates given brand's user.
+      tags:
+      - Impersonate
+components:
+  schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

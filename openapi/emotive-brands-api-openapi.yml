@@ -1,0 +1,898 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Brands API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Brands
+paths:
+  /v1/brands:
+    get:
+      operationId: controllers.resource.list_brands
+      parameters:
+      - description: last brand_id or brand_name. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: string
+      - description: Ordering for the results
+        in: query
+        name: order_by
+        required: false
+        schema:
+          default: brand_id
+          enum:
+          - brand_id
+          - -brand_id
+          - brand_name
+          - -brand_name
+          type: string
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandAPIResponse'
+          description: List of brand ids, names.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns paginated list of Brand names and ids.
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/invitations:
+    get:
+      operationId: controllers.resource.list_brand_invitations
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationListSchema'
+          description: List of invitations for a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Returns a list of invitations for a brand.
+      tags:
+      - Brands
+    post:
+      operationId: controllers.resource.create_brand_invitation
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  format: email
+                  type: string
+                expires_at:
+                  format: date-time
+                  type: string
+                roles:
+                  items:
+                    example: 1
+                    minimum: 1
+                    type: integer
+                  type: array
+              type: object
+        description: Create an invitation for a brand.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationSchema'
+          description: Invitation created for a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Create an invitation for a brand.
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/invitations/{invitation_id}:
+    delete:
+      operationId: controllers.resource.delete_brand_invitation
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Invitation.
+        in: path
+        name: invitation_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: Invitation deleted for a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Delete an invitation for a brand.
+      tags:
+      - Brands
+    get:
+      operationId: controllers.resource.get_brand_invitation
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Invitation.
+        in: path
+        name: invitation_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationSchema'
+          description: Invitation for a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Returns an invitation for a brand.
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/products:
+    get:
+      operationId: controllers.brands.list_brand_products
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListSchema'
+          description: List of products for a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Returns a list of products for a brand.
+      tags:
+      - Brands
+    put:
+      operationId: controllers.brands.update_brand_products
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                product_ids:
+                  items:
+                    example: 1
+                    minimum: 1
+                    type: integer
+                  type: array
+              type: object
+        description: All product_ids for a brand.
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListSchema'
+          description: Products updated for brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Update products for a brand.
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/users:
+    get:
+      operationId: controllers.users.list_users
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      - description: last brand_id or brand_name. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListSchema'
+          description: List of roles for a user in a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Returns paginated list of users
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/users/{user_id}/roles:
+    get:
+      operationId: controllers.resource.list_roles
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccessSchema'
+          description: List of roles for a user in a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Forbidden
+        '404':
+          description: id is not valid
+      summary: Returns paginated list of roles for a user in a brand.
+      tags:
+      - Brands
+    post:
+      operationId: controllers.resource.assign_role
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAccessSchema'
+        description: Assign a role to a user in a brand.
+        required: true
+        x-body-name: body
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccessSchema'
+          description: Role assigned to a user in a brand.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Forbidden
+        '404':
+          description: id is not valid
+        '409':
+          description: Role already assigned to a user in a brand.
+      summary: Assign a role to a user in a brand.
+      tags:
+      - Brands
+    put:
+      operationId: controllers.resource.update_user_roles
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAccessSchema'
+        description: Update a role for a user in a brand.
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccessSchema'
+          description: Role updated for a user in a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Forbidden
+      summary: Update a role for a user in a brand.
+      tags:
+      - Brands
+  /v1/brands/{brand_id}/users/{user_id}/roles/{role_id}:
+    delete:
+      operationId: controllers.resource.delete_role
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Role.
+        in: path
+        name: role_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: Role deleted for a user in a brand.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Forbidden
+        '404':
+          description: id is not valid
+      summary: Delete a role for a user in a brand.
+      tags:
+      - Brands
+  /v2/brands:
+    get:
+      operationId: controllers.brands.list_brands
+      parameters:
+      - description: last brand_id or brand_name. This will be given as part of response of API.
+        in: query
+        name: last
+        required: false
+        schema:
+          type: string
+      - description: Ordering for the results
+        in: query
+        name: order_by
+        required: false
+        schema:
+          default: id
+          enum:
+          - id
+          - -id
+          - name
+          - -name
+          type: string
+      - description: number of results per API call.
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 5
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandListSchema'
+          description: Paginated list of brands
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Get all Brands.
+      tags:
+      - Brands
+    post:
+      operationId: controllers.brands.create_brand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBrandSchema'
+        description: Brand details.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandSchema'
+          description: Brand created successfully.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Create a new Brand.
+      tags:
+      - Brands
+  /v2/brands/{brand_id}:
+    delete:
+      operationId: controllers.brands.delete_brand
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: Brand deleted.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: brand_id is not valid
+      summary: Delete a Brand.
+      tags:
+      - Brands
+    get:
+      operationId: controllers.brands.get_brand
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandSchema'
+          description: Brand details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: brand_id is not valid
+      summary: Get Brand information for an id.
+      tags:
+      - Brands
+    patch:
+      operationId: controllers.brands.update_brand
+      parameters:
+      - description: id of Brand.
+        in: path
+        name: brand_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBrandSchema'
+        description: Brand details.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrandSchema'
+          description: Brand updated.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: brand_id is not valid
+      summary: Update Brand.
+      tags:
+      - Brands
+components:
+  schemas:
+    InvitationListSchema:
+      properties:
+        invitations:
+          items:
+            $ref: '#/components/schemas/InvitationSchema'
+          type: array
+      type: object
+    BrandSchema:
+      properties:
+        brand_products:
+          items:
+            $ref: '#/components/schemas/BrandProducts'
+          type: array
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    InvitationSchema:
+      properties:
+        accepted_by:
+          type: integer
+        accepted_on:
+          format: date-time
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        email:
+          type: string
+        expires_at:
+          format: date-time
+          type: string
+        id:
+          type: integer
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+    ProductListSchema:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/ProductSchema'
+          type: array
+      type: object
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    CreateBrandSchema:
+      properties:
+        brand_products:
+          items:
+            properties:
+              id:
+                description: Product ID
+                type: integer
+            type: object
+          type: array
+        id:
+          description: Sensus Brand ID
+          type: integer
+        name:
+          example: Brand Name
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    BrandAPIResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
+          type: string
+      type: object
+    ProductSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+    BrandProducts:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    BrandListSchema:
+      properties:
+        brands:
+          items:
+            $ref: '#/components/schemas/BrandSchema'
+          type: array
+        next_page:
+          type: string
+      type: object
+    RoleSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    UserSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        email:
+          type: string
+        first_name:
+          type: string
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+        id:
+          type: integer
+        last_login:
+          format: date-time
+          type: string
+        last_name:
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          type: string
+      type: object
+    UserAccessSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

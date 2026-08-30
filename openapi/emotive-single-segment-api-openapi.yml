@@ -1,0 +1,160 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Segments Single Segment API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/segments/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/segments"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-segments-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/segments
+  description: Emotive API gateway — segments service
+tags:
+- name: Single Segment
+paths:
+  /api/v2/segments:
+    post:
+      description: Add a new Segment
+      operationId: controllers.segments.post_segments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentBase'
+        description: Create a new segment
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentObject'
+          description: Successful operation
+      summary: Add a new Segment
+      tags:
+      - Single Segment
+  /api/v2/segments/{segment_id}:
+    delete:
+      description: Archive (delete) a segment
+      operationId: controllers.segments.delete_segment
+      parameters:
+      - $ref: '#/components/parameters/SegmentId'
+      responses:
+        '204':
+          description: Successful operation
+      summary: Archive (delete) a segment
+      tags:
+      - Single Segment
+    get:
+      description: Return details about a segment by its id
+      operationId: controllers.segments.get_segment
+      parameters:
+      - $ref: '#/components/parameters/SegmentId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentObject'
+          description: Successful operation
+      summary: Retrieve a single Segment
+      tags:
+      - Single Segment
+    patch:
+      description: Update is_favorite field
+      operationId: controllers.segments.patch_segment
+      parameters:
+      - $ref: '#/components/parameters/SegmentId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                is_favorite:
+                  type: boolean
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentObject'
+          description: Successful operation
+      summary: Update fields of a segment
+      tags:
+      - Single Segment
+components:
+  schemas:
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
+      description: Basic segment response object
+      properties:
+        created:
+          description: Creation date of segment
+          type: string
+        id:
+          description: Unique identifier for the given Segment
+          type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
+      type: object
+    SegmentRule:
+      description: Segment rule array
+      properties:
+        conditional_variable:
+          type:
+          - string
+          - 'null'
+        entity:
+          type: string
+        value:
+          anyOf:
+          - type:
+            - string
+            - 'null'
+          - type:
+            - number
+            - 'null'
+      required:
+      - entity
+      - conditional_variable
+      title: SegmentRules
+      type: object
+    SegmentBase:
+      description: Basic segment response object
+      properties:
+        is_template:
+          type: boolean
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
+      type: object
+  parameters:
+    SegmentId:
+      description: Segment's id to update
+      in: path
+      name: segment_id
+      required: true
+      schema:
+        type: integer

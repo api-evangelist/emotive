@@ -1,0 +1,41 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Admin API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Admin
+paths:
+  /v1/admin/token:
+    get:
+      operationId: controllers.resource.admin_token
+      responses:
+        '302':
+          description: Emotive admin home page.
+          headers:
+            Location:
+              description: Emotive admin home page.
+              schema:
+                format: uri
+                type: string
+      summary: Sets Admin JWT cookie and redirects to Admin homepage.
+      tags:
+      - Admin
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

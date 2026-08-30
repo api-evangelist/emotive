@@ -1,0 +1,329 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Helpdesk Connections API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/helpdesk
+  description: Emotive API gateway — helpdesk service
+tags:
+- name: Connections
+paths:
+  /connections/config:
+    get:
+      description: Get all helpdesk connections for a brand.
+      operationId: controllers.connections.get_brand_connections
+      parameters:
+      - description: Paginate tickets after this ticket id.
+        in: query
+        name: auth_type
+        required: false
+        schema:
+          enum:
+          - api_token
+          type: string
+      - in: query
+        name: ticket_system_type
+        required: false
+        schema:
+          enum:
+          - freshdesk
+          - gorgias
+          - reamaze
+          - zendesk
+          - hubspot
+          - kustomer
+          - zoho-desk
+          - custom
+          type: string
+      - in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - active
+          - disabled
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionListSchema'
+          description: All Helpdesk Connections details.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Connections
+    post:
+      description: Create helpdesk connection for a brand.
+      operationId: controllers.connections.post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionRequestSchema'
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionSchema'
+          description: Created Helpdesk connection.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Helpdesk connection creation failed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Connections
+  /connections/config/{connection_id}:
+    delete:
+      description: Delete Helpdesk connection for a brand.
+      operationId: controllers.connections.delete
+      parameters:
+      - in: path
+        name: connection_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Helpdesk connection deleted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Helpdesk connection delete failed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Connections
+    get:
+      description: Helpdesk connection details.
+      operationId: controllers.connections.get
+      parameters:
+      - in: path
+        name: connection_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionSchema'
+          description: Helpdesk connection details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Helpdesk connection does not exist for the brand.
+      security:
+      - bearerAuth: []
+      - cookieAuth: []
+      tags:
+      - Connections
+  /connections/internal:
+    post:
+      description: Create helpdesk connection for a brand using internal credentials.
+      operationId: controllers.connections.post_internal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionInternalRequestSchema'
+        required: true
+        x-body-name: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionSchema'
+          description: Created Helpdesk connection.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Helpdesk connection creation failed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - InternalApiKeyAuth: []
+      tags:
+      - Connections
+  /connections/me:
+    get:
+      description: Checks validity of API Token for active connection.
+      operationId: controllers.connections.check_brand_connection
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Valid active connection.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Connections
+components:
+  schemas:
+    ConnectionInternalRequestSchema:
+      properties:
+        auth_type:
+          $ref: '#/components/schemas/authType'
+        auth_value:
+          type: string
+        brand_id:
+          type: integer
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        ticket_system_type:
+          type: string
+      type: object
+    authType:
+      enum:
+      - api_token
+      - alloy_user_id
+      type: string
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    TicketSystemTypeSchema:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    ConnectionListSchema:
+      items:
+        $ref: '#/components/schemas/ConnectionSchema'
+      type: array
+    ConnectionRequestSchema:
+      properties:
+        auth_type:
+          $ref: '#/components/schemas/authType'
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        ticket_system_type_id:
+          type: integer
+      type: object
+    ConnectionSchema:
+      properties:
+        auth_type:
+          $ref: '#/components/schemas/authType'
+        auth_value:
+          type: string
+        brand_id:
+          type: integer
+        id:
+          type: integer
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        ticket_system_type:
+          $ref: '#/components/schemas/TicketSystemTypeSchema'
+      type: object
+  securitySchemes:
+    AlloyKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.alloy_user_key
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.api_key
+    InternalApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.internal_api_key
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: core.auth.jwt_auth
+    cookieAuth:
+      in: cookie
+      name: access_token_cookie
+      type: apiKey
+      x-apikeyInfoFunc: core.auth.jwt_auth

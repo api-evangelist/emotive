@@ -1,0 +1,33 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Sensus Webhooks API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/sensus-webhook
+  description: Emotive API gateway — sensus-webhook service
+tags:
+- name: Sensus Webhooks
+paths:
+  /:
+    get:
+      description: Says 'Hello, Emotive!'
+      operationId: controllers.base.home
+      responses:
+        '200':
+          content:
+            text/html:
+              schema:
+                type: string
+          description: The string 'Hello, Emotive!'
+      summary: Hello, Emotive!
+      tags:
+      - Sensus Webhooks

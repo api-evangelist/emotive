@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Sync API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Sync
+paths:
+  /v1/sync/brands:
+    post:
+      operationId: controllers.brands.start_brand_sync
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                brand_ids:
+                  description: List of IDs of the brands to be synchronized.
+                  items:
+                    type: integer
+                  type: array
+                user_name:
+                  description: The user name to sync
+                  type: string
+              required:
+              - brand_ids
+              type: object
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: All brands have been synchronized with success..
+        '207':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Some brands failed to synchronize or some invalid id's has been received.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Brands not found
+      security:
+      - ApiKeyAuth: []
+      summary: Synchronize brands on the database.
+      tags:
+      - Sync
+components:
+  schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

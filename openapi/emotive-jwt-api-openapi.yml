@@ -1,0 +1,84 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server JWT API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Jwt
+paths:
+  /v1/jwt/claims:
+    get:
+      operationId: controllers.auth.get_jwt_claims
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtClaimsResponse'
+          description: Decoded jwt claims
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Get decoded contents of provided JWT
+      tags:
+      - Jwt
+components:
+  schemas:
+    JwtClaimsResponse:
+      properties:
+        auth_type:
+          type: string
+        claims:
+          properties:
+            brand:
+              type:
+              - integer
+              - 'null'
+            roles:
+              items:
+                type: string
+              type: array
+            user:
+              type: integer
+          required:
+          - brand
+          - user
+          - roles
+          type: object
+        impersonator:
+          type:
+          - string
+          - 'null'
+        sub:
+          type: string
+      required:
+      - sub
+      - impersonator
+      - claims
+      - auth_type
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key

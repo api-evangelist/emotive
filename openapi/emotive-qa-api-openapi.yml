@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Sensus Webhooks QA API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/sensus-webhook
+  description: Emotive API gateway — sensus-webhook service
+tags:
+- name: QA
+paths:
+  /v1/messages/qa/callback:
+    post:
+      description: QA message callback.
+      operationId: controllers.webhooks.qa_callback_handler
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QAMessageCallbackBody'
+        required: true
+        x-body-name: body
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Webhook Accepted.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+      tags:
+      - QA
+components:
+  schemas:
+    QAMessageCallbackBody:
+      properties:
+        body:
+          description: text content of the message
+          type: string
+        error_code:
+          description: message error code
+          type: integer
+        from:
+          description: The phone number that sent this message
+          type: string
+        id:
+          description: unique identifier for the message
+          type: string
+        status:
+          description: status of the message
+          example: received
+          type: string
+        to:
+          description: The phone number of the recipient
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object

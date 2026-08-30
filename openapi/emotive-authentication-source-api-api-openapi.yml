@@ -1,0 +1,256 @@
+openapi: 3.2.0
+info:
+  license:
+    name: Private
+  title: Emotive Auth Server Authentication Source API
+  version: 0.1.0
+  x-origin:
+  - url: https://api-gw.emotiveapp.co/auth/openapi.json
+    format: openapi
+    version: 3.0.2
+    method: searched
+    retrieved: '2026-08-13'
+    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
+servers:
+- url: https://api-gw.emotiveapp.co/auth
+  description: Emotive API gateway — auth service
+tags:
+- name: Authentication Source API
+paths:
+  /v1/users/{user_id}/authentication_sources:
+    get:
+      operationId: controllers.resource.list_authentication_sources
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSourceListSchema'
+          description: List of authentication sources
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Returns a list of user's suthentication sources.
+      tags:
+      - Authentication Source API
+    post:
+      operationId: controllers.resource.create_authentication_source
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutateAuthenticationSourceSchema'
+        description: Create authentication source details.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSourceSchema'
+          description: Authentication Source created successfully.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+      summary: Create a new Authentication Source.
+      tags:
+      - Authentication Source API
+  /v1/users/{user_id}/authentication_sources/{authentication_source_id}:
+    delete:
+      operationId: controllers.resource.delete_authentication_source
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Authentication Source.
+        in: path
+        name: authentication_source_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '204':
+          description: Authentication Source deleted.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Delete a Authentication Source.
+      tags:
+      - Authentication Source API
+    get:
+      operationId: controllers.resource.get_authentication_source
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Authentication Source.
+        in: path
+        name: authentication_source_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSourceSchema'
+          description: Authentication Source details.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Get Authentication Source information for an id.
+      tags:
+      - Authentication Source API
+    patch:
+      operationId: controllers.resource.update_authentication_source
+      parameters:
+      - description: id of User.
+        in: path
+        name: user_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      - description: id of Authentication Source.
+        in: path
+        name: authentication_source_id
+        required: true
+        schema:
+          example: 1
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutateAuthenticationSourceSchema'
+        description: Update authentication source details.
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationSourceSchema'
+          description: Authentication Source updated.
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Bad Request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonResponse'
+          description: Authentication Failed
+        '404':
+          description: id is not valid
+      summary: Update Authentication Source.
+      tags:
+      - Authentication Source API
+components:
+  schemas:
+    AuthenticationSourceSchema:
+      properties:
+        id:
+          type: integer
+        is_active:
+          type: boolean
+        is_default:
+          type: boolean
+        source_id:
+          type: integer
+        source_type:
+          enum:
+          - auth_password
+          - sensus_password
+          - sso
+          - saml
+          - token
+          type: string
+      type: object
+    AuthenticationSourceListSchema:
+      properties:
+        authentication_sources:
+          items:
+            $ref: '#/components/schemas/AuthenticationSourceSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    MutateAuthenticationSourceSchema:
+      properties:
+        authentication_details:
+          type: string
+        is_default:
+          type: boolean
+        source_id:
+          type: integer
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: core.api_security.api_key
