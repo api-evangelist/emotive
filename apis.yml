@@ -472,6 +472,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - IMPERSONATE
+  tags_raw:
   - Impersonate
   properties:
   - type: OpenAPI
@@ -508,6 +510,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - JWT
+  tags_raw:
   - Jwt
   properties:
   - type: OpenAPI
@@ -616,6 +620,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
@@ -688,6 +694,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -1301,6 +1309,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
@@ -1368,6 +1378,11 @@ apis:
   - type: Documentation
     url: https://help.emotive.io/docs/integrations/custom-helpdesk
 common:
+- type: ParentCompany
+  url: https://apis.io/providers/privy/
+  name: Privy
+  x-relationship: acquired
+  x-evidence: "The company was surfaced as a portfolio company of CRV and was acquired by Privy. Emotive runs a real, publicly documented developer surface: an Open API for order tracking, manual opt-outs and custom events on api."
 - type: CapabilityMap
   url: capabilities/emotive-capability-edges.yml
   name: Emotive Business Capability Map
