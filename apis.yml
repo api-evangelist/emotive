@@ -1448,6 +1448,8 @@ common:
   url: rate-limits/emotive-rate-limits.yml
 - type: Components
   url: components/emotive-components.yml
+- type: Contact
+  url: mailto:info@emotive.io
 x-enrichment:
   date: '2026-08-13'
   status: enriched
