@@ -614,44 +614,6 @@ apis:
     url: https://emotive.gitbook.io/emotive-lists/reference/api-reference/profile-properties
   - type: Documentation
     url: https://help.emotive.io/docs/integrations/custom-helpdesk
-- aid: emotive:emotive-oauth-api
-  name: Emotive OAUTH API
-  description: The Oauth API from Emotive — 2 operation(s) for oauth.
-  humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
-  baseURL: https://api.emotiveapp.co
-  tags:
-  - Authentication
-  tags_raw:
-  - Oauth
-  properties:
-  - type: OpenAPI
-    url: openapi/emotive-oauth-api-openapi.yml
-  - type: Documentation
-    url: https://help.emotive.io/docs/integrations/open-api-integration-orders
-  - type: APIReference
-    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference
-  - type: Authentication
-    url: authentication/emotive-authentication.yml
-  - type: ErrorCatalog
-    url: errors/emotive-problem-types.yml
-  - type: Conventions
-    url: conventions/emotive-conventions.yml
-  - type: DataModel
-    url: data-model/emotive-data-model.yml
-  - type: Documentation
-    url: https://emotive.gitbook.io/emotive-lists
-  - type: GettingStarted
-    url: https://emotive.gitbook.io/emotive-lists/integration-setup-instructions
-  - type: Authentication
-    url: https://emotive.gitbook.io/emotive-lists/reference/authentication
-  - type: Webhooks
-    url: asyncapi/emotive-webhooks.yml
-  - type: Documentation
-    url: https://help.emotive.io/docs/integrations/profile-properties-api
-  - type: APIReference
-    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference/profile-properties
-  - type: Documentation
-    url: https://help.emotive.io/docs/integrations/custom-helpdesk
 - aid: emotive:emotive-opt-outs-api
   name: Emotive Opt Outs API
   description: Manual unsubscribe of a phone number.
@@ -1351,6 +1313,42 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/emotive-zapier-me-api-api-openapi.yml
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/open-api-integration-orders
+  - type: APIReference
+    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference
+  - type: Authentication
+    url: authentication/emotive-authentication.yml
+  - type: ErrorCatalog
+    url: errors/emotive-problem-types.yml
+  - type: Conventions
+    url: conventions/emotive-conventions.yml
+  - type: DataModel
+    url: data-model/emotive-data-model.yml
+  - type: Documentation
+    url: https://emotive.gitbook.io/emotive-lists
+  - type: GettingStarted
+    url: https://emotive.gitbook.io/emotive-lists/integration-setup-instructions
+  - type: Authentication
+    url: https://emotive.gitbook.io/emotive-lists/reference/authentication
+  - type: Webhooks
+    url: asyncapi/emotive-webhooks.yml
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/profile-properties-api
+  - type: APIReference
+    url: https://emotive.gitbook.io/emotive-lists/reference/api-reference/profile-properties
+  - type: Documentation
+    url: https://help.emotive.io/docs/integrations/custom-helpdesk
+- aid: emotive:emotive-oauth-api
+  name: Emotive OAUTH API
+  description: The Oauth API from Emotive — 2 operation(s) for oauth.
+  humanURL: https://help.emotive.io/
+  baseURL: https://help.emotive.io/mcp
+  tags:
+  - Oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/emotive-oauth-api-openapi.yml
   - type: Documentation
     url: https://help.emotive.io/docs/integrations/open-api-integration-orders
   - type: APIReference
