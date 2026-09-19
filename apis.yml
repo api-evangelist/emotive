@@ -220,6 +220,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Brands
+  tags_raw:
   - Brand
   properties:
   - type: OpenAPI
@@ -1199,6 +1201,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Tokens
+  tags_raw:
   - Token
   properties:
   - type: OpenAPI
@@ -1345,6 +1349,8 @@ apis:
   humanURL: https://help.emotive.io/
   baseURL: https://help.emotive.io/mcp
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
