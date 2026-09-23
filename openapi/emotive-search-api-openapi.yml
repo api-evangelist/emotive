@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Search API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Search
 paths:
@@ -58,7 +50,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns paginated list of Brand names and ids based on query string `q`.
+      summary: Returns paginated list of Brand names and ids based on query string `q`
       tags:
       - Search
   /v1/search/users:
@@ -102,26 +94,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns paginated list of Users based on query string `q`.
+      summary: Returns paginated list of Users based on query string `q`
       tags:
       - Search
 components:
   schemas:
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     UserAccessRoles:
       items:
         properties:
@@ -135,28 +112,19 @@ components:
             type: string
         type: object
       type: array
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
-    BrandAPIResponse:
+    UserListSchema:
       properties:
-        brands:
-          items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
-          type: array
         next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
           type: string
       type: object
     UserSchema:
@@ -185,6 +153,30 @@ components:
         username:
           type: string
       type: object
+    BrandAPIResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
+          type: string
+      type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
   securitySchemes:
     ApiKeyAuth:
       in: header

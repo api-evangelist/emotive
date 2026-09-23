@@ -4,16 +4,8 @@ info:
     name: Private
   title: Sensus Webhooks Profile Properties API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/sensus-webhook
-  description: Emotive API gateway — sensus-webhook service
+- url: /sensus-webhook
 tags:
 - name: Profile Properties
 paths:
@@ -43,6 +35,8 @@ paths:
           description: Bad Request
       tags:
       - Profile Properties
+      summary: Controllers webhooks alloy error handler
+      x-summary-source: derived
   /v1/profiles/properties:
     post:
       description: Create a profile property.
@@ -69,8 +63,31 @@ paths:
           description: Bad Request
       tags:
       - Profile Properties
+      summary: Controllers webhooks profile handler
+      x-summary-source: derived
 components:
   schemas:
+    Property:
+      properties:
+        key:
+          type: string
+        type:
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+          type: string
+        value:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      required:
+      - key
+      - value
+      type: object
     AlloyError:
       properties:
         blockId:
@@ -90,6 +107,10 @@ components:
       - blockType
       - error
       type: object
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
     ProfileProperty:
       properties:
         email:
@@ -116,33 +137,8 @@ components:
       - platform
       - properties
       type: object
-    PropertyList:
-      items:
-        $ref: '#/components/schemas/Property'
-      type: array
     JsonResponse:
       properties:
         message:
           type: string
-      type: object
-    Property:
-      properties:
-        key:
-          type: string
-        type:
-          enum:
-          - string
-          - number
-          - boolean
-          - datetime
-          type: string
-        value:
-          anyOf:
-          - type: string
-          - type: number
-          - type: integer
-          - type: boolean
-      required:
-      - key
-      - value
       type: object

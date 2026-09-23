@@ -4,18 +4,10 @@ info:
     name: Private
   title: Emotive Auth Server OAUTH API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
-- name: Oauth
+- name: OAuth
 paths:
   /oauth/token:
     post:
@@ -48,7 +40,7 @@ paths:
           description: Authentication Failed
       summary: Get Auth Token
       tags:
-      - Oauth
+      - OAuth
   /v2/oauth/token:
     post:
       operationId: controllers.auth_v2.issue_token
@@ -81,43 +73,9 @@ paths:
           description: Authentication Failed
       summary: Get Auth Token
       tags:
-      - Oauth
+      - OAuth
 components:
   schemas:
-    AuthPostClientCredentialsGrantPayload:
-      properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - client_credentials
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
-      type: object
-    AuthPostRefreshGrantPayload:
-      properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - refresh_token
-          type: string
-        refresh_token:
-          description: refesh token for refreshing expired access token
-          minLength: 10
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
-      type: object
     AuthPostPasswordGrantPayload:
       properties:
         grant_type:
@@ -149,9 +107,40 @@ components:
       - password
       - grant_type
       type: object
-    JsonResponse:
+    AuthPostRefreshGrantPayload:
       properties:
-        message:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - refresh_token
+          type: string
+        refresh_token:
+          description: refesh token for refreshing expired access token
+          minLength: 10
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
+    UserInfo:
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        roles:
+          items:
+            type: string
+          type: array
+        status:
+          type: string
+        username:
           type: string
       type: object
     JwtResponse:
@@ -174,22 +163,25 @@ components:
       - token_type
       - user_info
       type: object
-    UserInfo:
+    JsonResponse:
       properties:
-        email:
+        message:
           type: string
-        first_name:
+      type: object
+    AuthPostClientCredentialsGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - client_credentials
           type: string
-        last_name:
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
           type: string
-        roles:
-          items:
-            type: string
-          type: array
-        status:
-          type: string
-        username:
-          type: string
+      required:
+      - grant_type
       type: object
   securitySchemes:
     ApiKeyAuth:

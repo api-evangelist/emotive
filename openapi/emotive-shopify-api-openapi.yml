@@ -4,14 +4,10 @@ info:
   version: 0.1.0
   license:
     name: Private
-  x-refined-note:
-  - x-origin differs across the merged source definitions and was not carried
-  description: 'Operations tagged Shopify across 2 of this provider''s published API definitions: emotive-auth-openapi.yml, emotive-sensus-webhook-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Shopify across 2 of this provider''s published API definitions: emotive-auth-openapi.json, emotive-sensus-webhook-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
-- url: https://api-gw.emotiveapp.co/sensus-webhook
-  description: Emotive API gateway — sensus-webhook service
+- url: /auth
+- url: /sensus-webhook
 tags:
 - name: Shopify
 paths:
@@ -41,8 +37,7 @@ paths:
       tags:
       - Shopify
     servers:
-    - url: https://api-gw.emotiveapp.co/auth
-      description: Emotive API gateway — auth service
+    - url: /auth
   /shopify/token:
     get:
       operationId: controllers.auth.shopify_token
@@ -110,12 +105,11 @@ paths:
               schema:
                 format: uri
                 type: string
-      summary: Store Shopify Access Token and return Emotive JWT Token.
+      summary: Store Shopify Access Token and return Emotive JWT Token
       tags:
       - Shopify
     servers:
-    - url: https://api-gw.emotiveapp.co/auth
-      description: Emotive API gateway — auth service
+    - url: /auth
   /v2/shopify/auth:
     get:
       operationId: controllers.auth_v2.shopify_auth
@@ -142,8 +136,7 @@ paths:
       tags:
       - Shopify
     servers:
-    - url: https://api-gw.emotiveapp.co/auth
-      description: Emotive API gateway — auth service
+    - url: /auth
   /v2/shopify/token:
     get:
       operationId: controllers.auth_v2.shopify_token
@@ -211,12 +204,11 @@ paths:
               schema:
                 format: uri
                 type: string
-      summary: Store Shopify Access Token and return Emotive JWT Token.
+      summary: Store Shopify Access Token and return Emotive JWT Token
       tags:
       - Shopify
     servers:
-    - url: https://api-gw.emotiveapp.co/auth
-      description: Emotive API gateway — auth service
+    - url: /auth
   /v1/shopify:
     post:
       description: Handle Shopify webhooks
@@ -252,9 +244,10 @@ paths:
           description: Webhook Accepted.
       tags:
       - Shopify
+      summary: Controllers webhooks shopify webhook handler
+      x-summary-source: derived
     servers:
-    - url: https://api-gw.emotiveapp.co/sensus-webhook
-      description: Emotive API gateway — sensus-webhook service
+    - url: /sensus-webhook
 components:
   schemas:
     JsonResponse:
@@ -269,5 +262,5 @@ components:
       type: apiKey
       x-apikeyInfoFunc: core.api_security.api_key
 x-refined-from:
-- emotive-auth-openapi.yml
-- emotive-sensus-webhook-openapi.yml
+- emotive-auth-openapi.json
+- emotive-sensus-webhook-openapi.json

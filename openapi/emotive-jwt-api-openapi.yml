@@ -4,18 +4,10 @@ info:
     name: Private
   title: Emotive Auth Server JWT API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
-- name: Jwt
+- name: JWT
 paths:
   /v1/jwt/claims:
     get:
@@ -35,9 +27,14 @@ paths:
           description: Authentication Failed
       summary: Get decoded contents of provided JWT
       tags:
-      - Jwt
+      - JWT
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     JwtClaimsResponse:
       properties:
         auth_type:
@@ -70,11 +67,6 @@ components:
       - impersonator
       - claims
       - auth_type
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

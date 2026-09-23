@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Product API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Product API
 paths:
@@ -33,7 +25,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns a list of Product names and ids.
+      summary: Returns a list of Product names and ids
       tags:
       - Product API
     post:
@@ -65,7 +57,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Create a new Product.
+      summary: Create a new Product
       tags:
       - Product API
   /v1/products/{product_id}:
@@ -89,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Delete a Product.
+      summary: Delete a Product
       tags:
       - Product API
     get:
@@ -118,7 +110,7 @@ paths:
           description: Authentication Failed
         '404':
           description: product_id is not valid
-      summary: Get Product information for an id.
+      summary: Get Product information for an id
       tags:
       - Product API
     patch:
@@ -161,7 +153,7 @@ paths:
           description: Authentication Failed
         '404':
           description: product_id is not valid
-      summary: Update Product.
+      summary: Update Product
       tags:
       - Product API
 components:
@@ -173,10 +165,16 @@ components:
             $ref: '#/components/schemas/ProductSchema'
           type: array
       type: object
-    JsonResponse:
+    MutateProductSchema:
       properties:
-        message:
+        description:
           type: string
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
       type: object
     ProductSchema:
       properties:
@@ -200,16 +198,10 @@ components:
         name:
           type: string
       type: object
-    MutateProductSchema:
+    JsonResponse:
       properties:
-        description:
+        message:
           type: string
-        name:
-          type: string
-        roles:
-          items:
-            $ref: '#/components/schemas/RoleSchema'
-          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

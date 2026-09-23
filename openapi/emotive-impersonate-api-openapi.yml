@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Impersonate API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Impersonate
 paths:
@@ -54,7 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Brand does not exist
-      summary: Returns JWT that impersonates given brand.
+      summary: Returns JWT that impersonates given brand
       tags:
       - Impersonate
   /v1/impersonate/brands/{brand_id}/users/{user_id}:
@@ -86,7 +78,7 @@ paths:
               schema:
                 format: uri
                 type: string
-      summary: Returns JWT that impersonates given brand's user.
+      summary: Returns JWT that impersonates given brand's user
       tags:
       - Impersonate
 components:

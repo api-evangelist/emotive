@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Auth0 API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Auth0
 paths:
@@ -46,7 +38,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Accept Auth0 JWT for Google login, create Emotive admin JWT, redirect to Emotive admin brand selection page.
+      summary: Accept Auth0 JWT for Google login, create Emotive admin JWT, redirect to…
       tags:
       - Auth0
   /auth0/login:
@@ -154,7 +146,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Accept Auth0 JWT, create Emotive JWT, redirect to Emotive home page.
+      summary: Accept Auth0 JWT, create Emotive JWT, redirect to Emotive home page
       tags:
       - Auth0
   /auth0/user/{email}:
@@ -200,21 +192,15 @@ paths:
       - Auth0
 components:
   schemas:
-    Auth0LoginPayload:
+    Auth0JWTPayload:
       properties:
-        password:
-          description: password of the user for Emotive
-          maxLength: 100
-          minLength: 3
+        access_token:
           type: string
-        username:
-          description: username of the user for Emotive
-          maxLength: 50
-          minLength: 3
+        id_token:
           type: string
       required:
-      - username
-      - password
+      - access_token
+      - id_token
       type: object
     Auth0PasswordResetPayload:
       properties:
@@ -236,15 +222,21 @@ components:
         message:
           type: string
       type: object
-    Auth0JWTPayload:
+    Auth0LoginPayload:
       properties:
-        access_token:
+        password:
+          description: password of the user for Emotive
+          maxLength: 100
+          minLength: 3
           type: string
-        id_token:
+        username:
+          description: username of the user for Emotive
+          maxLength: 50
+          minLength: 3
           type: string
       required:
-      - access_token
-      - id_token
+      - username
+      - password
       type: object
   securitySchemes:
     ApiKeyAuth:

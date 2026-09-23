@@ -4,16 +4,8 @@ info:
     name: Private
   title: Helpdesk Webhooks API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/helpdesk
-  description: Emotive API gateway — helpdesk service
+- url: /helpdesk
 tags:
 - name: Webhooks
 paths:
@@ -39,6 +31,8 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Webhooks
+      summary: Controllers webhooks get
+      x-summary-source: derived
     post:
       description: Create webhook subscription for a brand.
       operationId: controllers.webhooks.post
@@ -73,6 +67,8 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Webhooks
+      summary: Controllers webhooks post
+      x-summary-source: derived
   /webhooks/config/{webhook_id}:
     delete:
       description: Remove webhook subscription for a brand.
@@ -108,12 +104,10 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Webhooks
+      summary: Controllers webhooks delete
+      x-summary-source: derived
 components:
   schemas:
-    WebhookListSchema:
-      items:
-        $ref: '#/components/schemas/WebhookSchema'
-      type: array
     WebhookRequestSchema:
       properties:
         platform:
@@ -140,11 +134,6 @@ components:
       - webhook_url
       - trigger
       type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     WebhookSchema:
       properties:
         brand_id:
@@ -170,6 +159,15 @@ components:
         webhook_url:
           type: string
       type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    WebhookListSchema:
+      items:
+        $ref: '#/components/schemas/WebhookSchema'
+      type: array
   securitySchemes:
     AlloyKeyAuth:
       in: header

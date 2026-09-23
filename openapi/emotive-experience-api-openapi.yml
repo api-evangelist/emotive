@@ -4,16 +4,8 @@ info:
     name: Private
   title: Experiences Experience API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/experiences/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/experiences"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-experiences-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/experiences
-  description: Emotive API gateway — experiences service
+- url: /experiences
 tags:
 - name: Experience
 paths:

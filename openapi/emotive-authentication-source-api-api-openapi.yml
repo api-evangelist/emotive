@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Authentication Source API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Authentication Source API
 paths:
@@ -42,7 +34,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns a list of user's suthentication sources.
+      summary: Returns a list of user's suthentication sources
       tags:
       - Authentication Source API
     post:
@@ -82,7 +74,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Create a new Authentication Source.
+      summary: Create a new Authentication Source
       tags:
       - Authentication Source API
   /v1/users/{user_id}/authentication_sources/{authentication_source_id}:
@@ -116,7 +108,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Delete a Authentication Source.
+      summary: Delete a Authentication Source
       tags:
       - Authentication Source API
     get:
@@ -153,7 +145,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Get Authentication Source information for an id.
+      summary: Get Authentication Source information for an id
       tags:
       - Authentication Source API
     patch:
@@ -203,7 +195,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Update Authentication Source.
+      summary: Update Authentication Source
       tags:
       - Authentication Source API
 components:
@@ -227,6 +219,15 @@ components:
           - token
           type: string
       type: object
+    MutateAuthenticationSourceSchema:
+      properties:
+        authentication_details:
+          type: string
+        is_default:
+          type: boolean
+        source_id:
+          type: integer
+      type: object
     AuthenticationSourceListSchema:
       properties:
         authentication_sources:
@@ -238,15 +239,6 @@ components:
       properties:
         message:
           type: string
-      type: object
-    MutateAuthenticationSourceSchema:
-      properties:
-        authentication_details:
-          type: string
-        is_default:
-          type: boolean
-        source_id:
-          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -4,16 +4,8 @@ info:
     name: Private
   title: Sensus Webhooks Messaging API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/sensus-webhook/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/sensus-webhook"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-sensus-webhook-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/sensus-webhook
-  description: Emotive API gateway — sensus-webhook service
+- url: /sensus-webhook
 tags:
 - name: Messaging
 paths:
@@ -61,6 +53,8 @@ paths:
           description: Bad Request
       tags:
       - Messaging
+      summary: Controllers webhooks twilio callback handler
+      x-summary-source: derived
 components:
   schemas:
     TwilioCallbackBody:

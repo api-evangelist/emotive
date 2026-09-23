@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server User API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: User API
 paths:
@@ -61,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns paginated list of User names and ids.
+      summary: Returns paginated list of User names and ids
       tags:
       - User API
     post:
@@ -103,7 +95,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Create a new User.
+      summary: Create a new User
       tags:
       - User API
   /v1/users/me:
@@ -122,7 +114,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Get User information for an id.
+      summary: Get User information for an id
       tags:
       - User API
   /v1/users/{user_id}:
@@ -148,7 +140,7 @@ paths:
           description: Authentication Failed
         '404':
           description: user_id is not valid
-      summary: Delete a User.
+      summary: Delete a User
       tags:
       - User API
     get:
@@ -177,7 +169,7 @@ paths:
           description: Authentication Failed
         '404':
           description: user_id is not valid
-      summary: Get User information for an id.
+      summary: Get User information for an id
       tags:
       - User API
     patch:
@@ -213,11 +205,29 @@ paths:
           description: Authentication Failed
         '404':
           description: user_id is not valid
-      summary: Update User.
+      summary: Update User
       tags:
       - User API
 components:
   schemas:
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     UsersMeResponse:
       properties:
         brands:
@@ -274,34 +284,6 @@ components:
             $ref: '#/components/schemas/UserSchema'
           type: array
       type: object
-    UserAccessRoles:
-      items:
-        properties:
-          brand_id:
-            type: integer
-          product_name:
-            type: string
-          role_id:
-            type: integer
-          role_name:
-            type: string
-        type: object
-      type: array
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
     UserSchema:
       properties:
         access_roles:
@@ -328,6 +310,16 @@ components:
         username:
           type: string
       type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
     MutateUserSchema:
       properties:
         access_roles:

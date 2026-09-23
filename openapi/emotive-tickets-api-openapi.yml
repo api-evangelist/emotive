@@ -4,16 +4,8 @@ info:
     name: Private
   title: Helpdesk Tickets API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/helpdesk
-  description: Emotive API gateway — helpdesk service
+- url: /helpdesk
 tags:
 - name: Tickets
 paths:
@@ -52,6 +44,8 @@ paths:
       - ApiKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers tickets search
+      x-summary-source: derived
   /tickets/external/{external_ticket_id}/events:
     post:
       description: Create an event associated with an external ticket. The ticket will reflect any new status set by the latest event.
@@ -80,6 +74,8 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers ticket events post external
+      x-summary-source: derived
   /tickets/internal:
     post:
       description: Create a ticket from internal system.
@@ -148,6 +144,8 @@ paths:
       - InternalApiKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers tickets post internal
+      x-summary-source: derived
   /tickets/polling/fallback:
     get:
       description: Get dummy ticket, ticket event used for testing zaps.
@@ -172,6 +170,8 @@ paths:
       - ApiKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers tickets webhook trigger data
+      x-summary-source: derived
   /tickets/{ticket_id}:
     get:
       description: Get a ticket by id.
@@ -199,6 +199,8 @@ paths:
       - ApiKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers tickets get
+      x-summary-source: derived
     post:
       description: Update a ticket by id.
       operationId: controllers.tickets.update
@@ -262,6 +264,8 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers tickets update
+      x-summary-source: derived
   /tickets/{ticket_id}/external-events:
     post:
       description: In systems that donot have an external ticket id (eg - Gladly), create an event by passing internal helpdesk ticket id. The ticket will reflect any new status set by the latest event.
@@ -290,6 +294,8 @@ paths:
       - AlloyKeyAuth: []
       tags:
       - Tickets
+      summary: Controllers ticket events post process external event with ticket id
+      x-summary-source: derived
 components:
   schemas:
     systemType:
@@ -304,28 +310,6 @@ components:
       - alloy
       - custom
       type: string
-    ticketListResponse:
-      properties:
-        items:
-          $ref: '#/components/schemas/ticketList'
-        next:
-          type: string
-      required:
-      - items
-      type: object
-    ticketEventBase:
-      properties:
-        agent_id:
-          type:
-          - string
-          - 'null'
-        event_time:
-          type: string
-        message:
-          type: string
-        status:
-          $ref: '#/components/schemas/status'
-      type: object
     ticketEventCreateRequest:
       allOf:
       - $ref: '#/components/schemas/ticketEventBase'
@@ -338,6 +322,24 @@ components:
       - status
       - event_time
       - system_type
+      type: object
+    status:
+      enum:
+      - new
+      - open
+      - pending
+      - on_hold
+      - solved
+      - closed
+      type: string
+    ticketListResponse:
+      properties:
+        items:
+          $ref: '#/components/schemas/ticketList'
+        next:
+          type: string
+      required:
+      - items
       type: object
     ticket:
       description: THe full ticket information once created with Emotive
@@ -368,24 +370,6 @@ components:
       - external_ticket_id
       - external_user_id
       - status
-    status:
-      enum:
-      - new
-      - open
-      - pending
-      - on_hold
-      - solved
-      - closed
-      type: string
-    ticketList:
-      items:
-        $ref: '#/components/schemas/ticket'
-      type: array
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ticketEvent:
       allOf:
       - $ref: '#/components/schemas/ticketEventBase'
@@ -397,6 +381,28 @@ components:
         ticket_id:
           type: integer
       type: object
+    ticketEventBase:
+      properties:
+        agent_id:
+          type:
+          - string
+          - 'null'
+        event_time:
+          type: string
+        message:
+          type: string
+        status:
+          $ref: '#/components/schemas/status'
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ticketList:
+      items:
+        $ref: '#/components/schemas/ticket'
+      type: array
   securitySchemes:
     AlloyKeyAuth:
       in: header

@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Google API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Google
 paths:
@@ -44,7 +36,7 @@ paths:
               schema:
                 format: uri
                 type: string
-      summary: Store Google Access Token and return Emotive JWT Token.
+      summary: Store Google Access Token and return Emotive JWT Token
       tags:
       - Google
   /v2/google/admin/auth:
@@ -80,7 +72,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to appropriate landing page
+      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to…
       tags:
       - Google
   /v2/google/auth:
@@ -110,7 +102,7 @@ paths:
               schema:
                 format: uri
                 type: string
-      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to appropriate landing page
+      summary: Perform Google OAuth leg 2, generate and set Emotive JWT, redirect to…
       tags:
       - Google
 components:

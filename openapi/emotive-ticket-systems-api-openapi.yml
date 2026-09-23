@@ -4,16 +4,8 @@ info:
     name: Private
   title: Helpdesk Ticket Systems API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/helpdesk/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/helpdesk"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-helpdesk-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/helpdesk
-  description: Emotive API gateway — helpdesk service
+- url: /helpdesk
 tags:
 - name: Ticket Systems
 paths:
@@ -33,6 +25,8 @@ paths:
       - cookieAuth: []
       tags:
       - Ticket Systems
+      summary: Controllers ticket systems get
+      x-summary-source: derived
   /ticket_systems/{ticket_system_id}/flows:
     get:
       description: Get ticketing system flows.
@@ -67,20 +61,10 @@ paths:
       - cookieAuth: []
       tags:
       - Ticket Systems
+      summary: Controllers ticket system flows list objects
+      x-summary-source: derived
 components:
   schemas:
-    TicketSystemTypeListSchema:
-      properties:
-        ticket_systems:
-          items:
-            $ref: '#/components/schemas/TicketSystemTypeSchema'
-          type: array
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     TicketSystemTypeSchema:
       properties:
         id:
@@ -107,6 +91,18 @@ components:
         title:
           type: string
         url:
+          type: string
+      type: object
+    TicketSystemTypeListSchema:
+      properties:
+        ticket_systems:
+          items:
+            $ref: '#/components/schemas/TicketSystemTypeSchema'
+          type: array
+      type: object
+    JsonResponse:
+      properties:
+        message:
           type: string
       type: object
   securitySchemes:

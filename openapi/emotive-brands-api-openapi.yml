@@ -4,16 +4,8 @@ info:
     name: Private
   title: Emotive Auth Server Brands API
   version: 0.1.0
-  x-origin:
-  - url: https://api-gw.emotiveapp.co/auth/openapi.json
-    format: openapi
-    version: 3.0.2
-    method: searched
-    retrieved: '2026-08-13'
-    note: 'Fetched verbatim from the Emotive API gateway. Original servers[] was relative ([{"url": "/auth"}]); resolved to the absolute gateway base for portability. Verbatim copy retained at openapi/_original/emotive-auth-openapi.json.'
 servers:
-- url: https://api-gw.emotiveapp.co/auth
-  description: Emotive API gateway — auth service
+- url: /auth
 tags:
 - name: Brands
 paths:
@@ -61,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Returns paginated list of Brand names and ids.
+      summary: Returns paginated list of Brand names and ids
       tags:
       - Brands
   /v1/brands/{brand_id}/invitations:
@@ -91,7 +83,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Returns a list of invitations for a brand.
+      summary: Returns a list of invitations for a brand
       tags:
       - Brands
     post:
@@ -140,7 +132,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Create an invitation for a brand.
+      summary: Create an invitation for a brand
       tags:
       - Brands
   /v1/brands/{brand_id}/invitations/{invitation_id}:
@@ -174,7 +166,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Delete an invitation for a brand.
+      summary: Delete an invitation for a brand
       tags:
       - Brands
     get:
@@ -211,7 +203,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Returns an invitation for a brand.
+      summary: Returns an invitation for a brand
       tags:
       - Brands
   /v1/brands/{brand_id}/products:
@@ -241,7 +233,7 @@ paths:
           description: Authentication Failed
         '404':
           description: id is not valid
-      summary: Returns a list of products for a brand.
+      summary: Returns a list of products for a brand
       tags:
       - Brands
     put:
@@ -283,7 +275,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Update products for a brand.
+      summary: Update products for a brand
       tags:
       - Brands
   /v1/brands/{brand_id}/users:
@@ -372,7 +364,7 @@ paths:
           description: Forbidden
         '404':
           description: id is not valid
-      summary: Returns paginated list of roles for a user in a brand.
+      summary: Returns paginated list of roles for a user in a brand
       tags:
       - Brands
     post:
@@ -431,7 +423,7 @@ paths:
           description: id is not valid
         '409':
           description: Role already assigned to a user in a brand.
-      summary: Assign a role to a user in a brand.
+      summary: Assign a role to a user in a brand
       tags:
       - Brands
     put:
@@ -480,7 +472,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Forbidden
-      summary: Update a role for a user in a brand.
+      summary: Update a role for a user in a brand
       tags:
       - Brands
   /v1/brands/{brand_id}/users/{user_id}/roles/{role_id}:
@@ -528,7 +520,7 @@ paths:
           description: Forbidden
         '404':
           description: id is not valid
-      summary: Delete a role for a user in a brand.
+      summary: Delete a role for a user in a brand
       tags:
       - Brands
   /v2/brands:
@@ -575,7 +567,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Get all Brands.
+      summary: Get all Brands
       tags:
       - Brands
     post:
@@ -606,7 +598,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JsonResponse'
           description: Authentication Failed
-      summary: Create a new Brand.
+      summary: Create a new Brand
       tags:
       - Brands
   /v2/brands/{brand_id}:
@@ -632,7 +624,7 @@ paths:
           description: Authentication Failed
         '404':
           description: brand_id is not valid
-      summary: Delete a Brand.
+      summary: Delete a Brand
       tags:
       - Brands
     get:
@@ -661,7 +653,7 @@ paths:
           description: Authentication Failed
         '404':
           description: brand_id is not valid
-      summary: Get Brand information for an id.
+      summary: Get Brand information for an id
       tags:
       - Brands
     patch:
@@ -696,7 +688,7 @@ paths:
           description: Authentication Failed
         '404':
           description: brand_id is not valid
-      summary: Update Brand.
+      summary: Update Brand
       tags:
       - Brands
 components:
@@ -719,45 +711,6 @@ components:
         name:
           type: string
       type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    InvitationSchema:
-      properties:
-        accepted_by:
-          type: integer
-        accepted_on:
-          format: date-time
-          type: string
-        created_at:
-          format: date-time
-          type: string
-        email:
-          type: string
-        expires_at:
-          format: date-time
-          type: string
-        id:
-          type: integer
-        roles:
-          items:
-            $ref: '#/components/schemas/RoleSchema'
-          type: array
-      type: object
-    ProductListSchema:
-      properties:
-        products:
-          items:
-            $ref: '#/components/schemas/ProductSchema'
-          type: array
-      type: object
     UserAccessRoles:
       items:
         properties:
@@ -771,26 +724,46 @@ components:
             type: string
         type: object
       type: array
-    CreateBrandSchema:
+    BrandListSchema:
       properties:
-        brand_products:
+        brands:
           items:
-            properties:
-              id:
-                description: Product ID
-                type: integer
-            type: object
+            $ref: '#/components/schemas/BrandSchema'
           type: array
-        id:
-          description: Sensus Brand ID
-          type: integer
-        name:
-          example: Brand Name
+        next_page:
           type: string
       type: object
-    JsonResponse:
+    UserListSchema:
       properties:
-        message:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    UserAccessSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+      type: object
+    ProductListSchema:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/ProductSchema'
+          type: array
+      type: object
+    RoleSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
           type: string
       type: object
     GroupAccessRoles:
@@ -803,52 +776,7 @@ components:
           - support
           type: string
       type: array
-    BrandAPIResponse:
-      properties:
-        brands:
-          items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
-          type: array
-        next_page:
-          type: string
-      type: object
-    ProductSchema:
-      properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-        roles:
-          items:
-            $ref: '#/components/schemas/RoleSchema'
-          type: array
-      type: object
     BrandProducts:
-      properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    BrandListSchema:
-      properties:
-        brands:
-          items:
-            $ref: '#/components/schemas/BrandSchema'
-          type: array
-        next_page:
-          type: string
-      type: object
-    RoleSchema:
       properties:
         description:
           type: string
@@ -883,12 +811,76 @@ components:
         username:
           type: string
       type: object
-    UserAccessSchema:
+    CreateBrandSchema:
       properties:
-        access_roles:
-          $ref: '#/components/schemas/UserAccessRoles'
-        groups:
-          $ref: '#/components/schemas/GroupAccessRoles'
+        brand_products:
+          items:
+            properties:
+              id:
+                description: Product ID
+                type: integer
+            type: object
+          type: array
+        id:
+          description: Sensus Brand ID
+          type: integer
+        name:
+          example: Brand Name
+          type: string
+      type: object
+    InvitationSchema:
+      properties:
+        accepted_by:
+          type: integer
+        accepted_on:
+          format: date-time
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        email:
+          type: string
+        expires_at:
+          format: date-time
+          type: string
+        id:
+          type: integer
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+    ProductSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
+    BrandAPIResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
