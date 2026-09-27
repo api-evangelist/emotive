@@ -82,22 +82,15 @@ paths:
                 detail: Invalid token.
 components:
   schemas:
-    FieldErrors:
-      type: object
-      additionalProperties:
-        type: array
-        items:
-          type: string
-      description: Field-name keyed list of validation messages.
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
     Detail:
       type: object
       properties:
         detail:
+          type: string
+    Message:
+      type: object
+      properties:
+        message:
           type: string
     CustomEvent:
       type: object
@@ -122,6 +115,13 @@ components:
           type: object
           description: key/value pairs of event properties
           additionalProperties: true
+    FieldErrors:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+      description: Field-name keyed list of validation messages.
   securitySchemes:
     TokenAuth:
       type: apiKey

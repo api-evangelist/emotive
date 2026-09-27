@@ -70,6 +70,7 @@ tags:
 - Customer Data
 - Segmentation
 - Attribution
+- A2A
 tags_raw:
 - Company
 - Marketing
@@ -83,6 +84,7 @@ tags_raw:
 - Customer Data
 - Segmentation
 - Attribution
+- A2A
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -1165,6 +1167,8 @@ apis:
   humanURL: https://help.emotive.io/docs/integrations/open-api-integration-orders
   baseURL: https://api.emotiveapp.co
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI
@@ -1459,3 +1463,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 47
   pass: local-v1
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://help.emotive.io/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3"
+  control: 404

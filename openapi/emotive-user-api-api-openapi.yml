@@ -210,6 +210,71 @@ paths:
       - User API
 components:
   schemas:
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    MutateUserSchema:
+      properties:
+        access_roles:
+          description: role_ids of the user.
+          items:
+            example: 1
+            minimum: 1
+            type: integer
+          type: array
+        email:
+          minLength: 1
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        password:
+          minLength: 6
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          minLength: 1
+          type: string
+      type: object
+    UserSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        email:
+          type: string
+        first_name:
+          type: string
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+        id:
+          type: integer
+        last_login:
+          format: date-time
+          type: string
+        last_name:
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          type: string
+      type: object
     UserAccessRoles:
       items:
         properties:
@@ -227,6 +292,16 @@ components:
       properties:
         message:
           type: string
+      type: object
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
       type: object
     UsersMeResponse:
       properties:
@@ -273,81 +348,6 @@ components:
               - string
               - 'null'
           type: object
-      type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    UserSchema:
-      properties:
-        access_roles:
-          $ref: '#/components/schemas/UserAccessRoles'
-        email:
-          type: string
-        first_name:
-          type: string
-        groups:
-          $ref: '#/components/schemas/GroupAccessRoles'
-        id:
-          type: integer
-        last_login:
-          format: date-time
-          type: string
-        last_name:
-          type: string
-        status:
-          enum:
-          - active
-          - suspended
-          - disabled
-          type: string
-        username:
-          type: string
-      type: object
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
-    MutateUserSchema:
-      properties:
-        access_roles:
-          description: role_ids of the user.
-          items:
-            example: 1
-            minimum: 1
-            type: integer
-          type: array
-        email:
-          minLength: 1
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        password:
-          minLength: 6
-          type: string
-        status:
-          enum:
-          - active
-          - suspended
-          - disabled
-          type: string
-        username:
-          minLength: 1
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

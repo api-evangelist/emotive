@@ -99,32 +99,28 @@ paths:
       - Search
 components:
   schemas:
-    UserAccessRoles:
+    GroupAccessRoles:
       items:
-        properties:
-          brand_id:
-            type: integer
-          product_name:
-            type: string
-          role_id:
-            type: integer
-          role_name:
-            type: string
-        type: object
-      type: array
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
           type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    JsonResponse:
+      type: array
+    BrandAPIResponse:
       properties:
-        message:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
           type: string
       type: object
     UserSchema:
@@ -153,30 +149,34 @@ components:
         username:
           type: string
       type: object
-    BrandAPIResponse:
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    JsonResponse:
       properties:
-        brands:
-          items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
-          type: array
-        next_page:
+        message:
           type: string
       type: object
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
           type: string
-      type: array
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
   securitySchemes:
     ApiKeyAuth:
       in: header

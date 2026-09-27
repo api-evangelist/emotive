@@ -67,6 +67,41 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
+    ProfileProperty:
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        platform:
+          enum:
+          - alloy
+          - paragon
+          - custom
+          - zapier
+          type: string
+        properties:
+          $ref: '#/components/schemas/PropertyList'
+        source:
+          type: string
+      required:
+      - source
+      - platform
+      - properties
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     Property:
       properties:
         key:
@@ -106,39 +141,4 @@ components:
       - blockId
       - blockType
       - error
-      type: object
-    PropertyList:
-      items:
-        $ref: '#/components/schemas/Property'
-      type: array
-    ProfileProperty:
-      properties:
-        email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        phone_number:
-          type: string
-        platform:
-          enum:
-          - alloy
-          - paragon
-          - custom
-          - zapier
-          type: string
-        properties:
-          $ref: '#/components/schemas/PropertyList'
-        source:
-          type: string
-      required:
-      - source
-      - platform
-      - properties
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
       type: object

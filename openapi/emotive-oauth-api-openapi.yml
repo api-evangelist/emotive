@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   license:
     name: Private
-  title: Emotive Auth Server OAUTH API
+  title: Emotive Auth Server OAuth API
   version: 0.1.0
 servers:
 - url: /auth
@@ -76,6 +76,25 @@ paths:
       - OAuth
 components:
   schemas:
+    AuthPostRefreshGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - refresh_token
+          type: string
+        refresh_token:
+          description: refesh token for refreshing expired access token
+          minLength: 10
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
     AuthPostPasswordGrantPayload:
       properties:
         grant_type:
@@ -107,24 +126,10 @@ components:
       - password
       - grant_type
       type: object
-    AuthPostRefreshGrantPayload:
+    JsonResponse:
       properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - refresh_token
+        message:
           type: string
-        refresh_token:
-          description: refesh token for refreshing expired access token
-          minLength: 10
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
       type: object
     UserInfo:
       properties:
@@ -142,6 +147,21 @@ components:
           type: string
         username:
           type: string
+      type: object
+    AuthPostClientCredentialsGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - client_credentials
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
       type: object
     JwtResponse:
       properties:
@@ -162,26 +182,6 @@ components:
       - expires_in
       - token_type
       - user_info
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
-    AuthPostClientCredentialsGrantPayload:
-      properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - client_credentials
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
       type: object
   securitySchemes:
     ApiKeyAuth:

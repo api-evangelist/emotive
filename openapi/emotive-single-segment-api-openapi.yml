@@ -89,6 +89,27 @@ components:
       schema:
         type: integer
   schemas:
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
+      description: Basic segment response object
+      properties:
+        created:
+          description: Creation date of segment
+          type: string
+        id:
+          description: Unique identifier for the given Segment
+          type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
+      type: object
     SegmentRule:
       description: Segment rule array
       properties:
@@ -110,27 +131,6 @@ components:
       - entity
       - conditional_variable
       title: SegmentRules
-      type: object
-    SegmentObject:
-      allOf:
-      - $ref: '#/components/schemas/SegmentBase'
-      description: Basic segment response object
-      properties:
-        created:
-          description: Creation date of segment
-          type: string
-        id:
-          description: Unique identifier for the given Segment
-          type: integer
-        is_favorite:
-          description: Whether it is a favorited Segment
-          type: boolean
-        user_count:
-          description: Number of customers in Segment
-          type:
-          - integer
-          - 'null'
-      title: SegmentObject
       type: object
     SegmentBase:
       description: Basic segment response object

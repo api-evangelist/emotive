@@ -134,6 +134,11 @@ components:
       - webhook_url
       - trigger
       type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     WebhookSchema:
       properties:
         brand_id:
@@ -157,11 +162,6 @@ components:
           - update
           type: string
         webhook_url:
-          type: string
-      type: object
-    JsonResponse:
-      properties:
-        message:
           type: string
       type: object
     WebhookListSchema:

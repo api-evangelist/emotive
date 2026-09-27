@@ -46,9 +46,7 @@
     "emotive-subscriber-api-openapi.yml",
     "emotive-subscriber-engine-subscriber-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -164,8 +162,7 @@
     "emotive-subscriber-engine-openapi.json: upgraded openapi 3.0.2 -> OpenAPI 3.2.0",
     "emotive-subscriber-engine-openapi.json: declared missing tag: subscriber_engine Subscriber",
     "tag 'Shopify' spans 2 source specs (emotive-auth-openapi.json, emotive-sensus-webhook-openapi.json): per-path servers applied",
-    "superseded outputs removed: emotive-o-auth-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 36 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/emotive-subscriber-engine-openapi.yml: archived document superseded by a larger archived document",
@@ -193,7 +190,7 @@
     "emotive-jwt-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "emotive-logout-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "emotive-messaging-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "emotive-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "emotive-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "emotive-opt-outs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "emotive-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "emotive-password-api-openapi.yml: previously refined output, superseded by openapi/_original/",

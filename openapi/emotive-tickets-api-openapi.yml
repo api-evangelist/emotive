@@ -298,31 +298,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    systemType:
-      enum:
-      - freshdesk
-      - gorgias
-      - reamaze
-      - zendesk
-      - hubspot
-      - kustomer
-      - zoho-desk
-      - alloy
-      - custom
-      type: string
-    ticketEventCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/ticketEventBase'
-      properties:
-        system_type:
-          $ref: '#/components/schemas/systemType'
-          description: External help desk system type name
-      required:
-      - message
-      - status
-      - event_time
-      - system_type
-      type: object
     status:
       enum:
       - new
@@ -332,15 +307,6 @@ components:
       - solved
       - closed
       type: string
-    ticketListResponse:
-      properties:
-        items:
-          $ref: '#/components/schemas/ticketList'
-        next:
-          type: string
-      required:
-      - items
-      type: object
     ticket:
       description: THe full ticket information once created with Emotive
       properties:
@@ -370,17 +336,6 @@ components:
       - external_ticket_id
       - external_user_id
       - status
-    ticketEvent:
-      allOf:
-      - $ref: '#/components/schemas/ticketEventBase'
-      properties:
-        created:
-          type: string
-        id:
-          type: integer
-        ticket_id:
-          type: integer
-      type: object
     ticketEventBase:
       properties:
         agent_id:
@@ -394,15 +349,60 @@ components:
         status:
           $ref: '#/components/schemas/status'
       type: object
-    JsonResponse:
+    systemType:
+      enum:
+      - freshdesk
+      - gorgias
+      - reamaze
+      - zendesk
+      - hubspot
+      - kustomer
+      - zoho-desk
+      - alloy
+      - custom
+      type: string
+    ticketEvent:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
       properties:
-        message:
+        created:
           type: string
+        id:
+          type: integer
+        ticket_id:
+          type: integer
       type: object
     ticketList:
       items:
         $ref: '#/components/schemas/ticket'
       type: array
+    ticketListResponse:
+      properties:
+        items:
+          $ref: '#/components/schemas/ticketList'
+        next:
+          type: string
+      required:
+      - items
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ticketEventCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
+      properties:
+        system_type:
+          $ref: '#/components/schemas/systemType'
+          description: External help desk system type name
+      required:
+      - message
+      - status
+      - event_time
+      - system_type
+      type: object
   securitySchemes:
     AlloyKeyAuth:
       in: header

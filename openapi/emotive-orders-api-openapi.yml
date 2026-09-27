@@ -82,72 +82,46 @@ paths:
         '503':
           $ref: '#/components/responses/ServiceUnavailable'
 components:
+  responses:
+    QueuedForExecution:
+      description: Accepted (request accepted, and queued for execution)
+    Conflict:
+      description: Conflict
+    InternalServerError:
+      description: Internal server error
+    NotFound:
+      description: Resource not found
+    MethodNotAllowed:
+      description: Method not allowed
+    PreconditionFailed:
+      description: Precondition failed
+    Created:
+      description: Created
+    PayloadTooLarge:
+      description: Request entity too large
+    OK:
+      description: OK
+    Unauthorized:
+      description: Unauthorized / Authentication Failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Detail'
+          example:
+            detail: Authentication credentials were not provided.
+    BadRequest:
+      description: Bad Request (missing or invalid data provided). The response body contains an "error" attribute explaining what happened and how to correct it, if applicable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotImplemented:
+      description: Not implemented
+    ServiceUnavailable:
+      description: Service unavailable
+    Forbidden:
+      description: Forbidden
   schemas:
-    Product:
-      type: object
-      required:
-      - title
-      - sku
-      properties:
-        title:
-          type: string
-        sku:
-          type: string
-    Detail:
-      type: object
-      properties:
-        detail:
-          type: string
-    LineItem:
-      type: object
-      required:
-      - product
-      - price
-      properties:
-        product:
-          $ref: '#/components/schemas/Product'
-        collection:
-          $ref: '#/components/schemas/Collection'
-        variant:
-          $ref: '#/components/schemas/Variant'
-        price:
-          type: number
-        quantity:
-          type: integer
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
-    Collection:
-      type: object
-      properties:
-        title:
-          type: string
-        id:
-          type: string
-    ShippingAddress:
-      type: object
-      properties:
-        name:
-          type: string
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state_code:
-          type: string
-        zip:
-          type: string
-        country_code:
-          type: string
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
     Order:
       type: object
       required:
@@ -195,13 +169,59 @@ components:
           type: array
           items:
             type: string
-    Variant:
+    LineItem:
       type: object
+      required:
+      - product
+      - price
       properties:
-        id:
+        product:
+          $ref: '#/components/schemas/Product'
+        collection:
+          $ref: '#/components/schemas/Collection'
+        variant:
+          $ref: '#/components/schemas/Variant'
+        price:
+          type: number
+        quantity:
+          type: integer
+        notes:
           type: string
+        extra_data:
+          type: object
+          additionalProperties: true
+    Product:
+      type: object
+      required:
+      - title
+      - sku
+      properties:
         title:
           type: string
+        sku:
+          type: string
+    ShippingAddress:
+      type: object
+      properties:
+        name:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state_code:
+          type: string
+        zip:
+          type: string
+        country_code:
+          type: string
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
     Error:
       type: object
       properties:
@@ -209,6 +229,18 @@ components:
           type: string
           description: Explains what happened and how to correct it
           if applicable.: null
+    Detail:
+      type: object
+      properties:
+        detail:
+          type: string
+    Variant:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
     Customer:
       type: object
       required:
@@ -231,45 +263,13 @@ components:
         extra_data:
           type: object
           additionalProperties: true
-  responses:
-    Conflict:
-      description: Conflict
-    OK:
-      description: OK
-    PreconditionFailed:
-      description: Precondition failed
-    BadRequest:
-      description: Bad Request (missing or invalid data provided). The response body contains an "error" attribute explaining what happened and how to correct it, if applicable.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden
-    MethodNotAllowed:
-      description: Method not allowed
-    Created:
-      description: Created
-    PayloadTooLarge:
-      description: Request entity too large
-    NotImplemented:
-      description: Not implemented
-    InternalServerError:
-      description: Internal server error
-    NotFound:
-      description: Resource not found
-    ServiceUnavailable:
-      description: Service unavailable
-    QueuedForExecution:
-      description: Accepted (request accepted, and queued for execution)
-    Unauthorized:
-      description: Unauthorized / Authentication Failure
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Detail'
-          example:
-            detail: Authentication credentials were not provided.
+    Collection:
+      type: object
+      properties:
+        title:
+          type: string
+        id:
+          type: string
   securitySchemes:
     TokenAuth:
       type: apiKey

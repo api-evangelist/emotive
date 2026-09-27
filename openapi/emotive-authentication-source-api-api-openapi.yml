@@ -200,6 +200,15 @@ paths:
       - Authentication Source API
 components:
   schemas:
+    MutateAuthenticationSourceSchema:
+      properties:
+        authentication_details:
+          type: string
+        is_default:
+          type: boolean
+        source_id:
+          type: integer
+      type: object
     AuthenticationSourceSchema:
       properties:
         id:
@@ -218,15 +227,6 @@ components:
           - saml
           - token
           type: string
-      type: object
-    MutateAuthenticationSourceSchema:
-      properties:
-        authentication_details:
-          type: string
-        is_default:
-          type: boolean
-        source_id:
-          type: integer
       type: object
     AuthenticationSourceListSchema:
       properties:

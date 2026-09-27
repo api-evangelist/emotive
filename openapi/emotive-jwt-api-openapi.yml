@@ -30,11 +30,6 @@ paths:
       - JWT
 components:
   schemas:
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     JwtClaimsResponse:
       properties:
         auth_type:
@@ -67,6 +62,11 @@ components:
       - impersonator
       - claims
       - auth_type
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:
