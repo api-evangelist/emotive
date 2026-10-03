@@ -99,30 +99,6 @@ paths:
       - Search
 components:
   schemas:
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
-    BrandAPIResponse:
-      properties:
-        brands:
-          items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
-          type: array
-        next_page:
-          type: string
-      type: object
     UserSchema:
       properties:
         access_roles:
@@ -149,6 +125,16 @@ components:
         username:
           type: string
       type: object
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
     UserAccessRoles:
       items:
         properties:
@@ -162,20 +148,34 @@ components:
             type: string
         type: object
       type: array
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    BrandAPIResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
+          type: string
+      type: object
     JsonResponse:
       properties:
         message:
           type: string
-      type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

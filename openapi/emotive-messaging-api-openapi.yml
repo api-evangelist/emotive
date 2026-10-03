@@ -57,6 +57,11 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     TwilioCallbackBody:
       properties:
         Body:
@@ -86,10 +91,5 @@ components:
           type: string
         To:
           description: The phone number of the recipient
-          type: string
-      type: object
-    JsonResponse:
-      properties:
-        message:
           type: string
       type: object

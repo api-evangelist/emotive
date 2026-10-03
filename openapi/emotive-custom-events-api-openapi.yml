@@ -87,11 +87,6 @@ components:
       properties:
         detail:
           type: string
-    Message:
-      type: object
-      properties:
-        message:
-          type: string
     CustomEvent:
       type: object
       required:
@@ -122,6 +117,11 @@ components:
         items:
           type: string
       description: Field-name keyed list of validation messages.
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
   securitySchemes:
     TokenAuth:
       type: apiKey

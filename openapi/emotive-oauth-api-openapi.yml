@@ -95,6 +95,46 @@ components:
       required:
       - grant_type
       type: object
+    JwtResponse:
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        scope:
+          type: string
+        token_type:
+          type: string
+        user_info:
+          $ref: '#/components/schemas/UserInfo'
+      required:
+      - access_token
+      - expires_in
+      - token_type
+      - user_info
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    AuthPostClientCredentialsGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - client_credentials
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
     AuthPostPasswordGrantPayload:
       properties:
         grant_type:
@@ -126,11 +166,6 @@ components:
       - password
       - grant_type
       type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     UserInfo:
       properties:
         email:
@@ -147,41 +182,6 @@ components:
           type: string
         username:
           type: string
-      type: object
-    AuthPostClientCredentialsGrantPayload:
-      properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - client_credentials
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
-      type: object
-    JwtResponse:
-      properties:
-        access_token:
-          type: string
-        expires_in:
-          type: integer
-        refresh_token:
-          type: string
-        scope:
-          type: string
-        token_type:
-          type: string
-        user_info:
-          $ref: '#/components/schemas/UserInfo'
-      required:
-      - access_token
-      - expires_in
-      - token_type
-      - user_info
       type: object
   securitySchemes:
     ApiKeyAuth:

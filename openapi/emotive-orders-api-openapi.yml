@@ -83,24 +83,34 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
 components:
   responses:
-    QueuedForExecution:
-      description: Accepted (request accepted, and queued for execution)
-    Conflict:
-      description: Conflict
-    InternalServerError:
-      description: Internal server error
     NotFound:
       description: Resource not found
+    PayloadTooLarge:
+      description: Request entity too large
+    InternalServerError:
+      description: Internal server error
+    Conflict:
+      description: Conflict
+    BadRequest:
+      description: Bad Request (missing or invalid data provided). The response body contains an "error" attribute explaining what happened and how to correct it, if applicable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServiceUnavailable:
+      description: Service unavailable
+    Forbidden:
+      description: Forbidden
     MethodNotAllowed:
       description: Method not allowed
+    OK:
+      description: OK
+    QueuedForExecution:
+      description: Accepted (request accepted, and queued for execution)
     PreconditionFailed:
       description: Precondition failed
     Created:
       description: Created
-    PayloadTooLarge:
-      description: Request entity too large
-    OK:
-      description: OK
     Unauthorized:
       description: Unauthorized / Authentication Failure
       content:
@@ -109,19 +119,26 @@ components:
             $ref: '#/components/schemas/Detail'
           example:
             detail: Authentication credentials were not provided.
-    BadRequest:
-      description: Bad Request (missing or invalid data provided). The response body contains an "error" attribute explaining what happened and how to correct it, if applicable.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotImplemented:
       description: Not implemented
-    ServiceUnavailable:
-      description: Service unavailable
-    Forbidden:
-      description: Forbidden
   schemas:
+    Collection:
+      type: object
+      properties:
+        title:
+          type: string
+        id:
+          type: string
+    Product:
+      type: object
+      required:
+      - title
+      - sku
+      properties:
+        title:
+          type: string
+        sku:
+          type: string
     Order:
       type: object
       required:
@@ -169,6 +186,35 @@ components:
           type: array
           items:
             type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Explains what happened and how to correct it
+          if applicable.: null
+    Customer:
+      type: object
+      required:
+      - phone
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone:
+          type: string
+          description: E164 formatted subscriber phone number.
+          example: '+14132737194'
+        email:
+          type: string
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
     LineItem:
       type: object
       required:
@@ -190,15 +236,17 @@ components:
         extra_data:
           type: object
           additionalProperties: true
-    Product:
+    Variant:
       type: object
-      required:
-      - title
-      - sku
       properties:
+        id:
+          type: string
         title:
           type: string
-        sku:
+    Detail:
+      type: object
+      properties:
+        detail:
           type: string
     ShippingAddress:
       type: object
@@ -222,54 +270,6 @@ components:
         extra_data:
           type: object
           additionalProperties: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Explains what happened and how to correct it
-          if applicable.: null
-    Detail:
-      type: object
-      properties:
-        detail:
-          type: string
-    Variant:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-    Customer:
-      type: object
-      required:
-      - phone
-      properties:
-        id:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        phone:
-          type: string
-          description: E164 formatted subscriber phone number.
-          example: '+14132737194'
-        email:
-          type: string
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
-    Collection:
-      type: object
-      properties:
-        title:
-          type: string
-        id:
-          type: string
   securitySchemes:
     TokenAuth:
       type: apiKey

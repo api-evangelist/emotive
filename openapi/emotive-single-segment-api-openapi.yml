@@ -89,26 +89,21 @@ components:
       schema:
         type: integer
   schemas:
-    SegmentObject:
-      allOf:
-      - $ref: '#/components/schemas/SegmentBase'
+    SegmentBase:
       description: Basic segment response object
       properties:
-        created:
-          description: Creation date of segment
-          type: string
-        id:
-          description: Unique identifier for the given Segment
-          type: integer
-        is_favorite:
-          description: Whether it is a favorited Segment
+        is_template:
           type: boolean
-        user_count:
-          description: Number of customers in Segment
-          type:
-          - integer
-          - 'null'
-      title: SegmentObject
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
       type: object
     SegmentRule:
       description: Segment rule array
@@ -132,19 +127,24 @@ components:
       - conditional_variable
       title: SegmentRules
       type: object
-    SegmentBase:
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
       description: Basic segment response object
       properties:
-        is_template:
-          type: boolean
-        rules:
-          items:
-            items:
-              $ref: '#/components/schemas/SegmentRule'
-            type: array
-          type: array
-        title:
-          description: Label / searchable title for Segment
+        created:
+          description: Creation date of segment
           type: string
-      title: SegmentBase
+        id:
+          description: Unique identifier for the given Segment
+          type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
       type: object

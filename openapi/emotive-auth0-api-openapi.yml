@@ -192,6 +192,21 @@ paths:
       - Auth0
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    Auth0JWTPayload:
+      properties:
+        access_token:
+          type: string
+        id_token:
+          type: string
+      required:
+      - access_token
+      - id_token
+      type: object
     Auth0LoginPayload:
       properties:
         password:
@@ -222,21 +237,6 @@ components:
       required:
       - email
       - password
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
-    Auth0JWTPayload:
-      properties:
-        access_token:
-          type: string
-        id_token:
-          type: string
-      required:
-      - access_token
-      - id_token
       type: object
   securitySchemes:
     ApiKeyAuth:

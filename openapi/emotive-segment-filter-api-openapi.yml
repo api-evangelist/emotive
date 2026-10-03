@@ -33,44 +33,28 @@ paths:
       - Segment Filter
 components:
   schemas:
-    PaginatedSegments:
-      description: Basic segment list response object
-      properties:
-        limit:
-          description: The currently returned limit number
-          type: integer
-        offset:
-          description: The currently returned offset number
-          type: integer
-        results:
-          items:
-            $ref: '#/components/schemas/SegmentObjectWithBroadcastCount'
-          type: array
-        total_count:
-          description: total number of matching segments
-          type: integer
-      title: PaginatedSegments
-      type: object
-    SegmentObject:
+    SegmentObjectWithBroadcastCount:
       allOf:
-      - $ref: '#/components/schemas/SegmentBase'
+      - $ref: '#/components/schemas/SegmentObject'
+      properties:
+        broadcast_count:
+          description: Count of broadcasts
+          type: integer
+    SegmentBase:
       description: Basic segment response object
       properties:
-        created:
-          description: Creation date of segment
-          type: string
-        id:
-          description: Unique identifier for the given Segment
-          type: integer
-        is_favorite:
-          description: Whether it is a favorited Segment
+        is_template:
           type: boolean
-        user_count:
-          description: Number of customers in Segment
-          type:
-          - integer
-          - 'null'
-      title: SegmentObject
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
       type: object
     SegmentRule:
       description: Segment rule array
@@ -94,30 +78,60 @@ components:
       - conditional_variable
       title: SegmentRules
       type: object
-    SegmentBase:
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
       description: Basic segment response object
       properties:
-        is_template:
-          type: boolean
-        rules:
-          items:
-            items:
-              $ref: '#/components/schemas/SegmentRule'
-            type: array
-          type: array
-        title:
-          description: Label / searchable title for Segment
+        created:
+          description: Creation date of segment
           type: string
-      title: SegmentBase
-      type: object
-    SegmentObjectWithBroadcastCount:
-      allOf:
-      - $ref: '#/components/schemas/SegmentObject'
-      properties:
-        broadcast_count:
-          description: Count of broadcasts
+        id:
+          description: Unique identifier for the given Segment
           type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
+      type: object
+    PaginatedSegments:
+      description: Basic segment list response object
+      properties:
+        limit:
+          description: The currently returned limit number
+          type: integer
+        offset:
+          description: The currently returned offset number
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/SegmentObjectWithBroadcastCount'
+          type: array
+        total_count:
+          description: total number of matching segments
+          type: integer
+      title: PaginatedSegments
+      type: object
   parameters:
+    Offset:
+      description: The offset to return
+      in: query
+      name: offset
+      schema:
+        default: 0
+        type: integer
+    Limit:
+      description: The limit of objects to return
+      in: query
+      name: limit
+      schema:
+        default: 10
+        type: integer
     SegmentType:
       description: The category / segment type filter to apply to segments
       in: query
@@ -129,19 +143,18 @@ components:
         - third_party
         - custom
         type: string
+    SegmentTitle:
+      description: The title filter to apply to segments
+      in: query
+      name: title
+      schema:
+        type: string
     SegmentIsFavorite:
       description: The is_favorite filter to apply to segments
       in: query
       name: is_favorite
       schema:
         type: boolean
-    Limit:
-      description: The limit of objects to return
-      in: query
-      name: limit
-      schema:
-        default: 10
-        type: integer
     SegmentSortBy:
       description: The sorting for segments which are returned
       in: query
@@ -153,12 +166,6 @@ components:
         - created
         - is_favorite
         type: string
-    SegmentTitle:
-      description: The title filter to apply to segments
-      in: query
-      name: title
-      schema:
-        type: string
     SegmentOrder:
       description: Whether order is ascending or descending
       in: query
@@ -169,10 +176,3 @@ components:
         - asc
         - desc
         type: string
-    Offset:
-      description: The offset to return
-      in: query
-      name: offset
-      schema:
-        default: 0
-        type: integer

@@ -238,33 +238,11 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    TicketSystemTypeSchema:
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    ConnectionListSchema:
-      items:
-        $ref: '#/components/schemas/ConnectionSchema'
-      type: array
-    ConnectionInternalRequestSchema:
-      properties:
-        auth_type:
-          $ref: '#/components/schemas/authType'
-        auth_value:
-          type: string
-        brand_id:
-          type: integer
-        status:
-          enum:
-          - active
-          - disabled
-          type: string
-        ticket_system_type:
-          type: string
-      type: object
+    authType:
+      enum:
+      - api_token
+      - alloy_user_id
+      type: string
     ConnectionSchema:
       properties:
         auth_type:
@@ -283,9 +261,20 @@ components:
         ticket_system_type:
           $ref: '#/components/schemas/TicketSystemTypeSchema'
       type: object
-    JsonResponse:
+    ConnectionInternalRequestSchema:
       properties:
-        message:
+        auth_type:
+          $ref: '#/components/schemas/authType'
+        auth_value:
+          type: string
+        brand_id:
+          type: integer
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        ticket_system_type:
           type: string
       type: object
     ConnectionRequestSchema:
@@ -300,11 +289,22 @@ components:
         ticket_system_type_id:
           type: integer
       type: object
-    authType:
-      enum:
-      - api_token
-      - alloy_user_id
-      type: string
+    ConnectionListSchema:
+      items:
+        $ref: '#/components/schemas/ConnectionSchema'
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    TicketSystemTypeSchema:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
   securitySchemes:
     AlloyKeyAuth:
       in: header

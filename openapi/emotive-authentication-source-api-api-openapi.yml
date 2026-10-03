@@ -200,14 +200,17 @@ paths:
       - Authentication Source API
 components:
   schemas:
-    MutateAuthenticationSourceSchema:
+    JsonResponse:
       properties:
-        authentication_details:
+        message:
           type: string
-        is_default:
-          type: boolean
-        source_id:
-          type: integer
+      type: object
+    AuthenticationSourceListSchema:
+      properties:
+        authentication_sources:
+          items:
+            $ref: '#/components/schemas/AuthenticationSourceSchema'
+          type: array
       type: object
     AuthenticationSourceSchema:
       properties:
@@ -228,17 +231,14 @@ components:
           - token
           type: string
       type: object
-    AuthenticationSourceListSchema:
+    MutateAuthenticationSourceSchema:
       properties:
-        authentication_sources:
-          items:
-            $ref: '#/components/schemas/AuthenticationSourceSchema'
-          type: array
-      type: object
-    JsonResponse:
-      properties:
-        message:
+        authentication_details:
           type: string
+        is_default:
+          type: boolean
+        source_id:
+          type: integer
       type: object
   securitySchemes:
     ApiKeyAuth:

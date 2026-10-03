@@ -210,16 +210,52 @@ paths:
       - User API
 components:
   schemas:
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
+    UsersMeResponse:
+      properties:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        user:
+          properties:
+            access_roles:
+              $ref: '#/components/schemas/UserAccessRoles'
+            created:
+              format: date-time
+              type: string
+            email:
+              type:
+              - string
+              - 'null'
+            email_hash:
+              description: HMAC-SHA256 of the user's email (or username when no email is set), signed with the Pylon identification secret. Used to verify the user's identity to the Pylon support chat. Null when no secret is configured.
+              type:
+              - string
+              - 'null'
+            first_name:
+              type: string
+            id:
+              type: integer
+            last_name:
+              type: string
+            status:
+              enum:
+              - active
+              - suspended
+              - disabled
+              type: string
+            updated:
+              format: date-time
+              type:
+              - string
+              - 'null'
+          type: object
+      type: object
     MutateUserSchema:
       properties:
         access_roles:
@@ -275,6 +311,16 @@ components:
         username:
           type: string
       type: object
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
     UserAccessRoles:
       items:
         properties:
@@ -288,66 +334,20 @@ components:
             type: string
         type: object
       type: array
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
     JsonResponse:
       properties:
         message:
           type: string
-      type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    UsersMeResponse:
-      properties:
-        brands:
-          items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
-          type: array
-        user:
-          properties:
-            access_roles:
-              $ref: '#/components/schemas/UserAccessRoles'
-            created:
-              format: date-time
-              type: string
-            email:
-              type:
-              - string
-              - 'null'
-            email_hash:
-              description: HMAC-SHA256 of the user's email (or username when no email is set), signed with the Pylon identification secret. Used to verify the user's identity to the Pylon support chat. Null when no secret is configured.
-              type:
-              - string
-              - 'null'
-            first_name:
-              type: string
-            id:
-              type: integer
-            last_name:
-              type: string
-            status:
-              enum:
-              - active
-              - suspended
-              - disabled
-              type: string
-            updated:
-              format: date-time
-              type:
-              - string
-              - 'null'
-          type: object
       type: object
   securitySchemes:
     ApiKeyAuth:

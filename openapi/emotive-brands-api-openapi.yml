@@ -693,65 +693,14 @@ paths:
       - Brands
 components:
   schemas:
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
-    BrandAPIResponse:
+    BrandListSchema:
       properties:
         brands:
           items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
+            $ref: '#/components/schemas/BrandSchema'
           type: array
         next_page:
           type: string
-      type: object
-    RoleSchema:
-      properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    BrandSchema:
-      properties:
-        brand_products:
-          items:
-            $ref: '#/components/schemas/BrandProducts'
-          type: array
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    BrandProducts:
-      properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    InvitationListSchema:
-      properties:
-        invitations:
-          items:
-            $ref: '#/components/schemas/InvitationSchema'
-          type: array
       type: object
     UserSchema:
       properties:
@@ -779,24 +728,56 @@ components:
         username:
           type: string
       type: object
-    ProductSchema:
+    InvitationListSchema:
       properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-        roles:
+        invitations:
           items:
-            $ref: '#/components/schemas/RoleSchema'
+            $ref: '#/components/schemas/InvitationSchema'
           type: array
       type: object
-    BrandListSchema:
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    BrandAPIResponse:
       properties:
         brands:
           items:
-            $ref: '#/components/schemas/BrandSchema'
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
           type: array
         next_page:
           type: string
@@ -818,19 +799,56 @@ components:
           example: Brand Name
           type: string
       type: object
-    UserAccessRoles:
-      items:
-        properties:
-          brand_id:
-            type: integer
-          product_name:
-            type: string
-          role_id:
-            type: integer
-          role_name:
-            type: string
-        type: object
-      type: array
+    BrandProducts:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    ProductListSchema:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/ProductSchema'
+          type: array
+      type: object
+    UserAccessSchema:
+      properties:
+        access_roles:
+          $ref: '#/components/schemas/UserAccessRoles'
+        groups:
+          $ref: '#/components/schemas/GroupAccessRoles'
+      type: object
+    RoleSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ProductSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/RoleSchema'
+          type: array
+      type: object
     InvitationSchema:
       properties:
         accepted_by:
@@ -853,34 +871,16 @@ components:
             $ref: '#/components/schemas/RoleSchema'
           type: array
       type: object
-    UserAccessSchema:
+    BrandSchema:
       properties:
-        access_roles:
-          $ref: '#/components/schemas/UserAccessRoles'
-        groups:
-          $ref: '#/components/schemas/GroupAccessRoles'
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
-    ProductListSchema:
-      properties:
-        products:
+        brand_products:
           items:
-            $ref: '#/components/schemas/ProductSchema'
+            $ref: '#/components/schemas/BrandProducts'
           type: array
-      type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
+        id:
+          type: integer
+        name:
           type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

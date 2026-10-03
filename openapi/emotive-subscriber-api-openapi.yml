@@ -39,10 +39,27 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PropertyList:
-      items:
-        $ref: '#/components/schemas/Property'
-      type: array
+    Property:
+      properties:
+        key:
+          type: string
+        type:
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+          type: string
+        value:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      required:
+      - key
+      - value
+      type: object
     Subscriber:
       anyOf:
       - required:
@@ -94,11 +111,6 @@ components:
         subsource_identifier:
           type: string
       type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ExternalIdentifier:
       properties:
         custom:
@@ -115,24 +127,12 @@ components:
         shopify:
           type: string
       type: object
-    Property:
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
+    JsonResponse:
       properties:
-        key:
+        message:
           type: string
-        type:
-          enum:
-          - string
-          - number
-          - boolean
-          - datetime
-          type: string
-        value:
-          anyOf:
-          - type: string
-          - type: number
-          - type: integer
-          - type: boolean
-      required:
-      - key
-      - value
       type: object

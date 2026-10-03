@@ -298,15 +298,56 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    status:
+    systemType:
       enum:
-      - new
-      - open
-      - pending
-      - on_hold
-      - solved
-      - closed
+      - freshdesk
+      - gorgias
+      - reamaze
+      - zendesk
+      - hubspot
+      - kustomer
+      - zoho-desk
+      - alloy
+      - custom
       type: string
+    ticketEvent:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
+      properties:
+        created:
+          type: string
+        id:
+          type: integer
+        ticket_id:
+          type: integer
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ticketListResponse:
+      properties:
+        items:
+          $ref: '#/components/schemas/ticketList'
+        next:
+          type: string
+      required:
+      - items
+      type: object
+    ticketEventBase:
+      properties:
+        agent_id:
+          type:
+          - string
+          - 'null'
+        event_time:
+          type: string
+        message:
+          type: string
+        status:
+          $ref: '#/components/schemas/status'
+      type: object
     ticket:
       description: THe full ticket information once created with Emotive
       properties:
@@ -336,60 +377,10 @@ components:
       - external_ticket_id
       - external_user_id
       - status
-    ticketEventBase:
-      properties:
-        agent_id:
-          type:
-          - string
-          - 'null'
-        event_time:
-          type: string
-        message:
-          type: string
-        status:
-          $ref: '#/components/schemas/status'
-      type: object
-    systemType:
-      enum:
-      - freshdesk
-      - gorgias
-      - reamaze
-      - zendesk
-      - hubspot
-      - kustomer
-      - zoho-desk
-      - alloy
-      - custom
-      type: string
-    ticketEvent:
-      allOf:
-      - $ref: '#/components/schemas/ticketEventBase'
-      properties:
-        created:
-          type: string
-        id:
-          type: integer
-        ticket_id:
-          type: integer
-      type: object
     ticketList:
       items:
         $ref: '#/components/schemas/ticket'
       type: array
-    ticketListResponse:
-      properties:
-        items:
-          $ref: '#/components/schemas/ticketList'
-        next:
-          type: string
-      required:
-      - items
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ticketEventCreateRequest:
       allOf:
       - $ref: '#/components/schemas/ticketEventBase'
@@ -403,6 +394,15 @@ components:
       - event_time
       - system_type
       type: object
+    status:
+      enum:
+      - new
+      - open
+      - pending
+      - on_hold
+      - solved
+      - closed
+      type: string
   securitySchemes:
     AlloyKeyAuth:
       in: header
