@@ -693,13 +693,41 @@ paths:
       - Brands
 components:
   schemas:
-    BrandListSchema:
+    InvitationSchema:
       properties:
-        brands:
+        accepted_by:
+          type: integer
+        accepted_on:
+          format: date-time
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        email:
+          type: string
+        expires_at:
+          format: date-time
+          type: string
+        id:
+          type: integer
+        roles:
           items:
-            $ref: '#/components/schemas/BrandSchema'
+            $ref: '#/components/schemas/RoleSchema'
           type: array
-        next_page:
+      type: object
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    JsonResponse:
+      properties:
+        message:
           type: string
       type: object
     UserSchema:
@@ -728,13 +756,6 @@ components:
         username:
           type: string
       type: object
-    InvitationListSchema:
-      properties:
-        invitations:
-          items:
-            $ref: '#/components/schemas/InvitationSchema'
-          type: array
-      type: object
     UserListSchema:
       properties:
         next_page:
@@ -745,16 +766,6 @@ components:
             $ref: '#/components/schemas/UserSchema'
           type: array
       type: object
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
     UserAccessRoles:
       items:
         properties:
@@ -768,19 +779,21 @@ components:
             type: string
         type: object
       type: array
-    BrandAPIResponse:
+    BrandListSchema:
       properties:
         brands:
           items:
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-            type: object
+            $ref: '#/components/schemas/BrandSchema'
           type: array
         next_page:
           type: string
+      type: object
+    InvitationListSchema:
+      properties:
+        invitations:
+          items:
+            $ref: '#/components/schemas/InvitationSchema'
+          type: array
       type: object
     CreateBrandSchema:
       properties:
@@ -799,21 +812,30 @@ components:
           example: Brand Name
           type: string
       type: object
-    BrandProducts:
+    BrandAPIResponse:
       properties:
-        description:
+        brands:
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+            type: object
+          type: array
+        next_page:
           type: string
+      type: object
+    BrandSchema:
+      properties:
+        brand_products:
+          items:
+            $ref: '#/components/schemas/BrandProducts'
+          type: array
         id:
           type: integer
         name:
           type: string
-      type: object
-    ProductListSchema:
-      properties:
-        products:
-          items:
-            $ref: '#/components/schemas/ProductSchema'
-          type: array
       type: object
     UserAccessSchema:
       properties:
@@ -822,18 +844,20 @@ components:
         groups:
           $ref: '#/components/schemas/GroupAccessRoles'
       type: object
-    RoleSchema:
+    ProductListSchema:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/ProductSchema'
+          type: array
+      type: object
+    BrandProducts:
       properties:
         description:
           type: string
         id:
           type: integer
         name:
-          type: string
-      type: object
-    JsonResponse:
-      properties:
-        message:
           type: string
       type: object
     ProductSchema:
@@ -849,34 +873,10 @@ components:
             $ref: '#/components/schemas/RoleSchema'
           type: array
       type: object
-    InvitationSchema:
+    RoleSchema:
       properties:
-        accepted_by:
-          type: integer
-        accepted_on:
-          format: date-time
+        description:
           type: string
-        created_at:
-          format: date-time
-          type: string
-        email:
-          type: string
-        expires_at:
-          format: date-time
-          type: string
-        id:
-          type: integer
-        roles:
-          items:
-            $ref: '#/components/schemas/RoleSchema'
-          type: array
-      type: object
-    BrandSchema:
-      properties:
-        brand_products:
-          items:
-            $ref: '#/components/schemas/BrandProducts'
-          type: array
         id:
           type: integer
         name:

@@ -67,50 +67,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Property:
-      properties:
-        key:
-          type: string
-        type:
-          enum:
-          - string
-          - number
-          - boolean
-          - datetime
-          type: string
-        value:
-          anyOf:
-          - type: string
-          - type: number
-          - type: integer
-          - type: boolean
-      required:
-      - key
-      - value
-      type: object
-    PropertyList:
-      items:
-        $ref: '#/components/schemas/Property'
-      type: array
-    AlloyError:
-      properties:
-        blockId:
-          type: string
-        blockType:
-          type: string
-        error:
-          type: string
-        executionId:
-          type: string
-        workflowId:
-          type: string
-      required:
-      - workflowId
-      - executionId
-      - blockId
-      - blockType
-      - error
-      type: object
     ProfileProperty:
       properties:
         email:
@@ -141,4 +97,48 @@ components:
       properties:
         message:
           type: string
+      type: object
+    AlloyError:
+      properties:
+        blockId:
+          type: string
+        blockType:
+          type: string
+        error:
+          type: string
+        executionId:
+          type: string
+        workflowId:
+          type: string
+      required:
+      - workflowId
+      - executionId
+      - blockId
+      - blockType
+      - error
+      type: object
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array
+    Property:
+      properties:
+        key:
+          type: string
+        type:
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+          type: string
+        value:
+          anyOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+      required:
+      - key
+      - value
       type: object

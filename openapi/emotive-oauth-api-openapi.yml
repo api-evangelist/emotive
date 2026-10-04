@@ -76,24 +76,10 @@ paths:
       - OAuth
 components:
   schemas:
-    AuthPostRefreshGrantPayload:
+    JsonResponse:
       properties:
-        grant_type:
-          description: grant type of the authentication request
-          enum:
-          - refresh_token
+        message:
           type: string
-        refresh_token:
-          description: refesh token for refreshing expired access token
-          minLength: 10
-          type: string
-        scope:
-          description: scope for the authentication request
-          enum:
-          - '*'
-          type: string
-      required:
-      - grant_type
       type: object
     JwtResponse:
       properties:
@@ -115,17 +101,31 @@ components:
       - token_type
       - user_info
       type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     AuthPostClientCredentialsGrantPayload:
       properties:
         grant_type:
           description: grant type of the authentication request
           enum:
           - client_credentials
+          type: string
+        scope:
+          description: scope for the authentication request
+          enum:
+          - '*'
+          type: string
+      required:
+      - grant_type
+      type: object
+    AuthPostRefreshGrantPayload:
+      properties:
+        grant_type:
+          description: grant type of the authentication request
+          enum:
+          - refresh_token
+          type: string
+        refresh_token:
+          description: refesh token for refreshing expired access token
+          minLength: 10
           type: string
         scope:
           description: scope for the authentication request

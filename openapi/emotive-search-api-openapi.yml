@@ -99,6 +99,21 @@ paths:
       - Search
 components:
   schemas:
+    GroupAccessRoles:
+      items:
+        items:
+          enum:
+          - admin
+          - manager
+          - lifecycle_marketer
+          - support
+          type: string
+      type: array
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     UserSchema:
       properties:
         access_roles:
@@ -148,16 +163,6 @@ components:
             type: string
         type: object
       type: array
-    GroupAccessRoles:
-      items:
-        items:
-          enum:
-          - admin
-          - manager
-          - lifecycle_marketer
-          - support
-          type: string
-      type: array
     BrandAPIResponse:
       properties:
         brands:
@@ -170,11 +175,6 @@ components:
             type: object
           type: array
         next_page:
-          type: string
-      type: object
-    JsonResponse:
-      properties:
-        message:
           type: string
       type: object
   securitySchemes:

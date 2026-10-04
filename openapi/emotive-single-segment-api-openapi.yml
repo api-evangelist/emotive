@@ -89,22 +89,6 @@ components:
       schema:
         type: integer
   schemas:
-    SegmentBase:
-      description: Basic segment response object
-      properties:
-        is_template:
-          type: boolean
-        rules:
-          items:
-            items:
-              $ref: '#/components/schemas/SegmentRule'
-            type: array
-          type: array
-        title:
-          description: Label / searchable title for Segment
-          type: string
-      title: SegmentBase
-      type: object
     SegmentRule:
       description: Segment rule array
       properties:
@@ -126,6 +110,22 @@ components:
       - entity
       - conditional_variable
       title: SegmentRules
+      type: object
+    SegmentBase:
+      description: Basic segment response object
+      properties:
+        is_template:
+          type: boolean
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
       type: object
     SegmentObject:
       allOf:

@@ -158,6 +158,11 @@ paths:
       - Product API
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     ProductListSchema:
       properties:
         products:
@@ -176,20 +181,6 @@ components:
             $ref: '#/components/schemas/RoleSchema'
           type: array
       type: object
-    RoleSchema:
-      properties:
-        description:
-          type: string
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ProductSchema:
       properties:
         description:
@@ -202,6 +193,15 @@ components:
           items:
             $ref: '#/components/schemas/RoleSchema'
           type: array
+      type: object
+    RoleSchema:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+        name:
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -298,6 +298,24 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    ticketEventBase:
+      properties:
+        agent_id:
+          type:
+          - string
+          - 'null'
+        event_time:
+          type: string
+        message:
+          type: string
+        status:
+          $ref: '#/components/schemas/status'
+      type: object
     systemType:
       enum:
       - freshdesk
@@ -321,11 +339,6 @@ components:
         ticket_id:
           type: integer
       type: object
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ticketListResponse:
       properties:
         items:
@@ -335,18 +348,31 @@ components:
       required:
       - items
       type: object
-    ticketEventBase:
+    status:
+      enum:
+      - new
+      - open
+      - pending
+      - on_hold
+      - solved
+      - closed
+      type: string
+    ticketList:
+      items:
+        $ref: '#/components/schemas/ticket'
+      type: array
+    ticketEventCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/ticketEventBase'
       properties:
-        agent_id:
-          type:
-          - string
-          - 'null'
-        event_time:
-          type: string
-        message:
-          type: string
-        status:
-          $ref: '#/components/schemas/status'
+        system_type:
+          $ref: '#/components/schemas/systemType'
+          description: External help desk system type name
+      required:
+      - message
+      - status
+      - event_time
+      - system_type
       type: object
     ticket:
       description: THe full ticket information once created with Emotive
@@ -377,32 +403,6 @@ components:
       - external_ticket_id
       - external_user_id
       - status
-    ticketList:
-      items:
-        $ref: '#/components/schemas/ticket'
-      type: array
-    ticketEventCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/ticketEventBase'
-      properties:
-        system_type:
-          $ref: '#/components/schemas/systemType'
-          description: External help desk system type name
-      required:
-      - message
-      - status
-      - event_time
-      - system_type
-      type: object
-    status:
-      enum:
-      - new
-      - open
-      - pending
-      - on_hold
-      - solved
-      - closed
-      type: string
   securitySchemes:
     AlloyKeyAuth:
       in: header

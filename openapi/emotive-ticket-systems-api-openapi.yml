@@ -65,6 +65,21 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    TicketSystemFlowListSchema:
+      properties:
+        flows:
+          items:
+            $ref: '#/components/schemas/TicketSystemFlowSchema'
+          type: array
+        id:
+          type: integer
+        title:
+          type: string
     TicketSystemFlowSchema:
       properties:
         description:
@@ -82,21 +97,6 @@ components:
           items:
             $ref: '#/components/schemas/TicketSystemTypeSchema'
           type: array
-      type: object
-    TicketSystemFlowListSchema:
-      properties:
-        flows:
-          items:
-            $ref: '#/components/schemas/TicketSystemFlowSchema'
-          type: array
-        id:
-          type: integer
-        title:
-          type: string
-    JsonResponse:
-      properties:
-        message:
-          type: string
       type: object
     TicketSystemTypeSchema:
       properties:

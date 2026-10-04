@@ -83,34 +83,34 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
 components:
   responses:
-    NotFound:
-      description: Resource not found
-    PayloadTooLarge:
-      description: Request entity too large
-    InternalServerError:
-      description: Internal server error
+    MethodNotAllowed:
+      description: Method not allowed
     Conflict:
       description: Conflict
+    QueuedForExecution:
+      description: Accepted (request accepted, and queued for execution)
+    NotFound:
+      description: Resource not found
+    NotImplemented:
+      description: Not implemented
+    Forbidden:
+      description: Forbidden
+    PayloadTooLarge:
+      description: Request entity too large
+    ServiceUnavailable:
+      description: Service unavailable
+    Created:
+      description: Created
+    InternalServerError:
+      description: Internal server error
     BadRequest:
       description: Bad Request (missing or invalid data provided). The response body contains an "error" attribute explaining what happened and how to correct it, if applicable.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ServiceUnavailable:
-      description: Service unavailable
-    Forbidden:
-      description: Forbidden
-    MethodNotAllowed:
-      description: Method not allowed
-    OK:
-      description: OK
-    QueuedForExecution:
-      description: Accepted (request accepted, and queued for execution)
     PreconditionFailed:
       description: Precondition failed
-    Created:
-      description: Created
     Unauthorized:
       description: Unauthorized / Authentication Failure
       content:
@@ -119,9 +119,52 @@ components:
             $ref: '#/components/schemas/Detail'
           example:
             detail: Authentication credentials were not provided.
-    NotImplemented:
-      description: Not implemented
+    OK:
+      description: OK
   schemas:
+    ShippingAddress:
+      type: object
+      properties:
+        name:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state_code:
+          type: string
+        zip:
+          type: string
+        country_code:
+          type: string
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
+    LineItem:
+      type: object
+      required:
+      - product
+      - price
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        collection:
+          $ref: '#/components/schemas/Collection'
+        variant:
+          $ref: '#/components/schemas/Variant'
+        price:
+          type: number
+        quantity:
+          type: integer
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
     Collection:
       type: object
       properties:
@@ -129,16 +172,13 @@ components:
           type: string
         id:
           type: string
-    Product:
+    Error:
       type: object
-      required:
-      - title
-      - sku
       properties:
-        title:
+        error:
           type: string
-        sku:
-          type: string
+          description: Explains what happened and how to correct it
+          if applicable.: null
     Order:
       type: object
       required:
@@ -186,13 +226,23 @@ components:
           type: array
           items:
             type: string
-    Error:
+    Variant:
       type: object
       properties:
-        error:
+        id:
           type: string
-          description: Explains what happened and how to correct it
-          if applicable.: null
+        title:
+          type: string
+    Product:
+      type: object
+      required:
+      - title
+      - sku
+      properties:
+        title:
+          type: string
+        sku:
+          type: string
     Customer:
       type: object
       required:
@@ -215,61 +265,11 @@ components:
         extra_data:
           type: object
           additionalProperties: true
-    LineItem:
-      type: object
-      required:
-      - product
-      - price
-      properties:
-        product:
-          $ref: '#/components/schemas/Product'
-        collection:
-          $ref: '#/components/schemas/Collection'
-        variant:
-          $ref: '#/components/schemas/Variant'
-        price:
-          type: number
-        quantity:
-          type: integer
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
-    Variant:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
     Detail:
       type: object
       properties:
         detail:
           type: string
-    ShippingAddress:
-      type: object
-      properties:
-        name:
-          type: string
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state_code:
-          type: string
-        zip:
-          type: string
-        country_code:
-          type: string
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
   securitySchemes:
     TokenAuth:
       type: apiKey
