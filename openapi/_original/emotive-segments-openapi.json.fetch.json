@@ -1,0 +1,12 @@
+{
+ "url": "https://api-gw.emotiveapp.co/segments/openapi.json",
+ "requested_url": "https://api-gw.emotiveapp.co/segments/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 6138,
+ "sha256": "46fc4dffe823d472425ed7fda713a5652d5487f6fd7b7c15e37ada8e2533f2fa",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}

@@ -1,0 +1,12 @@
+{
+ "url": "https://api-gw.emotiveapp.co/helpdesk/openapi.json",
+ "requested_url": "https://api-gw.emotiveapp.co/helpdesk/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 20078,
+ "sha256": "55a239ddd641985e55275b0ca4bacf23301cf3667eccbe9ecce75f8f3960bbf6",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

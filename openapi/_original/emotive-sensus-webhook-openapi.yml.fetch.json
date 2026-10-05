@@ -1,0 +1,12 @@
+{
+ "url": "https://api-gw.emotiveapp.co/sensus-webhook/openapi.json",
+ "requested_url": "https://api-gw.emotiveapp.co/sensus-webhook/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 8608,
+ "sha256": "b812889f7469bd9c7aa8f41e9232f79ea6cac29702be6cc2a0784732339586b7",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
