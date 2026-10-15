@@ -3,6 +3,7 @@ method: searched
 source:
 - https://zapier.com/apps/emotive/integrations
 checked:
+- https://a2aregistry.org/api/agents
 - https://composio.dev/toolkits/emotive
 - https://monid.ai/tools/emotive
 - https://n8n.io/integrations/emotive/
@@ -130,6 +131,39 @@ edges:
   direction: third-party
   category: Sales & CRM
   partner_url: https://distrobird.com/
+- partner_name: A2A protocol (own Agent Card)
+  partner: null
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: A2A agent
+  evidence: https://help.emotive.io/.well-known/agent-card.json
+  channel: provider-built
+  relationship: compatible
+  shape: a2a
+  evidence_kind: own-wellknown
+  degree: conformant
+  report_only: true
+  a2a_card:
+    grade: conformant
+    verdict: live
+    protocol_version: '0.3'
+    deviations:
+    - supportedInterfaces-instead-of-additionalInterfaces
+    card_subject: api
+  contract_reference:
+    register: provider's own /.well-known/agent-card.json
+    spec_file: null
+    standard: A2A
+    role: a2a-agent-card
+    registered_name: Emotive Knowledge Base
+    organization: Emotive Knowledge Base
+    matched_domain: emotive.io
+    matched_by: own-domain
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  detected_by: sweep-ai-agents.py
+  first_seen: '2026-10-15'
 templates:
 - title: Create Emotive orders from new or updated sticky.io orders
   url: https://zapier.com/apps/emotive/integrations/stickyio/1407313/create-emotive-orders-from-new-or-updated-stickyio-orders
