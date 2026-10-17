@@ -108,31 +108,10 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    WebhookSchema:
-      properties:
-        brand_id:
-          type: integer
-        id:
-          type: integer
-        platform:
-          enum:
-          - zapier
-          - alloy
-          - custom
-          type: string
-        status:
-          enum:
-          - active
-          - disabled
-          type: string
-        trigger:
-          enum:
-          - create
-          - update
-          type: string
-        webhook_url:
-          type: string
-      type: object
+    WebhookListSchema:
+      items:
+        $ref: '#/components/schemas/WebhookSchema'
+      type: array
     WebhookRequestSchema:
       properties:
         platform:
@@ -159,13 +138,34 @@ components:
       - webhook_url
       - trigger
       type: object
-    WebhookListSchema:
-      items:
-        $ref: '#/components/schemas/WebhookSchema'
-      type: array
     JsonResponse:
       properties:
         message:
+          type: string
+      type: object
+    WebhookSchema:
+      properties:
+        brand_id:
+          type: integer
+        id:
+          type: integer
+        platform:
+          enum:
+          - zapier
+          - alloy
+          - custom
+          type: string
+        status:
+          enum:
+          - active
+          - disabled
+          type: string
+        trigger:
+          enum:
+          - create
+          - update
+          type: string
+        webhook_url:
           type: string
       type: object
   securitySchemes:

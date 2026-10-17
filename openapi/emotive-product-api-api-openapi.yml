@@ -158,16 +158,17 @@ paths:
       - Product API
 components:
   schemas:
-    JsonResponse:
+    ProductSchema:
       properties:
-        message:
+        description:
           type: string
-      type: object
-    ProductListSchema:
-      properties:
-        products:
+        id:
+          type: integer
+        name:
+          type: string
+        roles:
           items:
-            $ref: '#/components/schemas/ProductSchema'
+            $ref: '#/components/schemas/RoleSchema'
           type: array
       type: object
     MutateProductSchema:
@@ -181,17 +182,16 @@ components:
             $ref: '#/components/schemas/RoleSchema'
           type: array
       type: object
-    ProductSchema:
+    JsonResponse:
       properties:
-        description:
+        message:
           type: string
-        id:
-          type: integer
-        name:
-          type: string
-        roles:
+      type: object
+    ProductListSchema:
+      properties:
+        products:
           items:
-            $ref: '#/components/schemas/RoleSchema'
+            $ref: '#/components/schemas/ProductSchema'
           type: array
       type: object
     RoleSchema:

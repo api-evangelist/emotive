@@ -39,15 +39,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    BulkSubscriber:
-      items:
-        $ref: '#/components/schemas/Subscriber'
-      type: array
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     Subscriber:
       anyOf:
       - required:
@@ -99,10 +90,22 @@ components:
         subsource_identifier:
           type: string
       type: object
-    PropertyList:
-      items:
-        $ref: '#/components/schemas/Property'
-      type: array
+    ExternalIdentifier:
+      properties:
+        custom:
+          items:
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            type: object
+          type: array
+        klaviyo:
+          type: string
+        shopify:
+          type: string
+      type: object
     Property:
       properties:
         key:
@@ -124,19 +127,16 @@ components:
       - key
       - value
       type: object
-    ExternalIdentifier:
+    JsonResponse:
       properties:
-        custom:
-          items:
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-            type: object
-          type: array
-        klaviyo:
-          type: string
-        shopify:
+        message:
           type: string
       type: object
+    BulkSubscriber:
+      items:
+        $ref: '#/components/schemas/Subscriber'
+      type: array
+    PropertyList:
+      items:
+        $ref: '#/components/schemas/Property'
+      type: array

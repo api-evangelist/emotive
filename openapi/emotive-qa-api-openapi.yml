@@ -39,11 +39,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     QAMessageCallbackBody:
       properties:
         body:
@@ -64,5 +59,10 @@ components:
           type: string
         to:
           description: The phone number of the recipient
+          type: string
+      type: object
+    JsonResponse:
+      properties:
+        message:
           type: string
       type: object

@@ -192,11 +192,6 @@ paths:
       - Auth0
 components:
   schemas:
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     Auth0JWTPayload:
       properties:
         access_token:
@@ -206,6 +201,26 @@ components:
       required:
       - access_token
       - id_token
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    Auth0PasswordResetPayload:
+      properties:
+        email:
+          description: email of the user for Emotive
+          format: email
+          type: string
+        password:
+          description: new password of the user for Emotive
+          maxLength: 100
+          minLength: 3
+          type: string
+      required:
+      - email
+      - password
       type: object
     Auth0LoginPayload:
       properties:
@@ -221,21 +236,6 @@ components:
           type: string
       required:
       - username
-      - password
-      type: object
-    Auth0PasswordResetPayload:
-      properties:
-        email:
-          description: email of the user for Emotive
-          format: email
-          type: string
-        password:
-          description: new password of the user for Emotive
-          maxLength: 100
-          minLength: 3
-          type: string
-      required:
-      - email
       - password
       type: object
   securitySchemes:

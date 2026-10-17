@@ -99,6 +99,16 @@ paths:
       - Search
 components:
   schemas:
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
     GroupAccessRoles:
       items:
         items:
@@ -109,11 +119,6 @@ components:
           - support
           type: string
       type: array
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     UserSchema:
       properties:
         access_roles:
@@ -140,15 +145,10 @@ components:
         username:
           type: string
       type: object
-    UserListSchema:
+    JsonResponse:
       properties:
-        next_page:
-          format: uri
+        message:
           type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
       type: object
     UserAccessRoles:
       items:

@@ -219,6 +219,13 @@ components:
           - token
           type: string
       type: object
+    AuthenticationSourceListSchema:
+      properties:
+        authentication_sources:
+          items:
+            $ref: '#/components/schemas/AuthenticationSourceSchema'
+          type: array
+      type: object
     JsonResponse:
       properties:
         message:
@@ -232,13 +239,6 @@ components:
           type: boolean
         source_id:
           type: integer
-      type: object
-    AuthenticationSourceListSchema:
-      properties:
-        authentication_sources:
-          items:
-            $ref: '#/components/schemas/AuthenticationSourceSchema'
-          type: array
       type: object
   securitySchemes:
     ApiKeyAuth:

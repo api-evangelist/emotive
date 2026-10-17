@@ -83,24 +83,18 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
 components:
   responses:
-    MethodNotAllowed:
-      description: Method not allowed
-    Conflict:
-      description: Conflict
-    QueuedForExecution:
-      description: Accepted (request accepted, and queued for execution)
-    NotFound:
-      description: Resource not found
+    PreconditionFailed:
+      description: Precondition failed
+    ServiceUnavailable:
+      description: Service unavailable
+    OK:
+      description: OK
     NotImplemented:
       description: Not implemented
     Forbidden:
       description: Forbidden
-    PayloadTooLarge:
-      description: Request entity too large
-    ServiceUnavailable:
-      description: Service unavailable
-    Created:
-      description: Created
+    MethodNotAllowed:
+      description: Method not allowed
     InternalServerError:
       description: Internal server error
     BadRequest:
@@ -109,8 +103,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    PreconditionFailed:
-      description: Precondition failed
+    PayloadTooLarge:
+      description: Request entity too large
+    Conflict:
+      description: Conflict
+    NotFound:
+      description: Resource not found
+    Created:
+      description: Created
+    QueuedForExecution:
+      description: Accepted (request accepted, and queued for execution)
     Unauthorized:
       description: Unauthorized / Authentication Failure
       content:
@@ -119,52 +121,7 @@ components:
             $ref: '#/components/schemas/Detail'
           example:
             detail: Authentication credentials were not provided.
-    OK:
-      description: OK
   schemas:
-    ShippingAddress:
-      type: object
-      properties:
-        name:
-          type: string
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        state_code:
-          type: string
-        zip:
-          type: string
-        country_code:
-          type: string
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
-    LineItem:
-      type: object
-      required:
-      - product
-      - price
-      properties:
-        product:
-          $ref: '#/components/schemas/Product'
-        collection:
-          $ref: '#/components/schemas/Collection'
-        variant:
-          $ref: '#/components/schemas/Variant'
-        price:
-          type: number
-        quantity:
-          type: integer
-        notes:
-          type: string
-        extra_data:
-          type: object
-          additionalProperties: true
     Collection:
       type: object
       properties:
@@ -179,6 +136,21 @@ components:
           type: string
           description: Explains what happened and how to correct it
           if applicable.: null
+    Detail:
+      type: object
+      properties:
+        detail:
+          type: string
+    Product:
+      type: object
+      required:
+      - title
+      - sku
+      properties:
+        title:
+          type: string
+        sku:
+          type: string
     Order:
       type: object
       required:
@@ -226,22 +198,33 @@ components:
           type: array
           items:
             type: string
+    LineItem:
+      type: object
+      required:
+      - product
+      - price
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        collection:
+          $ref: '#/components/schemas/Collection'
+        variant:
+          $ref: '#/components/schemas/Variant'
+        price:
+          type: number
+        quantity:
+          type: integer
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
     Variant:
       type: object
       properties:
         id:
           type: string
         title:
-          type: string
-    Product:
-      type: object
-      required:
-      - title
-      - sku
-      properties:
-        title:
-          type: string
-        sku:
           type: string
     Customer:
       type: object
@@ -265,11 +248,28 @@ components:
         extra_data:
           type: object
           additionalProperties: true
-    Detail:
+    ShippingAddress:
       type: object
       properties:
-        detail:
+        name:
           type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state_code:
+          type: string
+        zip:
+          type: string
+        country_code:
+          type: string
+        notes:
+          type: string
+        extra_data:
+          type: object
+          additionalProperties: true
   securitySchemes:
     TokenAuth:
       type: apiKey

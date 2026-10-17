@@ -210,6 +210,16 @@ paths:
       - User API
 components:
   schemas:
+    UserListSchema:
+      properties:
+        next_page:
+          format: uri
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/UserSchema'
+          type: array
+      type: object
     GroupAccessRoles:
       items:
         items:
@@ -220,11 +230,6 @@ components:
           - support
           type: string
       type: array
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     UserSchema:
       properties:
         access_roles:
@@ -251,58 +256,6 @@ components:
         username:
           type: string
       type: object
-    MutateUserSchema:
-      properties:
-        access_roles:
-          description: role_ids of the user.
-          items:
-            example: 1
-            minimum: 1
-            type: integer
-          type: array
-        email:
-          minLength: 1
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        password:
-          minLength: 6
-          type: string
-        status:
-          enum:
-          - active
-          - suspended
-          - disabled
-          type: string
-        username:
-          minLength: 1
-          type: string
-      type: object
-    UserListSchema:
-      properties:
-        next_page:
-          format: uri
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/UserSchema'
-          type: array
-      type: object
-    UserAccessRoles:
-      items:
-        properties:
-          brand_id:
-            type: integer
-          product_name:
-            type: string
-          role_id:
-            type: integer
-          role_name:
-            type: string
-        type: object
-      type: array
     UsersMeResponse:
       properties:
         brands:
@@ -348,6 +301,53 @@ components:
               - string
               - 'null'
           type: object
+      type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    UserAccessRoles:
+      items:
+        properties:
+          brand_id:
+            type: integer
+          product_name:
+            type: string
+          role_id:
+            type: integer
+          role_name:
+            type: string
+        type: object
+      type: array
+    MutateUserSchema:
+      properties:
+        access_roles:
+          description: role_ids of the user.
+          items:
+            example: 1
+            minimum: 1
+            type: integer
+          type: array
+        email:
+          minLength: 1
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        password:
+          minLength: 6
+          type: string
+        status:
+          enum:
+          - active
+          - suspended
+          - disabled
+          type: string
+        username:
+          minLength: 1
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -238,11 +238,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    JsonResponse:
-      properties:
-        message:
-          type: string
-      type: object
     ConnectionInternalRequestSchema:
       properties:
         auth_type:
@@ -257,6 +252,13 @@ components:
           - disabled
           type: string
         ticket_system_type:
+          type: string
+      type: object
+    TicketSystemTypeSchema:
+      properties:
+        id:
+          type: integer
+        name:
           type: string
       type: object
     ConnectionSchema:
@@ -277,15 +279,16 @@ components:
         ticket_system_type:
           $ref: '#/components/schemas/TicketSystemTypeSchema'
       type: object
+    JsonResponse:
+      properties:
+        message:
+          type: string
+      type: object
     authType:
       enum:
       - api_token
       - alloy_user_id
       type: string
-    ConnectionListSchema:
-      items:
-        $ref: '#/components/schemas/ConnectionSchema'
-      type: array
     ConnectionRequestSchema:
       properties:
         auth_type:
@@ -298,13 +301,10 @@ components:
         ticket_system_type_id:
           type: integer
       type: object
-    TicketSystemTypeSchema:
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-      type: object
+    ConnectionListSchema:
+      items:
+        $ref: '#/components/schemas/ConnectionSchema'
+      type: array
   securitySchemes:
     AlloyKeyAuth:
       in: header

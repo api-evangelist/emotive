@@ -80,14 +80,6 @@ paths:
       tags:
       - Single Segment
 components:
-  parameters:
-    SegmentId:
-      description: Segment's id to update
-      in: path
-      name: segment_id
-      required: true
-      schema:
-        type: integer
   schemas:
     SegmentRule:
       description: Segment rule array
@@ -148,3 +140,11 @@ components:
           - 'null'
       title: SegmentObject
       type: object
+  parameters:
+    SegmentId:
+      description: Segment's id to update
+      in: path
+      name: segment_id
+      required: true
+      schema:
+        type: integer

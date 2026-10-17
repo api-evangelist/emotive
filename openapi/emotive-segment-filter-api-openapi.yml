@@ -33,68 +33,6 @@ paths:
       - Segment Filter
 components:
   schemas:
-    SegmentBase:
-      description: Basic segment response object
-      properties:
-        is_template:
-          type: boolean
-        rules:
-          items:
-            items:
-              $ref: '#/components/schemas/SegmentRule'
-            type: array
-          type: array
-        title:
-          description: Label / searchable title for Segment
-          type: string
-      title: SegmentBase
-      type: object
-    SegmentObjectWithBroadcastCount:
-      allOf:
-      - $ref: '#/components/schemas/SegmentObject'
-      properties:
-        broadcast_count:
-          description: Count of broadcasts
-          type: integer
-    PaginatedSegments:
-      description: Basic segment list response object
-      properties:
-        limit:
-          description: The currently returned limit number
-          type: integer
-        offset:
-          description: The currently returned offset number
-          type: integer
-        results:
-          items:
-            $ref: '#/components/schemas/SegmentObjectWithBroadcastCount'
-          type: array
-        total_count:
-          description: total number of matching segments
-          type: integer
-      title: PaginatedSegments
-      type: object
-    SegmentObject:
-      allOf:
-      - $ref: '#/components/schemas/SegmentBase'
-      description: Basic segment response object
-      properties:
-        created:
-          description: Creation date of segment
-          type: string
-        id:
-          description: Unique identifier for the given Segment
-          type: integer
-        is_favorite:
-          description: Whether it is a favorited Segment
-          type: boolean
-        user_count:
-          description: Number of customers in Segment
-          type:
-          - integer
-          - 'null'
-      title: SegmentObject
-      type: object
     SegmentRule:
       description: Segment rule array
       properties:
@@ -117,7 +55,109 @@ components:
       - conditional_variable
       title: SegmentRules
       type: object
+    SegmentObject:
+      allOf:
+      - $ref: '#/components/schemas/SegmentBase'
+      description: Basic segment response object
+      properties:
+        created:
+          description: Creation date of segment
+          type: string
+        id:
+          description: Unique identifier for the given Segment
+          type: integer
+        is_favorite:
+          description: Whether it is a favorited Segment
+          type: boolean
+        user_count:
+          description: Number of customers in Segment
+          type:
+          - integer
+          - 'null'
+      title: SegmentObject
+      type: object
+    SegmentBase:
+      description: Basic segment response object
+      properties:
+        is_template:
+          type: boolean
+        rules:
+          items:
+            items:
+              $ref: '#/components/schemas/SegmentRule'
+            type: array
+          type: array
+        title:
+          description: Label / searchable title for Segment
+          type: string
+      title: SegmentBase
+      type: object
+    PaginatedSegments:
+      description: Basic segment list response object
+      properties:
+        limit:
+          description: The currently returned limit number
+          type: integer
+        offset:
+          description: The currently returned offset number
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/SegmentObjectWithBroadcastCount'
+          type: array
+        total_count:
+          description: total number of matching segments
+          type: integer
+      title: PaginatedSegments
+      type: object
+    SegmentObjectWithBroadcastCount:
+      allOf:
+      - $ref: '#/components/schemas/SegmentObject'
+      properties:
+        broadcast_count:
+          description: Count of broadcasts
+          type: integer
   parameters:
+    Offset:
+      description: The offset to return
+      in: query
+      name: offset
+      schema:
+        default: 0
+        type: integer
+    SegmentOrder:
+      description: Whether order is ascending or descending
+      in: query
+      name: order
+      schema:
+        default: asc
+        enum:
+        - asc
+        - desc
+        type: string
+    SegmentType:
+      description: The category / segment type filter to apply to segments
+      in: query
+      name: segment_type
+      schema:
+        enum:
+        - conversational
+        - behavioral
+        - third_party
+        - custom
+        type: string
+    SegmentIsFavorite:
+      description: The is_favorite filter to apply to segments
+      in: query
+      name: is_favorite
+      schema:
+        type: boolean
+    SegmentTitle:
+      description: The title filter to apply to segments
+      in: query
+      name: title
+      schema:
+        type: string
     SegmentSortBy:
       description: The sorting for segments which are returned
       in: query
@@ -135,44 +175,4 @@ components:
       name: limit
       schema:
         default: 10
-        type: integer
-    SegmentTitle:
-      description: The title filter to apply to segments
-      in: query
-      name: title
-      schema:
-        type: string
-    SegmentIsFavorite:
-      description: The is_favorite filter to apply to segments
-      in: query
-      name: is_favorite
-      schema:
-        type: boolean
-    SegmentType:
-      description: The category / segment type filter to apply to segments
-      in: query
-      name: segment_type
-      schema:
-        enum:
-        - conversational
-        - behavioral
-        - third_party
-        - custom
-        type: string
-    SegmentOrder:
-      description: Whether order is ascending or descending
-      in: query
-      name: order
-      schema:
-        default: asc
-        enum:
-        - asc
-        - desc
-        type: string
-    Offset:
-      description: The offset to return
-      in: query
-      name: offset
-      schema:
-        default: 0
         type: integer
