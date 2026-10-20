@@ -15,6 +15,7 @@
   evidence: https://zapier.com/apps/emotive/integrations/emotive/1550137/create-customers-conversations-and-notes-in-kustomer-from-new-emotive-tickets
   template: https://zapier.com/apps/emotive/integrations/emotive/1550137/create-customers-conversations-and-notes-in-kustomer-from-new-emotive-tickets
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: emotive-add-ticket-actions-in-emotive-for-new-kustomer-messages
@@ -29,6 +30,7 @@
   evidence: https://zapier.com/apps/emotive/integrations/kustomer/1550145/add-ticket-actions-in-emotive-for-new-kustomer-messages
   template: https://zapier.com/apps/emotive/integrations/kustomer/1550145/add-ticket-actions-in-emotive-for-new-kustomer-messages
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
   arazzo: null
 - slug: emotive-create-notes-in-kustomer-for-newly-updated-tickets-in-emotive
@@ -43,121 +45,8 @@
   evidence: https://zapier.com/apps/emotive/integrations/kustomer/1550161/create-notes-in-kustomer-for-newly-updated-tickets-in-emotive
   template: https://zapier.com/apps/emotive/integrations/kustomer/1550161/create-notes-in-kustomer-for-newly-updated-tickets-in-emotive
   source: template
+  relationship: ipaas-bridge
   status: pending-generation
-  arazzo: null
-- slug: emotive-google-calendar
-  label: Google Calendar
-  partner: google-calendar
-  partner_name: Google Calendar
-  category: Calendar
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/google-calendar
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: emotive-stripe-legacy
-  label: Stripe (Legacy)
-  partner: stripe
-  partner_name: Stripe (Legacy)
-  category: Payment Processing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/stripe-legacy
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: emotive-paypal
-  label: PayPal
-  partner: paypal
-  partner_name: PayPal
-  category: Payment Processing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/paypal
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: emotive-tiktok-conversions
-  label: TikTok Conversions
-  partner_name: TikTok Conversions
-  category: Ads & Conversion
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/tiktok-conversion
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: emotive-magento
-  label: Magento
-  partner: magento
-  partner_name: Magento
-  category: eCommerce
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/magento
-  source: edge
-  status: pending-generation
-  arazzo: null
-- slug: emotive-poplar
-  label: Poplar
-  partner_name: Poplar
-  category: Marketing
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/poplar
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: emotive-enchant
-  label: Enchant
-  partner_name: Enchant
-  category: Customer Support
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/enchant-1
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: emotive-distrobird
-  label: Distrobird
-  partner_name: Distrobird
-  category: Sales & CRM
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/distrobird
-  source: edge
-  status: pending-partner-spec
-  arazzo: null
-- slug: emotive-a2a-protocol-own-agent-card
-  label: A2A protocol (own Agent Card)
-  partner_name: A2A protocol (own Agent Card)
-  category: A2A agent
-  type: register
-  channel: provider-built
-  evidence: https://help.emotive.io/.well-known/agent-card.json
-  source: edge
-  relationship: compatible
-  contract_reference:
-    register: provider's own /.well-known/agent-card.json
-    spec_file: null
-    standard: A2A
-    role: a2a-agent-card
-    registered_name: Emotive Knowledge Base
-    organization: Emotive Knowledge Base
-    matched_domain: emotive.io
-    matched_by: own-domain
-    detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
-  status: not-a-workflow
   arazzo: null
 - slug: emotive-zapier
   label: Zapier
@@ -183,4 +72,127 @@
     beta: false
     builder: unknown (not in the directory record)
   status: not-a-workflow
+  arazzo: null
+- slug: emotive-a2a-protocol-own-agent-card
+  label: A2A protocol (own Agent Card)
+  partner_name: A2A protocol (own Agent Card)
+  category: A2A agent
+  type: register
+  channel: provider-built
+  evidence: https://help.emotive.io/.well-known/agent-card.json
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: provider's own /.well-known/agent-card.json
+    spec_file: null
+    standard: A2A
+    role: a2a-agent-card
+    registered_name: Emotive Knowledge Base
+    organization: Emotive Knowledge Base
+    matched_domain: emotive.io
+    matched_by: own-domain
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: emotive-google-calendar
+  label: Google Calendar
+  partner: google-calendar
+  partner_name: Google Calendar
+  category: Calendar
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/google-calendar
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: emotive-stripe-legacy
+  label: Stripe (Legacy)
+  partner: stripe
+  partner_name: Stripe (Legacy)
+  category: Payment Processing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/stripe-legacy
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: emotive-paypal
+  label: PayPal
+  partner: paypal
+  partner_name: PayPal
+  category: Payment Processing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/paypal
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: emotive-tiktok-conversions
+  label: TikTok Conversions
+  partner: tiktok
+  partner_name: TikTok Conversions
+  category: Ads & Conversion
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/tiktok-conversion
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: emotive-magento
+  label: Magento
+  partner: magento
+  partner_name: Magento
+  category: eCommerce
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/magento
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-generation
+  arazzo: null
+- slug: emotive-poplar
+  label: Poplar
+  partner_name: Poplar
+  category: Marketing
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/poplar
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: emotive-enchant
+  label: Enchant
+  partner_name: Enchant
+  category: Customer Support
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/enchant-1
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
+  arazzo: null
+- slug: emotive-distrobird
+  label: Distrobird
+  partner_name: Distrobird
+  category: Sales & CRM
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/emotive/integrations/distrobird
+  source: edge
+  relationship: ipaas-bridge
+  status: pending-partner-spec
   arazzo: null

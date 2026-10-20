@@ -1,4 +1,4 @@
-generated: '2026-10-12'
+generated: '2026-10-20'
 method: searched
 source:
 - https://zapier.com/apps/emotive/integrations
@@ -33,105 +33,31 @@ marketplace_apps:
     label: Update Ticket
   searches: []
 edges:
-- partner_name: Kustomer
-  partner: kustomer
-  partner_match: domain
-  partner_candidate: null
+- partner_name: Zapier
+  partner: zapier
+  partner_match: aggregator
   type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/kustomer
+  marketplace: zapier-directory
+  channel: ipaas-listing
+  relationship: ipaas-bridge
   direction: third-party
-  category: Customer Support
-  partner_url: http://kustomer.com/
-- partner_name: Google Calendar
-  partner: google-calendar
-  partner_match: name-exact
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/google-calendar
-  direction: third-party
-  category: Calendar
-  partner_url: https://calendar.google.com/
-- partner_name: Stripe (Legacy)
-  partner: stripe
-  partner_match: domain
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/stripe-legacy
-  direction: third-party
-  category: Payment Processing
-  partner_url: https://stripe.com/
-- partner_name: PayPal
-  partner: paypal
-  partner_match: domain
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/paypal
-  direction: third-party
-  category: Payment Processing
-  partner_url: https://www.paypal.com/
-- partner_name: TikTok Conversions
-  partner: null
-  partner_match: null
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/tiktok-conversion
-  direction: third-party
-  category: Ads & Conversion
-  partner_url: https://ads.tiktok.com/
-- partner_name: Magento
-  partner: magento
-  partner_match: name-exact
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/magento
-  direction: third-party
-  category: eCommerce
-  partner_url: https://magento.com/
-- partner_name: Poplar
-  partner: null
-  partner_match: null
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/poplar
-  direction: third-party
-  category: Marketing
-  partner_url: https://heypoplar.com/
-- partner_name: Enchant
-  partner: null
-  partner_match: null
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/enchant-1
-  direction: third-party
-  category: Customer Support
-  partner_url: https://www.enchant.com/
-- partner_name: Distrobird
-  partner: null
-  partner_match: null
-  partner_candidate: null
-  type: marketplace
-  marketplace: zapier
-  channel: ipaas-usage
-  evidence: https://zapier.com/apps/emotive/integrations/distrobird
-  direction: third-party
-  category: Sales & CRM
-  partner_url: https://distrobird.com/
+  evidence: https://zapier.com/apps/emotive/integrations
+  category: null
+  contract_reference:
+    register: Zapier app directory (zapier.com/api/v4/apps)
+    spec_file: null
+    role: ipaas-connector:zapier
+    registered_name: Emotive
+    matched_domain: emotive.io
+    matched_by: domain
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: emotive
+    beta: false
+    builder: unknown (not in the directory record)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 - partner_name: A2A protocol (own Agent Card)
   partner: null
   partner_match: register
@@ -162,34 +88,117 @@ edges:
     matched_domain: emotive.io
     matched_by: own-domain
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
-- partner_name: Zapier
-  partner: zapier
-  partner_match: aggregator
+- partner_name: Kustomer
+  partner: kustomer
+  partner_match: domain
+  partner_candidate: null
   type: marketplace
-  marketplace: zapier-directory
-  channel: ipaas-listing
+  marketplace: zapier
+  channel: ipaas-usage
   relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/kustomer
   direction: third-party
-  evidence: https://zapier.com/apps/emotive/integrations
-  category: null
-  contract_reference:
-    register: Zapier app directory (zapier.com/api/v4/apps)
-    spec_file: null
-    role: ipaas-connector:zapier
-    registered_name: Emotive
-    matched_domain: emotive.io
-    matched_by: domain
-    detected_by: sweep-workflow-automation.py
-    detected: '2026-10-15'
-    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
-    app_slug: emotive
-    beta: false
-    builder: unknown (not in the directory record)
-  detected_by: sweep-workflow-automation.py
-  first_seen: '2026-10-15'
+  category: Customer Support
+  partner_url: http://kustomer.com/
+- partner_name: Google Calendar
+  partner: google-calendar
+  partner_match: domain+name-among-holders
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/google-calendar
+  direction: third-party
+  category: Calendar
+  partner_url: https://calendar.google.com/
+- partner_name: Stripe (Legacy)
+  partner: stripe
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/stripe-legacy
+  direction: third-party
+  category: Payment Processing
+  partner_url: https://stripe.com/
+- partner_name: PayPal
+  partner: paypal
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/paypal
+  direction: third-party
+  category: Payment Processing
+  partner_url: https://www.paypal.com/
+- partner_name: TikTok Conversions
+  partner: tiktok
+  partner_match: domain+name-among-holders
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/tiktok-conversion
+  direction: third-party
+  category: Ads & Conversion
+  partner_url: https://ads.tiktok.com/
+- partner_name: Magento
+  partner: magento
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/magento
+  direction: third-party
+  category: eCommerce
+  partner_url: https://magento.com/
+- partner_name: Poplar
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/poplar
+  direction: third-party
+  category: Marketing
+  partner_url: https://heypoplar.com/
+- partner_name: Enchant
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/enchant-1
+  direction: third-party
+  category: Customer Support
+  partner_url: https://www.enchant.com/
+- partner_name: Distrobird
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  relationship: ipaas-bridge
+  evidence: https://zapier.com/apps/emotive/integrations/distrobird
+  direction: third-party
+  category: Sales & CRM
+  partner_url: https://distrobird.com/
 templates:
 - title: Create Emotive orders from new or updated sticky.io orders
   url: https://zapier.com/apps/emotive/integrations/stickyio/1407313/create-emotive-orders-from-new-or-updated-stickyio-orders
