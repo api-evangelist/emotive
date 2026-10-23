@@ -49,3 +49,9 @@ paths:
       summary: Collect campaign step analytics
       tags:
       - Experience
+x-provenance:
+  method: harvested
+  publisher: Emotive
+  source: https://api-gw.emotiveapp.co/experiences/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
